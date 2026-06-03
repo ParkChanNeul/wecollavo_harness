@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WeCollavo Proof Loop",
+  "type": "object",
+  "required": ["client_id", "asset_under_test", "before_state", "after_state", "thirty_day_signals", "evidence_to_collect", "retainer_bridge"],
+  "properties": {
+    "client_id": { "type": "string" },
+    "asset_under_test": { "type": "string" },
+    "before_state": { "type": "array", "items": { "type": "string" } },
+    "after_state": { "type": "array", "items": { "type": "string" } },
+    "thirty_day_signals": { "type": "array", "items": { "type": "string" } },
+    "evidence_to_collect": { "type": "array", "items": { "type": "string" } },
+    "follow_up_questions": { "type": "array", "items": { "type": "string" } },
+    "retainer_bridge": { "type": "array", "items": { "type": "string" } },
+    "stop_conditions": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

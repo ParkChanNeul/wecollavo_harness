@@ -1,0 +1,12 @@
+{
+  "brand_name": "WeCollavo Proposal",
+  "colors": {
+    "background": "#ffffff",
+    "text": "#171717",
+    "accent": "#1f5eff",
+    "muted": "#f4f6f8"
+  },
+  "typography": {
+    "font_family": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+  }
+}

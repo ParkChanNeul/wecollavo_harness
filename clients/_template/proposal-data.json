@@ -1,0 +1,20 @@
+{
+  "client_id": "client-slug",
+  "proposal_title": "고객사 맞춤 진단 제안서",
+  "track": "Undecided",
+  "pricing_status": "field_diagnostic_proposal",
+  "pricing_note": "현장 진단 제안은 최종 견적서가 아니다. 최종 가격은 자료 확인, 범위 확정, 일정 합의 이후 별도 확정한다.",
+  "sections": [
+    { "id": "today-conclusion", "title": "오늘의 결론", "body": [""] },
+    { "id": "why-this-conclusion", "title": "왜 이런 결론이 나왔는가", "body": [""] },
+    { "id": "meeting-qa", "title": "미팅 질문과 답변", "body": [""] },
+    { "id": "situation-diagnosis", "title": "고객 상황 진단", "body": [""] },
+    { "id": "priority-decision", "title": "우선순위", "body": [""] },
+    { "id": "first-scope", "title": "1차 착수 범위", "body": [""] },
+    { "id": "price-breakdown", "title": "가격 분해표", "body": [""], "table": [] },
+    { "id": "extra-cost", "title": "추가비 발생 조건", "body": [""] },
+    { "id": "materials-needed", "title": "필요한 자료", "body": [""] },
+    { "id": "thirty-day-plan", "title": "30일 실행 계획", "body": [""] },
+    { "id": "next-production-proposal", "title": "본 제작 제안", "body": [""] }
+  ]
+}

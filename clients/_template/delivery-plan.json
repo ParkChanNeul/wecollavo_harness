@@ -1,0 +1,13 @@
+{
+  "client_id": "client-slug",
+  "engagement_name": "1차 착수 구간",
+  "scope_source": "proposal-data.json.sections[first-scope]",
+  "tasks": [],
+  "dependencies": [],
+  "client_materials": [],
+  "decision_points": [],
+  "acceptance_checks": [],
+  "timeline": [],
+  "risks": [],
+  "proof_loop_link": "proof-loop.json"
+}

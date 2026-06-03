@@ -1,0 +1,30 @@
+{
+  "client_id": "client-slug",
+  "client_name": "고객사명",
+  "industry": ["업종"],
+  "decision_makers": ["대표"],
+  "primary_contact": "미정",
+  "known_assets": [],
+  "source_materials": [
+    {
+      "path": "project/client-slug/",
+      "purpose": "고객 원본 자료"
+    }
+  ],
+  "constraints": [
+    "AI 백채널은 고객에게 직접 노출하지 않는다.",
+    "최종 가격, 범위, 납품 약속은 Human Linchpin Review 이후 확정한다."
+  ],
+  "theme": {
+    "brand_name": "고객사명",
+    "colors": {
+      "background": "#ffffff",
+      "text": "#171717",
+      "accent": "#1f5eff",
+      "muted": "#f4f6f8"
+    },
+    "typography": {
+      "font_family": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    }
+  }
+}

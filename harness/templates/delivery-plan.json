@@ -1,0 +1,23 @@
+{
+  "client_id": "client-slug",
+  "engagement_name": "1차 착수 구간",
+  "scope_source": "proposal-data.json.sections[first-scope]",
+  "tasks": [
+    {
+      "id": "task-001",
+      "name": "자료 확인 및 범위 고정",
+      "owner": "WeCollavo",
+      "input": ["고객 원본 자료"],
+      "output": ["작업 범위표"],
+      "due_window": "착수 후 3영업일",
+      "acceptance_check": "고객과 WeCollavo가 포함/제외 범위를 확인한다."
+    }
+  ],
+  "dependencies": ["고객 자료 제공"],
+  "client_materials": [],
+  "decision_points": [],
+  "acceptance_checks": [],
+  "timeline": [],
+  "risks": [],
+  "proof_loop_link": "proof-loop.json"
+}

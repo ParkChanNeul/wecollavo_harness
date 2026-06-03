@@ -1,0 +1,11 @@
+{
+  "client_id": "client-slug",
+  "asset_under_test": "1차 착수 산출물",
+  "before_state": [],
+  "after_state": [],
+  "thirty_day_signals": [],
+  "evidence_to_collect": [],
+  "follow_up_questions": [],
+  "retainer_bridge": [],
+  "stop_conditions": []
+}

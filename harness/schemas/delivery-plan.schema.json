@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WeCollavo Delivery Plan",
+  "type": "object",
+  "required": ["client_id", "engagement_name", "scope_source", "tasks", "dependencies", "acceptance_checks", "proof_loop_link"],
+  "properties": {
+    "client_id": { "type": "string" },
+    "engagement_name": { "type": "string" },
+    "scope_source": { "type": "string" },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "owner", "input", "output", "due_window", "acceptance_check"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "owner": { "type": "string" },
+          "input": { "type": "array", "items": { "type": "string" } },
+          "output": { "type": "array", "items": { "type": "string" } },
+          "due_window": { "type": "string" },
+          "acceptance_check": { "type": "string" }
+        }
+      }
+    },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "acceptance_checks": { "type": "array", "items": { "type": "string" } },
+    "proof_loop_link": { "type": "string" }
+  },
+  "additionalProperties": true
+}

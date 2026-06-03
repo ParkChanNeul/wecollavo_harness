@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WeCollavo Meeting State",
+  "type": "object",
+  "required": [
+    "client_id",
+    "track",
+    "customer_request",
+    "actual_bottleneck",
+    "domain_flags",
+    "scope_risk",
+    "do_not_promise",
+    "next_file"
+  ],
+  "properties": {
+    "client_id": { "type": "string" },
+    "track": { "type": "string", "enum": ["Track 1", "Track 2", "Mixed", "Undecided"] },
+    "customer_request": { "type": "array", "items": { "type": "string" } },
+    "actual_bottleneck": { "type": "array", "items": { "type": "string" } },
+    "domain_flags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "reason"],
+        "properties": {
+          "status": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "scope_risk": { "type": "array", "items": { "type": "string" } },
+    "do_not_promise": { "type": "array", "items": { "type": "string" } },
+    "next_file": { "type": "string" }
+  },
+  "additionalProperties": true
+}

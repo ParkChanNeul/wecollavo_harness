@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WeCollavo Proposal</title>
+  <style>
+    :root { --bg:#ffffff; --text:#171717; --muted:#f4f6f8; --line:#d9dee7; --accent:#1f5eff; }
+    body { margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--text); background:var(--bg); line-height:1.65; }
+    main { max-width:980px; margin:0 auto; padding:56px 24px 80px; }
+    header { padding:44px 0 32px; border-bottom:2px solid var(--text); }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+    h1 { font-size:42px; line-height:1.15; margin:12px 0; }
+    h2 { font-size:24px; margin:0 0 12px; }
+    section { padding:28px 0; border-bottom:1px solid var(--line); }
+    .note { background:var(--muted); padding:16px 18px; border-left:4px solid var(--accent); }
+    table { width:100%; border-collapse:collapse; margin-top:16px; }
+    th, td { border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top; }
+    th { background:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">WeCollavo Live Execution Harness</div>
+      <h1>{{proposal_title}}</h1>
+      <p>{{client_name}}에게 맞춘 현장 진단 제안서입니다.</p>
+      <p class="note">현장 진단 제안은 최종 견적서가 아닙니다. 최종 가격과 납품 약속은 자료 확인, 범위 확정, 일정 합의 이후 확정합니다.</p>
+    </header>
+    <section><h2>1. 오늘의 결론</h2><p>{{today_conclusion}}</p></section>
+    <section><h2>2. 왜 이런 결론이 나왔는가</h2><p>{{why_this_conclusion}}</p></section>
+    <section><h2>3. 미팅 질문과 답변</h2><p>{{meeting_qa}}</p></section>
+    <section><h2>4. 고객 상황 진단</h2><p>{{situation_diagnosis}}</p></section>
+    <section><h2>5. 우선순위</h2><p>{{priority_decision}}</p></section>
+    <section><h2>6. 1차 착수 범위</h2><p>{{first_scope}}</p></section>
+    <section><h2>7. 가격 분해표</h2><p>{{price_breakdown}}</p></section>
+    <section><h2>8. 추가비 발생 조건</h2><p>{{extra_cost}}</p></section>
+    <section><h2>9. 필요한 자료</h2><p>{{materials_needed}}</p></section>
+    <section><h2>10. 30일 실행 계획</h2><p>{{thirty_day_plan}}</p></section>
+    <section><h2>11. 본 제작 제안</h2><p>{{next_production_proposal}}</p></section>
+  </main>
+</body>
+</html>

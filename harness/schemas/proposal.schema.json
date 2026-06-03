@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WeCollavo Proposal Data",
+  "type": "object",
+  "required": ["client_id", "proposal_title", "track", "pricing_status", "sections"],
+  "properties": {
+    "client_id": { "type": "string" },
+    "proposal_title": { "type": "string" },
+    "track": { "type": "string" },
+    "pricing_status": {
+      "type": "string",
+      "enum": ["field_diagnostic_proposal", "first_written_proposal", "final_estimate"]
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 11,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "body"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "body": { "type": "array", "items": { "type": "string" } },
+          "items": { "type": "array", "items": { "type": "string" } },
+          "table": { "type": "array", "items": { "type": "object" } }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

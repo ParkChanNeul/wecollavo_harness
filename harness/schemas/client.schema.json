@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WeCollavo Client",
+  "type": "object",
+  "required": ["client_id", "client_name", "industry", "decision_makers", "primary_contact", "source_materials"],
+  "properties": {
+    "client_id": { "type": "string", "minLength": 1 },
+    "client_name": { "type": "string", "minLength": 1 },
+    "industry": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "decision_makers": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "primary_contact": { "type": "string" },
+    "known_assets": { "type": "array", "items": { "type": "string" } },
+    "source_materials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "purpose"],
+        "properties": {
+          "path": { "type": "string" },
+          "purpose": { "type": "string" }
+        }
+      }
+    },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "theme": { "type": "object" }
+  },
+  "additionalProperties": true
+}

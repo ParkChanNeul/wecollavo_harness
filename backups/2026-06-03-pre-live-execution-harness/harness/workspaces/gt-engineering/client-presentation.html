@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GT 엔지니어링 제안 진단 프레젠테이션</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171717;
+      --muted: #5f6368;
+      --line: #d9dde3;
+      --soft: #f5f7fa;
+      --accent: #1f5eff;
+      --accent-soft: #e8efff;
+      --warn: #8a4b00;
+      --warn-soft: #fff4df;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.65;
+    }
+
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 28px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 1.18;
+      margin: 0 0 16px;
+    }
+
+    h2 {
+      font-size: 24px;
+      line-height: 1.3;
+      margin: 44px 0 14px;
+      padding-top: 4px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin: 24px 0 8px;
+    }
+
+    p { margin: 0 0 14px; }
+
+    .summary {
+      font-size: 19px;
+      color: #2b2f36;
+      max-width: 820px;
+    }
+
+    .callout {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 18px 0;
+    }
+
+    .decision {
+      border-color: #b8c8ff;
+      background: var(--accent-soft);
+    }
+
+    .warning {
+      border-color: #f1c56e;
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 24px;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: var(--soft); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .next-action {
+      border-top: 2px solid var(--ink);
+      margin-top: 48px;
+      padding-top: 24px;
+    }
+
+    .muted { color: var(--muted); }
+
+    @media (max-width: 760px) {
+      main { padding: 32px 16px 56px; }
+      h1 { font-size: 29px; }
+      .grid { grid-template-columns: 1fr; }
+      table { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">WeCollavo Meeting Diagnosis · 미팅 전 1차 가설</p>
+      <h1>GT 엔지니어링 제안 진단 프레젠테이션</h1>
+      <p class="summary">전체 제작비를 지금 바로 확정하기보다, 150만~200만 원 1차 착수 구간에서 공식 회사소개서와 홈페이지 제작 기준을 먼저 확정하는 것이 안전합니다.</p>
+    </header>
+
+    <section>
+      <h2>1. 오늘의 결론</h2>
+      <div class="callout decision">
+        <p>GT 엔지니어링은 회사소개서, 홈페이지, 로고/CI, 콘텐츠 정리가 한 번에 얽혀 있습니다. 지금 필요한 것은 단순 디자인 재작업이 아니라, 외부에 공개 가능한 회사 자료의 기준과 본 제작 범위를 먼저 정리하는 것입니다. 따라서 1차 착수금 150만~200만 원으로 구조와 범위를 확정한 뒤 본 제작 견적을 산정하는 방식을 제안합니다.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. 왜 이런 결론이 나왔는가</h2>
+      <p>기존 브로셔와 홈페이지, 로고 프로토타입은 이미 출발점으로 존재합니다. 하지만 공식 회사소개서로 쓰려면 어떤 내용을 유지하고, 어떤 내용을 삭제하고, 어떤 실적과 사진을 공개할 수 있는지 먼저 판단해야 합니다. 홈페이지도 Framer 구조는 있으나 상세 콘텐츠에는 더미 데이터가 남아 있어 실제 회사 정보로 교체해야 합니다.</p>
+      <p>이 상태에서 전체 제작비를 뭉뚱그려 확정하면 페이지 수, 홈페이지 범위, 로고 작업, 콘텐츠 작성 범위가 중간에 계속 흔들릴 가능성이 큽니다. 1차 착수 구간은 이 흔들림을 줄이기 위한 제작 전 구조화 단계입니다.</p>
+    </section>
+
+    <section>
+      <h2>3. 미팅 질문과 답변</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>질문</th>
+            <th>현재 답변 상태</th>
+            <th>제안에 반영된 내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>이번 자료는 가장 먼저 어디에서 쓰이나요?</td>
+            <td>영업, 제휴, 투자, 관공서/입찰, 내부 영업팀 가능성은 있으나 1순위는 미확정</td>
+            <td>1차 착수 구간에서 공식 회사소개서 메시지와 사용처를 확정</td>
+          </tr>
+          <tr>
+            <td>홈페이지는 어떤 상태인가요?</td>
+            <td>Framer 구조는 있으나 사업 영역과 카테고리 외에는 더미 데이터가 많음</td>
+            <td>홈페이지 마감은 단순 수정이 아니라 실제 콘텐츠 교체 작업으로 분류</td>
+          </tr>
+          <tr>
+            <td>로고는 신규 제작이 필요한가요?</td>
+            <td>기존 프로토타입 반응은 긍정적이며 리터칭/정리 가능성이 높음</td>
+            <td>신규 CI/BI는 기본 포함하지 않고 별도 옵션으로 처리</td>
+          </tr>
+          <tr>
+            <td>공개 가능한 실적/사진/인증은 어디까지인가요?</td>
+            <td>미확정</td>
+            <td>필수 자료 목록과 공개 가능성 확인을 1차 착수 범위에 포함</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>4. 고객 상황 진단</h2>
+      <div class="grid">
+        <div class="callout">
+          <h3>현재 상태</h3>
+          <p>기존 브로셔, Framer 홈페이지, 로고 프로토타입이 있지만 공식 외부 제출용 자료로 쓰기에는 콘텐츠 기준과 공개 가능 자료가 정리되어 있지 않습니다.</p>
+        </div>
+        <div class="callout">
+          <h3>실제 병목</h3>
+          <p>디자인 난이도보다 자료 정리, 공개 가능성 판단, 최종 승인 기준, 본 제작 범위 산정이 핵심 병목입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. 우선순위</h2>
+      <ol>
+        <li>외부 사용처 1순위와 공개 가능 자료 기준 확정</li>
+        <li>공식 회사소개서 목차와 홈페이지 콘텐츠 구조안 작성</li>
+        <li>로고/CI 리터칭 범위와 본 제작 견적 기준 확정</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>6. 1차 착수 범위</h2>
+      <p>1차 착수 구간에서는 기존 브로셔, PPT, 홈페이지, 로고 자료를 검토하고 공식 회사소개서 목차, 홈페이지 콘텐츠 구조안, Framer 더미 데이터 교체 범위, 로고/CI 작업 범위, 필요 자료 목록, 본 제작 견적 기준표를 만듭니다. 이 단계는 별도 견적비가 아니라 전체 제작 프로젝트에 포함되는 기획/구조화 작업입니다.</p>
+    </section>
+
+    <section>
+      <h2>7. 가격 분해표</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>범위</th>
+            <th>금액</th>
+            <th>필요한 이유</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>기존 자료 진단</td>
+            <td>브로셔, PPT, 홈페이지, 로고 자료 검토</td>
+            <td>30만~40만 원</td>
+            <td>유지/삭제/보완할 자료를 나누기 위해 필요</td>
+          </tr>
+          <tr>
+            <td>회사소개서 구조안</td>
+            <td>목차와 페이지 구성안</td>
+            <td>40만~50만 원</td>
+            <td>본 제작 페이지 수와 난이도 산정 기준</td>
+          </tr>
+          <tr>
+            <td>홈페이지 콘텐츠 기준</td>
+            <td>Framer 페이지별 더미 데이터 교체 범위</td>
+            <td>30만~40만 원</td>
+            <td>단순 수정인지 구조 보완인지 판단</td>
+          </tr>
+          <tr>
+            <td>로고/CI 범위 판단</td>
+            <td>리터칭, 파일 정리, 신규 CI 여부 구분</td>
+            <td>20만~30만 원</td>
+            <td>기존 정리와 신규 디자인 비용을 분리</td>
+          </tr>
+          <tr>
+            <td>본 제작 범위표</td>
+            <td>포함/제외/추가비/필요 자료/일정 기준</td>
+            <td>30만~40만 원</td>
+            <td>본 제작 견적과 계약 조건의 근거</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>권장 1차 착수금: 150만~200만 원</strong></p>
+    </section>
+
+    <section>
+      <h2>8. 추가비 발생 조건</h2>
+      <div class="callout warning">
+        <p>회사소개서 페이지 수 증가, 복잡 페이지 증가, 고객 자료 미정리, 홈페이지 구조 개편, 신규 CI/BI 요청, 최종 승인 후 추가 수정은 별도 비용 또는 일정 조정 대상입니다. 특히 고객사가 자료를 정리해 제공하지 못하고 WeCollavo가 직접 내용을 읽고 정리해야 하는 경우, 단순 디자인이 아니라 콘텐츠 기획/작성 업무로 범위가 변경됩니다.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>9. 필요한 자료</h2>
+      <ul>
+        <li>기존 회사소개서/PPT 원본, 브로셔 인디자인/PDF/일러스트레이터 파일, 로고/CI 원본 파일</li>
+        <li>사업 분야별 공식 설명문, 실제 프로젝트 리스트, 공개 가능한 프로젝트 사진, 면허/인증/등록증/수상/협력사 자료</li>
+        <li>Framer 접근 권한, 문의 수신 담당자 정보, 공개하면 안 되는 고객명/현장명/사진 기준</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>10. 30일 실행 계획</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>기간</th>
+            <th>실행</th>
+            <th>확인 기준</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1주차</td>
+            <td>자료 수령, 기존 제작물 검토, 공개 가능 자료 분류</td>
+            <td>필수 자료 목록과 누락 자료 목록 확정</td>
+          </tr>
+          <tr>
+            <td>2주차</td>
+            <td>회사소개서 목차, 홈페이지 콘텐츠 구조안, 로고 작업 범위 작성</td>
+            <td>1차 착수 산출물 리뷰 가능 상태</td>
+          </tr>
+          <tr>
+            <td>3~4주차</td>
+            <td>본 제작 범위표와 견적 기준 확정</td>
+            <td>본 제작 견적과 일정 협의 가능</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="next-action">
+      <h2>11. 본 제작 제안</h2>
+      <p>1차 착수 구간이 끝나면 회사소개서 최종 페이지 수, 홈페이지 작업 범위, 콘텐츠 작성 범위, 로고/이미지 보정 범위를 기준으로 본 제작 견적을 명확하게 산정합니다. 본 제작은 공식 회사소개서 재디자인, 홈페이지 콘텐츠 마감, 로고/CI 적용 정리, 공개용 이미지 보정 여부를 범위에 따라 단계적으로 진행하는 방식이 적합합니다.</p>
+      <p class="muted">주의: 이 문서는 미팅 전 1차 가설입니다. 최종 가격, 공개 문구, 납품 범위, 결제 조건은 Human Linchpin Review 이후 확정해야 합니다.</p>
+    </section>
+  </main>
+</body>
+</html>
