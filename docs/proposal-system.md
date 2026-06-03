@@ -1,6 +1,13 @@
 # Proposal HTML System
 
-The proposal is static HTML in v1.
+The proposal is generated static HTML in v1.
+
+Do not manually edit `proposal.html`. Update `proposal-data.json` and
+`client.json`, then render:
+
+```bash
+python scripts/render_proposal.py clients/<client>
+```
 
 It must follow 11 sections:
 
@@ -19,6 +26,10 @@ It must follow 11 sections:
 The price section must include:
 
 > 본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다.
+
+The price section is generated from `commercial_terms` and must include payment
+terms, revision/feedback rounds, extra-cost conditions, and the final-estimate
+notice.
 
 The proposal should feel like a briefing deck, but it remains one self-contained
 HTML file in v1.

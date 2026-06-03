@@ -3,7 +3,33 @@
   "proposal_title": "고객사 맞춤 진단 제안서",
   "track": "Undecided",
   "pricing_status": "field_diagnostic_proposal",
+  "human_review_status": "pending",
   "pricing_note": "현장 진단 제안은 최종 견적서가 아니다. 최종 가격은 자료 확인, 범위 확정, 일정 합의 이후 별도 확정한다.",
+  "confirmed_facts": [
+    "고객 자료나 미팅에서 확인된 사실을 입력한다."
+  ],
+  "assumptions": [
+    "아직 확인되지 않았지만 제안 판단에 사용한 전제를 입력한다."
+  ],
+  "commercial_terms": {
+    "payment_terms": "1차 착수 구간 선결제 100%",
+    "revision_policy": [
+      {
+        "asset": "기획/범위 산정 문서",
+        "feedback_rounds": 1,
+        "description": "기획/범위 산정 문서는 피드백 1회를 포함한다."
+      },
+      {
+        "asset": "고객용 HTML 제안서",
+        "feedback_rounds": 2,
+        "description": "고객용 HTML 제안서는 피드백 2회를 포함한다."
+      }
+    ],
+    "additional_terms": [
+      "추가 피드백, 범위 변경, 긴급 일정은 별도 협의한다."
+    ],
+    "final_estimate_notice": "본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다."
+  },
   "sections": [
     {
       "id": "today-conclusion",
