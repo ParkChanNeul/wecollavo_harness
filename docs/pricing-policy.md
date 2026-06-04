@@ -1,6 +1,6 @@
 # Pricing Policy
 
-Pricing OS v1은 공개 시작가, 내부 산정가, 최소 착수금, 추가비 조건을 분리한다.
+Pricing Policy v1은 공개 시작가, 내부 산정가, 최소 착수금, 추가비 조건을 분리한다.
 
 ## Public Price Principle
 

@@ -6,8 +6,7 @@ WeCollavo 내부용 미팅 실행 하네스입니다.
 
 ```text
 client.json
-  ->
-meeting-state.md
+  -> meeting-state.md
   -> proposal-data.json
   -> proposal.html
   -> delivery-plan.json
@@ -45,7 +44,11 @@ python scripts/check_proposal_safety.py clients/gt-engineering --allow-pending
 Core Policy 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`,
 `docs/revision-policy.md`, `docs/payment-delivery-policy.md`,
 `docs/language-contract.md`, `docs/motion-policy.md`, `docs/security.md`와
-`harness/templates/*pricing*.json`에 둔다.
+아래 템플릿에 둔다.
+
+- `harness/templates/service-catalog.json`
+- `harness/templates/price-breakdown.json`
+- `harness/templates/commercial-terms.json`
 
 v1의 Proposal Renderer는 static `proposal.html`만 생성한다. HyperFrames는
 v1.5 이후 선택 output adapter이며, 별도 데이터 구조를 만들지 않는다.

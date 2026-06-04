@@ -7,6 +7,7 @@ import argparse
 import json
 import re
 import sys
+from html import unescape
 from pathlib import Path
 from typing import Any
 
@@ -26,17 +27,6 @@ BLOCKED_PHRASES = [
     "잔금 전 전달",
 ]
 
-REQUIRED_HTML_PHRASES = [
-    "선결제 100%",
-    "피드백 1회",
-    "피드백 2회",
-    "최종 견적",
-    "자료 확인 후 확정",
-    "잔금 확인 후 전달",
-    "파일 보관 기간은 30일",
-    "경미 수정 기준 기간은 14일",
-]
-
 MONEY_PATTERN = re.compile(r"(?P<number>[0-9,]+)\s*만")
 
 
@@ -50,16 +40,6 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def collect_text(value: Any) -> str:
-    if isinstance(value, dict):
-        return "\n".join(collect_text(item) for item in value.values())
-    if isinstance(value, list):
-        return "\n".join(collect_text(item) for item in value)
-    if isinstance(value, str):
-        return value
-    return ""
-
-
 def parse_krw(value: Any) -> int | None:
     if isinstance(value, int):
         return value
@@ -71,7 +51,92 @@ def parse_krw(value: Any) -> int | None:
     return int(match.group("number").replace(",", "")) * 10000
 
 
-def check_pricing_items(data: dict[str, Any], errors: list[str]) -> None:
+def non_empty_string(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def require_html_value(html_text: str, value: Any, label: str, errors: list[str]) -> bool:
+    if not non_empty_string(value):
+        errors.append(f"{label} must be non-empty")
+        return False
+    if value not in html_text:
+        errors.append(f"{label} value missing from HTML: {value}")
+        return False
+    return True
+
+
+def check_final_estimate_notice(notice: Any, errors: list[str]) -> None:
+    if not non_empty_string(notice):
+        errors.append("commercial_terms.final_estimate_notice must be non-empty")
+        return
+    has_final_estimate = "최종 견적" in notice
+    has_material_review = "자료 확인 후 확정" in notice or ("자료 확인" in notice and "확정" in notice)
+    if not has_final_estimate or not has_material_review:
+        errors.append("commercial_terms.final_estimate_notice must explain final estimate after material review")
+
+
+def check_commercial_terms(data: dict[str, Any], html_text: str, errors: list[str]) -> None:
+    terms = data.get("commercial_terms")
+    if not isinstance(terms, dict):
+        errors.append("commercial_terms missing from proposal-data.json")
+        return
+
+    for key in (
+        "payment_terms",
+        "revision_policy",
+        "additional_terms",
+        "final_estimate_notice",
+        "delivery_condition",
+        "file_retention_days",
+        "minor_fix_days",
+    ):
+        if key not in terms:
+            errors.append(f"commercial_terms.{key} missing")
+
+    require_html_value(html_text, terms.get("payment_terms"), "commercial_terms.payment_terms", errors)
+    require_html_value(
+        html_text,
+        terms.get("final_estimate_notice"),
+        "commercial_terms.final_estimate_notice",
+        errors,
+    )
+    require_html_value(html_text, terms.get("delivery_condition"), "commercial_terms.delivery_condition", errors)
+    check_final_estimate_notice(terms.get("final_estimate_notice"), errors)
+
+    retention_days = terms.get("file_retention_days")
+    if not isinstance(retention_days, int) or retention_days < 0:
+        errors.append("commercial_terms.file_retention_days must be a non-negative integer")
+    elif f"파일 보관 기간은 {retention_days}일" not in html_text:
+        errors.append("commercial_terms.file_retention_days value missing from HTML")
+
+    minor_fix_days = terms.get("minor_fix_days")
+    if not isinstance(minor_fix_days, int) or minor_fix_days < 0:
+        errors.append("commercial_terms.minor_fix_days must be a non-negative integer")
+    elif f"경미 수정 기준 기간은 {minor_fix_days}일" not in html_text:
+        errors.append("commercial_terms.minor_fix_days value missing from HTML")
+
+    revisions = terms.get("revision_policy")
+    if not isinstance(revisions, list) or not revisions:
+        errors.append("commercial_terms.revision_policy must be a non-empty list")
+    else:
+        for index, item in enumerate(revisions):
+            if not isinstance(item, dict):
+                errors.append(f"commercial_terms.revision_policy[{index}] must be an object")
+                continue
+            require_html_value(
+                html_text,
+                item.get("asset"),
+                f"commercial_terms.revision_policy[{index}].asset",
+                errors,
+            )
+            rounds = item.get("feedback_rounds")
+            if not isinstance(rounds, int) or rounds < 0:
+                errors.append(f"commercial_terms.revision_policy[{index}].feedback_rounds must be a non-negative integer")
+            elif f"{rounds}회" not in html_text:
+                errors.append(f"commercial_terms.revision_policy[{index}].feedback_rounds value missing from HTML")
+
+
+def check_pricing_items(data: dict[str, Any], html_text: str, errors: list[str]) -> None:
     items = data.get("pricing_items")
     if not isinstance(items, list) or not items:
         errors.append("pricing_items missing from proposal-data.json")
@@ -87,8 +152,26 @@ def check_pricing_items(data: dict[str, Any], errors: list[str]) -> None:
                 f"pricing_items[{index}] minimum_project_fee is below public_starting_price: "
                 f"{item.get('minimum_project_fee')} < {item.get('public_starting_price')}"
             )
-        if not item.get("extra_cost_triggers"):
+        require_html_value(
+            html_text,
+            item.get("public_starting_price"),
+            f"pricing_items[{index}].public_starting_price",
+            errors,
+        )
+        require_html_value(
+            html_text,
+            item.get("minimum_project_fee"),
+            f"pricing_items[{index}].minimum_project_fee",
+            errors,
+        )
+
+        triggers = item.get("extra_cost_triggers")
+        if not isinstance(triggers, list) or not triggers:
             errors.append(f"pricing_items[{index}] missing extra_cost_triggers")
+        else:
+            reflected = [trigger for trigger in triggers if isinstance(trigger, str) and trigger in html_text]
+            if not reflected:
+                errors.append(f"pricing_items[{index}].extra_cost_triggers not reflected in HTML")
         rounds = item.get("included_rounds")
         if not isinstance(rounds, dict):
             errors.append(f"pricing_items[{index}] missing included_rounds")
@@ -105,6 +188,7 @@ def main() -> int:
     html_path = client_dir / "proposal.html"
     data = load_json(proposal_path)
     html = html_path.read_text(encoding="utf-8")
+    html_text = unescape(html)
     errors: list[str] = []
 
     status = data.get("human_review_status")
@@ -116,40 +200,11 @@ def main() -> int:
         errors.append("human_review_status must be approved before delivery")
 
     for phrase in BLOCKED_PHRASES:
-        if phrase in html:
+        if phrase in html_text:
             errors.append(f"blocked phrase found in HTML: {phrase}")
 
-    for phrase in REQUIRED_HTML_PHRASES:
-        if phrase not in html:
-            errors.append(f"required safety phrase missing from HTML: {phrase}")
-
-    terms = data.get("commercial_terms")
-    if not isinstance(terms, dict):
-        errors.append("commercial_terms missing from proposal-data.json")
-    else:
-        for key in (
-            "payment_terms",
-            "revision_policy",
-            "additional_terms",
-            "final_estimate_notice",
-            "delivery_condition",
-            "file_retention_days",
-            "minor_fix_days",
-        ):
-            if key not in terms:
-                errors.append(f"commercial_terms.{key} missing")
-        if "잔금 확인 후 전달" not in str(terms.get("delivery_condition", "")):
-            errors.append("commercial_terms.delivery_condition must prevent delivery before balance confirmation")
-
-    data_text = collect_text(data)
-    if "무제한 수정" in data_text:
-        errors.append("proposal-data.json contains unlimited revision language")
-    if "확정 견적서입니다" in data_text:
-        errors.append("proposal-data.json presents the proposal as a confirmed estimate")
-    if "잔금 전 최종 파일 전달" in data_text:
-        errors.append("proposal-data.json promises final delivery before balance confirmation")
-
-    check_pricing_items(data, errors)
+    check_commercial_terms(data, html_text, errors)
+    check_pricing_items(data, html_text, errors)
 
     if errors:
         print("proposal safety check failed:", file=sys.stderr)
