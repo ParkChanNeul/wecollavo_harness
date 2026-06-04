@@ -9,6 +9,24 @@
 5. Proposal HTML System
 6. Delivery OS
 7. Proof Loop
+8. Pricing OS
+
+## Pricing OS
+
+Pricing OS maps customer requests to `pricing_items` before the proposal is
+rendered. It uses:
+
+- `docs/service-catalog.md`
+- `docs/pricing-policy.md`
+- `docs/revision-policy.md`
+- `docs/payment-delivery-policy.md`
+- `harness/templates/service-catalog.json`
+- `harness/templates/price-breakdown.json`
+- `harness/templates/commercial-terms.json`
+
+The proposal renderer uses `pricing_items` and `commercial_terms` to generate the
+price section. Internal price bands are not exposed as raw customer-facing price
+tables; they are compressed into pricing rationale.
 
 ## Domain Output Contract
 

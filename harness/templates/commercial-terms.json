@@ -1,0 +1,26 @@
+{
+  "version": "pricing-os-v1",
+  "payment_terms_by_amount": [
+    {
+      "range": "500만 원 미만",
+      "payment_terms": "선결제 100%"
+    },
+    {
+      "range": "500만~1,000만 원 미만",
+      "payment_terms": "계약금 50% / 최종 납품 전 잔금 50%"
+    },
+    {
+      "range": "1,000만 원 이상",
+      "payment_terms": "계약금 10% + 착수금/중도금/잔금 단계별 협의"
+    }
+  ],
+  "external_cost_terms": "외부 솔루션 비용은 고객 부담",
+  "urgent_schedule_terms": "긴급 일정은 가능 여부 확인 후 추가비 적용",
+  "delivery_condition": "최종 산출물, 소스코드, 관리자 권한, Framer 권한, 인쇄용 파일 등은 잔금 확인 후 전달됩니다.",
+  "file_retention_days": 30,
+  "minor_fix_days": 14,
+  "feedback_definition": "피드백 1회는 정해진 검토 시점에 고객이 한 번에 정리해 전달한 의견 묶음입니다.",
+  "not_counted_feedback": ["단순 오탈자", "링크 오류", "파일 출력 오류", "명백한 개발/표시 오류", "계약 범위 안의 버그"],
+  "counted_feedback": ["디자인 방향 조정", "버튼/섹션/레이아웃 변경", "이미지 교체", "문장 톤 변경", "색상 변경", "페이지 내 우선순위 변경"],
+  "change_order": ["새 페이지", "새 자산", "새 기능", "새 컨셉", "브랜드 방향 변경", "타겟 변경", "전체 컬러/모티브 변경", "고객 제공 예정 자료를 WeCollavo가 새로 작성하는 경우"]
+}

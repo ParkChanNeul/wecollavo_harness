@@ -10,6 +10,7 @@ Use this skill when the proposal or delivery plan needs evidence criteria for fo
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/language-contract.md`
 - `docs/proof-loop.md`
 - `docs/security.md`
 

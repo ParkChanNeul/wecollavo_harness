@@ -39,8 +39,100 @@
       "확정 이후 페이지 수, 콘텐츠 작성 범위, 로고/CI 변경, 이미지 보정이 추가되면 별도 산정한다.",
       "고객 자료 제공 지연으로 생기는 일정 변경은 기존 납품 일정에 포함하지 않는다."
     ],
-    "final_estimate_notice": "본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다."
+    "final_estimate_notice": "본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다.",
+    "delivery_condition": "최종 산출물, 소스코드, 관리자 권한, Framer 권한, 인쇄용 파일 등은 잔금 확인 후 전달됩니다.",
+    "file_retention_days": 30,
+    "minor_fix_days": 14
   },
+  "pricing_items": [
+    {
+      "service_id": "company-profile-brochure-planning",
+      "service_name": "회사소개서 / 브로셔 구조기획형",
+      "pricing_model": "project_based",
+      "tier": "standard",
+      "public_starting_price": "150만 원부터",
+      "minimum_project_fee": "150만 원",
+      "internal_price_band": {
+        "min": "150만",
+        "standard": "220만",
+        "premium": "300만+",
+        "basis": "목차, 정보구조, 카피 정리, 페이지 흐름 설계, 본 제작 범위 정리"
+      },
+      "included_rounds": {
+        "planning": 1,
+        "copy": 1,
+        "design": 2,
+        "development": 0,
+        "final_check": 1
+      },
+      "extra_cost_triggers": [
+        "페이지 추가",
+        "원고 신규 작성",
+        "기술 원고 정리",
+        "이미지 보정",
+        "피드백 초과",
+        "방향 변경"
+      ]
+    },
+    {
+      "service_id": "homepage-content-finish",
+      "service_name": "홈페이지 콘텐츠 마감",
+      "pricing_model": "project_based",
+      "tier": "custom",
+      "public_starting_price": "100만 원부터",
+      "minimum_project_fee": "100만 원",
+      "internal_price_band": {
+        "min": "100만",
+        "standard": "150만",
+        "premium": "300만+",
+        "basis": "더미 데이터 교체, 페이지별 콘텐츠 구조, Framer 적용 범위"
+      },
+      "included_rounds": {
+        "planning": 1,
+        "copy": 1,
+        "design": 1,
+        "development": 1,
+        "final_check": 1
+      },
+      "extra_cost_triggers": [
+        "페이지 추가",
+        "섹션 추가",
+        "원고 신규 작성",
+        "폼/지도/예약 기능",
+        "CMS",
+        "SEO/GEO 세부 세팅",
+        "긴급 일정"
+      ]
+    },
+    {
+      "service_id": "logo-ci-scope",
+      "service_name": "로고/CI 작업 범위 판단",
+      "pricing_model": "starting_price",
+      "tier": "basic",
+      "public_starting_price": "25만 원부터",
+      "minimum_project_fee": "25만 원",
+      "internal_price_band": {
+        "min": "25만",
+        "standard": "35만",
+        "premium": "70만+",
+        "basis": "기존 로고 유지, 리터칭, 변경 판단과 적용 범위 정리"
+      },
+      "included_rounds": {
+        "planning": 1,
+        "copy": 0,
+        "design": 1,
+        "development": 0,
+        "final_check": 1
+      },
+      "extra_cost_triggers": [
+        "로고 변경",
+        "신규 로고",
+        "브랜드 가이드",
+        "응용물 제작",
+        "방향 변경"
+      ]
+    }
+  ],
   "sections": [
     {
       "id": "today-conclusion",
@@ -107,29 +199,7 @@
       "body": [
         "1차 착수금은 150만~200만 원을 기준으로 제안한다.",
         "이 금액은 견적을 내기 위한 비용이 아니라 전체 제작 프로젝트에 포함되는 기획/구조화 작업비다.",
-        "본 제작비는 회사소개서 최종 페이지 수, 페이지 난이도, 홈페이지 마감 범위, 콘텐츠 작성 범위, 로고/이미지 보정 범위에 따라 별도 산정한다."
-      ],
-      "table": [
-        {
-          "item": "1차 착수 구간",
-          "basis": "자료 검토, 목차, 홈페이지 구조안, 로고 범위표, 추가 콘텐츠 목록",
-          "amount": "150만~200만 원"
-        },
-        {
-          "item": "공식 회사소개서 본 제작",
-          "basis": "페이지 수와 난이도 확정 후 산정",
-          "amount": "별도 산정"
-        },
-        {
-          "item": "홈페이지 콘텐츠 마감",
-          "basis": "페이지별 콘텐츠 제공 수준과 Framer 적용 범위에 따라 산정",
-          "amount": "별도 산정"
-        },
-        {
-          "item": "로고/CI/이미지 보정",
-          "basis": "유지, 리터칭, 변경, 승인 필요 범위에 따라 산정",
-          "amount": "별도 산정"
-        }
+        "본 제작비는 아래 서비스별 공개 시작가, 최소 착수금, 내부 산정 근거, 추가비 조건을 기준으로 별도 산정한다."
       ]
     },
     {

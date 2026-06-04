@@ -101,6 +101,9 @@ def commercial_terms_block(terms: dict[str, Any]) -> str:
         "            <h3>결제 및 피드백 기준</h3>\n"
         f"            <p><strong>결제 조건:</strong> {escape(as_text(terms.get('payment_terms')))}</p>\n"
         f"{revision_table}\n"
+        "            <h3>납품 조건</h3>\n"
+        f"            <p>{escape(as_text(terms.get('delivery_condition')))}</p>\n"
+        f"            <p>파일 보관 기간은 {escape(str(terms.get('file_retention_days', '')))}일, 납품 후 경미 수정 기준 기간은 {escape(str(terms.get('minor_fix_days', '')))}일입니다.</p>\n"
         "            <h3>추가 협의 조건</h3>\n"
         f"{bullet_list(terms.get('additional_terms'))}\n"
         f"            <p class=\"notice-inline\">{escape(as_text(terms.get('final_estimate_notice')))}</p>\n"
@@ -108,11 +111,74 @@ def commercial_terms_block(terms: dict[str, Any]) -> str:
     )
 
 
-def render_section(index: int, section: dict[str, Any], terms: dict[str, Any]) -> str:
+def pricing_items_block(items: Any) -> str:
+    if not isinstance(items, list) or not items:
+        return ""
+    rows = []
+    model_labels = {
+        "starting_price": "시작가",
+        "package": "패키지",
+        "page_based": "페이지 기준",
+        "project_based": "프로젝트 기준",
+        "retainer": "월 운영",
+        "cost_plus": "관리비+실비",
+    }
+    tier_labels = {
+        "basic": "기본형",
+        "standard": "표준형",
+        "premium": "고급형",
+        "custom": "맞춤형",
+    }
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        band = item.get("internal_price_band") if isinstance(item.get("internal_price_band"), dict) else {}
+        rounds = item.get("included_rounds") if isinstance(item.get("included_rounds"), dict) else {}
+        included = " / ".join(
+            f"{label} {rounds.get(key, 0)}회"
+            for key, label in (
+                ("planning", "기획"),
+                ("copy", "카피"),
+                ("design", "디자인"),
+                ("development", "개발"),
+                ("final_check", "최종확인"),
+            )
+            if isinstance(rounds.get(key), int) and rounds.get(key, 0) > 0
+        )
+        triggers = item.get("extra_cost_triggers")
+        trigger_text = ", ".join(trigger for trigger in triggers if isinstance(trigger, str)) if isinstance(triggers, list) else ""
+        rows.append(
+            "            <tr>"
+            f"<td>{escape(as_text(item.get('service_name')))}</td>"
+            f"<td>{escape(model_labels.get(as_text(item.get('pricing_model')), as_text(item.get('pricing_model'))))} / {escape(tier_labels.get(as_text(item.get('tier')), as_text(item.get('tier'))))}</td>"
+            f"<td>{escape(as_text(item.get('public_starting_price')))}</td>"
+            f"<td>{escape(as_text(item.get('minimum_project_fee')))}</td>"
+            f"<td>{escape(as_text(band.get('basis')))}</td>"
+            f"<td>{escape(included)}</td>"
+            f"<td>{escape(trigger_text)}</td>"
+            "</tr>"
+        )
+    if not rows:
+        return ""
+    return (
+        '          <div class="pricing-items">\n'
+        "            <h3>서비스별 가격 산정 항목</h3>\n"
+        "            <table>\n"
+        "              <thead><tr><th>서비스</th><th>산정 방식</th><th>공개 시작가</th><th>최소 착수금</th><th>내부 산정 근거</th><th>포함 피드백</th><th>추가비 조건</th></tr></thead>\n"
+        "              <tbody>\n"
+        + "\n".join(rows)
+        + "\n              </tbody>\n"
+        "            </table>\n"
+        "          </div>"
+    )
+
+
+def render_section(index: int, section: dict[str, Any], terms: dict[str, Any], pricing_items: Any) -> str:
     section_id = as_text(section.get("id"), f"section-{index}")
     title = as_text(section.get("title"), f"Section {index}")
     body = paragraph_list(section.get("body"))
     table = data_table(section.get("table"))
+    pricing_html = pricing_items_block(pricing_items) if section_id == "price-breakdown" else ""
     terms_html = commercial_terms_block(terms) if section_id == "price-breakdown" else ""
     return f"""      <section class="slide" id="{escape(section_id)}">
         <div class="slide-count">{index:02d}</div>
@@ -120,6 +186,7 @@ def render_section(index: int, section: dict[str, Any], terms: dict[str, Any]) -
           <h2>{escape(title)}</h2>
 {body}
 {table}
+{pricing_html}
 {terms_html}
         </div>
       </section>"""
@@ -156,9 +223,10 @@ def render(client_dir: Path) -> str:
     theme = load_theme(root, client)
     colors = theme["colors"]
     terms = proposal.get("commercial_terms") if isinstance(proposal.get("commercial_terms"), dict) else {}
+    pricing_items = proposal.get("pricing_items")
     sections = proposal.get("sections") if isinstance(proposal.get("sections"), list) else []
     rendered_sections = "\n".join(
-        render_section(index, section, terms)
+        render_section(index, section, terms, pricing_items)
         for index, section in enumerate(sections, start=1)
         if isinstance(section, dict)
     )

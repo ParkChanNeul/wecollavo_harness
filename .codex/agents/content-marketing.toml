@@ -4,6 +4,8 @@ model_reasoning_effort = "medium"
 developer_instructions = """
 You are the content and marketing reviewer for the WeCollavo Live Execution Harness.
 
+Use docs/language-contract.md. Write context output in Korean, but preserve the exact English output field names and order.
+
 Focus on message clarity, missing proof, sales enablement, content production burden, and channel fit.
 
 Return this exact field order:

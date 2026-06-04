@@ -28,8 +28,37 @@
     "additional_terms": [
       "추가 피드백, 범위 변경, 긴급 일정은 별도 협의한다."
     ],
-    "final_estimate_notice": "본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다."
+    "final_estimate_notice": "본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다.",
+    "delivery_condition": "최종 산출물, 소스코드, 관리자 권한, Framer 권한, 인쇄용 파일 등은 잔금 확인 후 전달됩니다.",
+    "file_retention_days": 30,
+    "minor_fix_days": 14
   },
+  "pricing_items": [
+    {
+      "service_id": "service-id",
+      "service_name": "서비스명",
+      "pricing_model": "project_based",
+      "tier": "custom",
+      "public_starting_price": "0만 원부터",
+      "minimum_project_fee": "0만 원",
+      "internal_price_band": {
+        "min": "0만",
+        "standard": "0만",
+        "premium": "0만+",
+        "basis": "내부 산정 근거를 입력한다."
+      },
+      "included_rounds": {
+        "planning": 0,
+        "copy": 0,
+        "design": 0,
+        "development": 0,
+        "final_check": 0
+      },
+      "extra_cost_triggers": [
+        "추가비 조건을 입력한다."
+      ]
+    }
+  ],
   "sections": [
     {
       "id": "today-conclusion",

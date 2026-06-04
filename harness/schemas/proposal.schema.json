@@ -10,6 +10,7 @@
     "human_review_status",
     "confirmed_facts",
     "assumptions",
+    "pricing_items",
     "commercial_terms",
     "sections"
   ],
@@ -39,7 +40,10 @@
         "payment_terms",
         "revision_policy",
         "additional_terms",
-        "final_estimate_notice"
+        "final_estimate_notice",
+        "delivery_condition",
+        "file_retention_days",
+        "minor_fix_days"
       ],
       "properties": {
         "payment_terms": { "type": "string", "minLength": 1 },
@@ -61,7 +65,68 @@
           "minItems": 1,
           "items": { "type": "string", "minLength": 1 }
         },
-        "final_estimate_notice": { "type": "string", "minLength": 1 }
+        "final_estimate_notice": { "type": "string", "minLength": 1 },
+        "delivery_condition": { "type": "string", "minLength": 1 },
+        "file_retention_days": { "type": "integer", "minimum": 0 },
+        "minor_fix_days": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "pricing_items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "service_id",
+          "service_name",
+          "pricing_model",
+          "tier",
+          "public_starting_price",
+          "minimum_project_fee",
+          "internal_price_band",
+          "included_rounds",
+          "extra_cost_triggers"
+        ],
+        "properties": {
+          "service_id": { "type": "string", "minLength": 1 },
+          "service_name": { "type": "string", "minLength": 1 },
+          "pricing_model": {
+            "type": "string",
+            "enum": ["starting_price", "package", "page_based", "project_based", "retainer", "cost_plus"]
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["basic", "standard", "premium", "custom"]
+          },
+          "public_starting_price": { "type": "string", "minLength": 1 },
+          "minimum_project_fee": { "type": "string", "minLength": 1 },
+          "internal_price_band": {
+            "type": "object",
+            "required": ["min", "standard", "premium", "basis"],
+            "properties": {
+              "min": { "type": "string", "minLength": 1 },
+              "standard": { "type": "string", "minLength": 1 },
+              "premium": { "type": "string", "minLength": 1 },
+              "basis": { "type": "string", "minLength": 1 }
+            }
+          },
+          "included_rounds": {
+            "type": "object",
+            "required": ["planning", "copy", "design", "development", "final_check"],
+            "properties": {
+              "planning": { "type": "integer", "minimum": 0 },
+              "copy": { "type": "integer", "minimum": 0 },
+              "design": { "type": "integer", "minimum": 0 },
+              "development": { "type": "integer", "minimum": 0 },
+              "final_check": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "extra_cost_triggers": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
       }
     },
     "sections": {

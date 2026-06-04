@@ -10,6 +10,7 @@ Use this skill after the first engagement scope in `proposal-data.json` is ready
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/language-contract.md`
 - `docs/delivery-os.md`
 - `docs/security.md`
 

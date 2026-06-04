@@ -27,9 +27,10 @@ The price section must include:
 
 > 본 제안은 미팅 내용 기준의 1차 제안이며, 최종 견적은 기존 자료 확인 후 확정됩니다.
 
-The price section is generated from `commercial_terms` and must include payment
-terms, revision/feedback rounds, extra-cost conditions, and the final-estimate
-notice.
+The price section is generated from `pricing_items` and `commercial_terms`. It
+must include public starting price, minimum project fee, pricing rationale,
+payment terms, revision/feedback rounds, extra-cost conditions, delivery
+condition, and the final-estimate notice.
 
 The proposal should feel like a briefing deck, but it remains one self-contained
 HTML file in v1.

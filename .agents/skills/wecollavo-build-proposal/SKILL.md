@@ -10,6 +10,7 @@ Use this skill after `meeting-state.md` is clear enough to build a client-facing
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/language-contract.md`
 - `docs/proposal-system.md`
 - `docs/tracks.md`
 - `docs/security.md`

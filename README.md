@@ -29,6 +29,10 @@ python scripts/check_proposal_safety.py clients/gt-engineering --allow-pending
 
 고객 전달 전에는 `human_review_status`가 `approved`여야 하므로, 기본 안전 검사는 `pending` 상태를 실패 처리한다.
 
+Pricing OS 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`,
+`docs/revision-policy.md`, `docs/payment-delivery-policy.md`와
+`harness/templates/*pricing*.json`에 둔다.
+
 ## 읽는 순서
 
 1. `docs/source-of-truth.md`

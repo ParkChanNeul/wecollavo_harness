@@ -1,0 +1,165 @@
+{
+  "version": "pricing-os-v1",
+  "services": [
+    {
+      "service_id": "logo-design",
+      "public_name": "로고 디자인",
+      "public_starting_price": "25만 원부터",
+      "public_starting_price_krw": 250000,
+      "scope_standard": "시안 2안, 선택안 기준 수정 2회, 기본 컬러, 원본 파일 제공",
+      "included": ["로고 시안 2안", "선택안 기준 수정 2회", "기본 컬러 적용", "원본 파일 제공"],
+      "options": ["시안 추가", "브랜드 가이드", "응용물 제작"],
+      "guardrail": "방향 변경은 새 작업으로 본다."
+    },
+    {
+      "service_id": "landing-basic",
+      "public_name": "랜딩페이지 기본형",
+      "public_starting_price": "39만 원부터",
+      "public_starting_price_krw": 390000,
+      "scope_standard": "1p, 5섹션, 템플릿 또는 기존 구조, 고객 원고/이미지 제공 기준",
+      "included": ["1페이지", "5섹션", "기본 반응형", "피드백 1회"],
+      "options": ["카피 작성", "문의폼/GA/GTM 세팅", "애니메이션/인터랙션", "섹션 추가"],
+      "guardrail": "30만 원은 공개가가 아니라 프로모션/레퍼런스 조건부 내부 할인으로만 쓴다."
+    },
+    {
+      "service_id": "brand-landing",
+      "public_name": "브랜드 랜딩페이지",
+      "public_starting_price": "80만 원부터",
+      "public_starting_price_krw": 800000,
+      "scope_standard": "기획, 카피 정리, 디자인, 구현",
+      "included": ["기획", "카피 정리", "디자인", "구현"],
+      "options": ["고급 인터랙션", "SEO/GEO 세팅", "콘텐츠 추가"],
+      "guardrail": "고객 자료가 미정리된 경우 콘텐츠 작성 범위를 별도 산정한다."
+    },
+    {
+      "service_id": "framer-brand-page",
+      "public_name": "Framer 브랜드 페이지",
+      "public_starting_price": "페이지당 15만 원부터",
+      "public_starting_price_krw": 150000,
+      "scope_standard": "Framer 기반, 기본 반응형, 기본 인터랙션, 고객 자료 제공 기준",
+      "included": ["Framer 기반 제작", "기본 반응형", "기본 인터랙션", "피드백 1회"],
+      "options": ["CMS", "다국어", "도메인 연결/이전", "SEO/GEO 세팅", "원고 작성"],
+      "guardrail": "최소 착수 79만 원을 함께 적용한다."
+    },
+    {
+      "service_id": "homepage-builder",
+      "public_name": "Builder형 홈페이지",
+      "public_starting_price": "100만 원부터",
+      "public_starting_price_krw": 1000000,
+      "scope_standard": "3~5p 소개형, 빌더/템플릿 기반, 고객 자료 제공 기준",
+      "included": ["3~5페이지", "소개형 홈페이지", "빌더/템플릿 기반", "피드백 1회"],
+      "options": ["원고 작성", "추가 페이지", "폼/지도", "기본 SEO/GEO"],
+      "guardrail": "CMS형 또는 기능형 요구가 있으면 별도 서비스로 분리한다."
+    },
+    {
+      "service_id": "homepage-cms",
+      "public_name": "CMS형 홈페이지",
+      "public_starting_price": "150만 원부터",
+      "public_starting_price_krw": 1500000,
+      "scope_standard": "5~10p, 기본 CMS, API 3개 미만, 기본 SEO/GEO 세팅",
+      "included": ["5~10페이지", "기본 CMS", "API 3개 미만", "피드백 2회"],
+      "options": ["API 추가", "고급 CMS", "다국어", "관리자 기능"],
+      "guardrail": "API, DB, 관리자 기능이 커지면 비즈니스 웹솔루션으로 전환한다."
+    },
+    {
+      "service_id": "business-web-solution",
+      "public_name": "비즈니스 홈페이지 / 웹솔루션",
+      "public_starting_price": "500만 원부터",
+      "public_starting_price_krw": 5000000,
+      "scope_standard": "관리자, API, DB, 커스텀 기능 기준",
+      "included": ["12p 이상 가능", "고급 CMS", "관리자 기능", "API 연동", "DB 수집", "대시보드"],
+      "options": ["회원", "예약", "문의", "결제", "React/Vercel 직접 개발"],
+      "guardrail": "비즈니스 웹솔루션은 페이지당 가격으로 제안하지 않는다."
+    },
+    {
+      "service_id": "company-profile-brochure-edit",
+      "public_name": "회사소개서 / 브로셔 편집형",
+      "public_starting_price": "80만 원부터",
+      "public_starting_price_krw": 800000,
+      "scope_standard": "30p 이내, 원고/이미지 제공, 디자인 편집 중심, 인쇄비 별도",
+      "included": ["30p 이내", "디자인 편집", "피드백 2회"],
+      "options": ["페이지 추가", "인쇄", "이미지 보정"],
+      "guardrail": "구조기획, 카피, 자료정리가 들어가면 구조기획형으로 분리한다."
+    },
+    {
+      "service_id": "company-profile-brochure-planning",
+      "public_name": "회사소개서 / 브로셔 구조기획형",
+      "public_starting_price": "150만 원부터",
+      "public_starting_price_krw": 1500000,
+      "scope_standard": "목차, 정보구조, 카피 정리, 페이지 흐름 설계, 본 제작 범위 정리",
+      "included": ["목차 구성", "정보 구조화", "카피 정리", "페이지 흐름 설계", "목차 1회 + 디자인 2회 피드백"],
+      "options": ["기술 원고 정리", "프로젝트 사례 정리", "추가 페이지", "본 제작"],
+      "guardrail": "자료 미정리 대행 범위는 별도 산정한다."
+    },
+    {
+      "service_id": "brand-kit",
+      "public_name": "브랜드 키트",
+      "public_starting_price": "100만 원부터",
+      "public_starting_price_krw": 1000000,
+      "scope_standard": "로고 사용 기준, 컬러, 폰트, 이미지 톤, 기본 가이드",
+      "included": ["로고 사용 기준", "컬러", "폰트", "이미지 톤", "SNS 적용 예시", "피드백 1회"],
+      "options": ["명함", "제안서 표지", "홈페이지 적용 방향"],
+      "guardrail": "전면 리브랜딩은 별도 프로젝트로 산정한다."
+    },
+    {
+      "service_id": "content-planning",
+      "public_name": "콘텐츠 기획",
+      "public_starting_price": "50만 원부터",
+      "public_starting_price_krw": 500000,
+      "scope_standard": "1개월 콘텐츠 캘린더, 메시지 프레임, 채널별 콘텐츠 방향, 카피 초안",
+      "included": ["1개월 캘린더", "메시지 프레임", "채널별 방향", "카피 초안", "피드백 1회"],
+      "options": ["카드뉴스", "블로그 글", "홈페이지 업데이트"],
+      "guardrail": "제작과 운영은 별도 범위로 구분한다."
+    },
+    {
+      "service_id": "monthly-content-operation",
+      "public_name": "월간 콘텐츠 운영",
+      "public_starting_price": "100만 원부터",
+      "public_starting_price_krw": 1000000,
+      "scope_standard": "월 8~12건 또는 월 10회 이내, 주 2회 이하",
+      "included": ["콘텐츠 기획", "카피/디자인/업데이트 범위별 조합", "월 2회 피드백 또는 리뷰"],
+      "options": ["SNS 운영 대행", "체험단 운영", "댓글/DM 응대", "Proof Loop 리포트"],
+      "guardrail": "운영 인력과 응대 범위는 별도 확인한다."
+    },
+    {
+      "service_id": "influencer-marketing",
+      "public_name": "인플루언서 마케팅",
+      "public_starting_price": "20만 원 + 실비부터",
+      "public_starting_price_krw": 200000,
+      "scope_standard": "인플루언서 1인 기준 섭외, 콘텐츠 가이드, 업로드 관리",
+      "included": ["1인 섭외", "콘텐츠 가이드", "업로드 관리", "업로드 확인"],
+      "options": ["인플루언서 지급비", "제품 제공 비용", "대량 섭외", "체험단 운영", "광고비"],
+      "guardrail": "인플루언서 지급비와 광고비는 실비로 분리한다."
+    },
+    {
+      "service_id": "ai-media-production",
+      "public_name": "AI 미디어 제작",
+      "public_starting_price": "30만 원부터",
+      "public_starting_price_krw": 300000,
+      "scope_standard": "AI 컨셉 이미지, 홈페이지 비주얼, 브로셔 이미지, SNS 콘텐츠, 숏폼 소재",
+      "included": ["기본 생성/수정 3회", "컨셉 이미지", "배너", "숏폼 소재"],
+      "options": ["제품 합성", "영상 콘티", "추가 생성", "라이선스 비용"],
+      "guardrail": "상업 사용 가능 플랫폼과 민감 업종 고지 기준을 확인한다."
+    },
+    {
+      "service_id": "homepage-content-finish",
+      "public_name": "홈페이지 콘텐츠 마감",
+      "public_starting_price": "100만 원부터",
+      "public_starting_price_krw": 1000000,
+      "scope_standard": "기존 홈페이지의 더미 데이터를 실제 공개 가능한 회사 콘텐츠로 교체하는 범위 산정",
+      "included": ["페이지별 콘텐츠 구조안", "우선 마감 페이지 정리", "더미 데이터 교체 범위"],
+      "options": ["Framer 적용", "원고 작성", "프로젝트 사례 정리", "이미지 보정"],
+      "guardrail": "구조 개편, CMS, API, 신규 페이지는 별도 산정한다."
+    },
+    {
+      "service_id": "logo-ci-scope",
+      "public_name": "로고/CI 작업 범위 판단",
+      "public_starting_price": "25만 원부터",
+      "public_starting_price_krw": 250000,
+      "scope_standard": "기존 로고 유지, 리터칭, 변경 범위를 판단하고 적용 기준을 정리",
+      "included": ["기존 로고 검토", "유지/리터칭/변경 판단", "적용 범위 정리"],
+      "options": ["CI/BI 변경", "응용 시스템", "브랜드 가이드"],
+      "guardrail": "신규 CI/BI 설계는 별도 견적이다."
+    }
+  ]
+}

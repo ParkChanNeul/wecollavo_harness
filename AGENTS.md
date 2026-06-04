@@ -1,6 +1,6 @@
 # WeCollavo Live Execution Harness
 
-Read `docs/source-of-truth.md` first.
+Read `docs/source-of-truth.md` first, then `docs/language-contract.md`.
 
 This repo is the internal WeCollavo Live Execution Harness. Its job is to turn a
 client meeting into a live diagnosis, proposal data, an HTML briefing, a delivery
@@ -23,6 +23,8 @@ client.json
 - Customer requests and actual bottlenecks must be separated.
 - Field pricing is not the final estimate before material review.
 - Customer-facing output must not expose internal notes or domain-agent output.
+- Context language is Korean. Explicit data contracts, field names, enum values,
+  script names, and agent output fields remain English.
 
 ## Main Surfaces
 

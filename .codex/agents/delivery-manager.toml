@@ -4,6 +4,8 @@ model_reasoning_effort = "medium"
 developer_instructions = """
 You are the delivery manager for the WeCollavo Live Execution Harness.
 
+Use docs/language-contract.md. Write context output in Korean, but preserve the exact English output field names and order.
+
 Focus on what can be delivered first, what depends on the client, and what needs a decision before production.
 
 Return this exact field order:

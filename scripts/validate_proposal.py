@@ -25,6 +25,9 @@ EXPECTED_SECTION_IDS = [
 
 PRICING_STATUSES = {"field_diagnostic_proposal", "first_written_proposal", "final_estimate"}
 HUMAN_REVIEW_STATUSES = {"pending", "approved", "blocked"}
+PRICING_MODELS = {"starting_price", "package", "page_based", "project_based", "retainer", "cost_plus"}
+TIERS = {"basic", "standard", "premium", "custom"}
+ROUND_KEYS = ("planning", "copy", "design", "development", "final_check")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -55,6 +58,12 @@ def validate_commercial_terms(data: dict[str, Any], errors: list[str]) -> None:
         errors.append("commercial_terms.payment_terms must be non-empty")
     if not non_empty_string(terms.get("final_estimate_notice")):
         errors.append("commercial_terms.final_estimate_notice must be non-empty")
+    if not non_empty_string(terms.get("delivery_condition")):
+        errors.append("commercial_terms.delivery_condition must be non-empty")
+    if not isinstance(terms.get("file_retention_days"), int) or terms["file_retention_days"] < 0:
+        errors.append("commercial_terms.file_retention_days must be a non-negative integer")
+    if not isinstance(terms.get("minor_fix_days"), int) or terms["minor_fix_days"] < 0:
+        errors.append("commercial_terms.minor_fix_days must be a non-negative integer")
     if not non_empty_string_list(terms.get("additional_terms")):
         errors.append("commercial_terms.additional_terms must be a non-empty string list")
 
@@ -73,6 +82,45 @@ def validate_commercial_terms(data: dict[str, Any], errors: list[str]) -> None:
             errors.append(f"commercial_terms.revision_policy[{index}].feedback_rounds must be a non-negative integer")
         if not non_empty_string(item.get("description")):
             errors.append(f"commercial_terms.revision_policy[{index}].description must be non-empty")
+
+
+def validate_pricing_items(data: dict[str, Any], errors: list[str]) -> None:
+    items = data.get("pricing_items")
+    if not isinstance(items, list) or not items:
+        errors.append("pricing_items must be a non-empty list")
+        return
+
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            errors.append(f"pricing_items[{index}] must be an object")
+            continue
+        for key in ("service_id", "service_name", "public_starting_price", "minimum_project_fee"):
+            if not non_empty_string(item.get(key)):
+                errors.append(f"pricing_items[{index}].{key} must be non-empty")
+        if item.get("pricing_model") not in PRICING_MODELS:
+            errors.append(f"pricing_items[{index}].pricing_model must be one of: {', '.join(sorted(PRICING_MODELS))}")
+        if item.get("tier") not in TIERS:
+            errors.append(f"pricing_items[{index}].tier must be one of: {', '.join(sorted(TIERS))}")
+
+        band = item.get("internal_price_band")
+        if not isinstance(band, dict):
+            errors.append(f"pricing_items[{index}].internal_price_band must be an object")
+        else:
+            for key in ("min", "standard", "premium", "basis"):
+                if not non_empty_string(band.get(key)):
+                    errors.append(f"pricing_items[{index}].internal_price_band.{key} must be non-empty")
+
+        rounds = item.get("included_rounds")
+        if not isinstance(rounds, dict):
+            errors.append(f"pricing_items[{index}].included_rounds must be an object")
+        else:
+            for key in ROUND_KEYS:
+                value = rounds.get(key)
+                if not isinstance(value, int) or value < 0:
+                    errors.append(f"pricing_items[{index}].included_rounds.{key} must be a non-negative integer")
+
+        if not non_empty_string_list(item.get("extra_cost_triggers")):
+            errors.append(f"pricing_items[{index}].extra_cost_triggers must be a non-empty string list")
 
 
 def validate_sections(data: dict[str, Any], errors: list[str]) -> None:
@@ -125,6 +173,7 @@ def main() -> int:
         errors.append("assumptions must be a non-empty string list")
 
     validate_commercial_terms(data, errors)
+    validate_pricing_items(data, errors)
     validate_sections(data, errors)
 
     if errors:

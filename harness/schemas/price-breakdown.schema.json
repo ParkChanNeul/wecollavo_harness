@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WeCollavo Price Breakdown",
+  "type": "object",
+  "required": ["version", "currency", "price_bands", "extra_cost_triggers"],
+  "properties": {
+    "version": { "type": "string" },
+    "currency": { "type": "string" },
+    "price_bands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "service_id",
+          "minimum",
+          "standard",
+          "premium",
+          "minimum_project_fee",
+          "pricing_model",
+          "basis"
+        ],
+        "properties": {
+          "service_id": { "type": "string", "minLength": 1 },
+          "minimum": { "type": "string", "minLength": 1 },
+          "standard": { "type": "string", "minLength": 1 },
+          "premium": { "type": "string", "minLength": 1 },
+          "minimum_project_fee": { "type": "string", "minLength": 1 },
+          "pricing_model": {
+            "type": "string",
+            "enum": ["starting_price", "package", "page_based", "project_based", "retainer", "cost_plus"]
+          },
+          "basis": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "extra_cost_triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

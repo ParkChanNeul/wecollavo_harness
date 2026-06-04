@@ -10,6 +10,7 @@ Use this skill when a client meeting is starting, in progress, or being reconstr
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/language-contract.md`
 - `docs/principles.md`
 - `docs/tracks.md`
 - `docs/workflow.md`

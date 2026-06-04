@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -20,6 +21,9 @@ BLOCKED_PHRASES = [
     "최종 확정 견적",
     "최종 가격입니다",
     "무제한 수정",
+    "잔금 전 최종 파일 전달",
+    "잔금 전 권한 이전",
+    "잔금 전 전달",
 ]
 
 REQUIRED_HTML_PHRASES = [
@@ -28,7 +32,12 @@ REQUIRED_HTML_PHRASES = [
     "피드백 2회",
     "최종 견적",
     "자료 확인 후 확정",
+    "잔금 확인 후 전달",
+    "파일 보관 기간은 30일",
+    "경미 수정 기준 기간은 14일",
 ]
+
+MONEY_PATTERN = re.compile(r"(?P<number>[0-9,]+)\s*만")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -49,6 +58,40 @@ def collect_text(value: Any) -> str:
     if isinstance(value, str):
         return value
     return ""
+
+
+def parse_krw(value: Any) -> int | None:
+    if isinstance(value, int):
+        return value
+    if not isinstance(value, str):
+        return None
+    match = MONEY_PATTERN.search(value)
+    if not match:
+        return None
+    return int(match.group("number").replace(",", "")) * 10000
+
+
+def check_pricing_items(data: dict[str, Any], errors: list[str]) -> None:
+    items = data.get("pricing_items")
+    if not isinstance(items, list) or not items:
+        errors.append("pricing_items missing from proposal-data.json")
+        return
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            errors.append(f"pricing_items[{index}] must be an object")
+            continue
+        public_price = parse_krw(item.get("public_starting_price"))
+        minimum_fee = parse_krw(item.get("minimum_project_fee"))
+        if public_price is not None and minimum_fee is not None and minimum_fee < public_price:
+            errors.append(
+                f"pricing_items[{index}] minimum_project_fee is below public_starting_price: "
+                f"{item.get('minimum_project_fee')} < {item.get('public_starting_price')}"
+            )
+        if not item.get("extra_cost_triggers"):
+            errors.append(f"pricing_items[{index}] missing extra_cost_triggers")
+        rounds = item.get("included_rounds")
+        if not isinstance(rounds, dict):
+            errors.append(f"pricing_items[{index}] missing included_rounds")
 
 
 def main() -> int:
@@ -84,15 +127,29 @@ def main() -> int:
     if not isinstance(terms, dict):
         errors.append("commercial_terms missing from proposal-data.json")
     else:
-        for key in ("payment_terms", "revision_policy", "additional_terms", "final_estimate_notice"):
+        for key in (
+            "payment_terms",
+            "revision_policy",
+            "additional_terms",
+            "final_estimate_notice",
+            "delivery_condition",
+            "file_retention_days",
+            "minor_fix_days",
+        ):
             if key not in terms:
                 errors.append(f"commercial_terms.{key} missing")
+        if "잔금 확인 후 전달" not in str(terms.get("delivery_condition", "")):
+            errors.append("commercial_terms.delivery_condition must prevent delivery before balance confirmation")
 
     data_text = collect_text(data)
     if "무제한 수정" in data_text:
         errors.append("proposal-data.json contains unlimited revision language")
     if "확정 견적서입니다" in data_text:
         errors.append("proposal-data.json presents the proposal as a confirmed estimate")
+    if "잔금 전 최종 파일 전달" in data_text:
+        errors.append("proposal-data.json promises final delivery before balance confirmation")
+
+    check_pricing_items(data, errors)
 
     if errors:
         print("proposal safety check failed:", file=sys.stderr)
