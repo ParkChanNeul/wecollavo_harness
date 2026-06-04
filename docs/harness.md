@@ -1,32 +1,60 @@
 # Harness
 
-## Layers
+## Architecture
 
-1. Live Meeting Cockpit
-2. Meeting State
-3. Domain Agent Team
-4. Linchpin Orchestrator
-5. Proposal HTML System
-6. Delivery OS
-7. Proof Loop
-8. Pricing OS
+```text
+Core Policy
++ Client Workspace
++ Proposal Renderer
++ Delivery Flow
++ Validation Guardrails
++ Proof Loop
+```
 
-## Pricing OS
+## Core Policy
 
-Pricing OS maps customer requests to `pricing_items` before the proposal is
-rendered. It uses:
+Core Policy는 하네스가 판단할 때 사용하는 기준 묶음이다. 가격은 독립 실행
+레이어가 아니라 Core Policy의 일부다.
 
 - `docs/service-catalog.md`
 - `docs/pricing-policy.md`
 - `docs/revision-policy.md`
 - `docs/payment-delivery-policy.md`
+- `docs/language-contract.md`
+- `docs/motion-policy.md`
+- `docs/security.md`
 - `harness/templates/service-catalog.json`
 - `harness/templates/price-breakdown.json`
 - `harness/templates/commercial-terms.json`
 
-The proposal renderer uses `pricing_items` and `commercial_terms` to generate the
-price section. Internal price bands are not exposed as raw customer-facing price
-tables; they are compressed into pricing rationale.
+서비스/가격 정책은 고객 요청을 `pricing_items`와 `commercial_terms`로
+정리하기 위한 기준이다. Proposal Renderer는 이 데이터를 사용해 가격 섹션을
+생성한다. 내부 산정가는 고객용 원시 표로 노출하지 않고 가격 근거 문장으로
+압축한다.
+
+## Client Workspace
+
+고객별 실행 파일은 `clients/<client>/`에 둔다. 원본 고객 자료는
+`project/<client>/`에 보존하고, 하네스 실행 중 직접 수정하지 않는다.
+
+```text
+client.json
+  -> meeting-state.md
+  -> proposal-data.json
+  -> proposal.html
+  -> delivery-plan.json
+  -> proof-loop.json
+```
+
+## Proposal Renderer
+
+v1 렌더러는 `proposal-data.json`과 `client.json`을 읽어 static
+`proposal.html`을 만든다. HyperFrames는 별도 데이터 구조가 아니라 future
+output adapter다.
+
+```bash
+python scripts/render_proposal.py clients/<client>
+```
 
 ## Domain Output Contract
 

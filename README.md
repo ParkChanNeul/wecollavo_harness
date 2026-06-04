@@ -5,11 +5,24 @@ WeCollavo 내부용 미팅 실행 하네스입니다.
 목표는 앱 완성이 아니라 실제 고객 1건에서 아래 흐름이 끝까지 작동하는지 검증하는 것입니다.
 
 ```text
+client.json
+  ->
 meeting-state.md
   -> proposal-data.json
   -> proposal.html
   -> delivery-plan.json
   -> proof-loop.json
+```
+
+## 구조
+
+```text
+Core Policy
++ Client Workspace
++ Proposal Renderer
++ Delivery Flow
++ Validation Guardrails
++ Proof Loop
 ```
 
 ## 현재 v1 검증 케이스
@@ -29,21 +42,27 @@ python scripts/check_proposal_safety.py clients/gt-engineering --allow-pending
 
 고객 전달 전에는 `human_review_status`가 `approved`여야 하므로, 기본 안전 검사는 `pending` 상태를 실패 처리한다.
 
-Pricing OS 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`,
-`docs/revision-policy.md`, `docs/payment-delivery-policy.md`와
+Core Policy 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`,
+`docs/revision-policy.md`, `docs/payment-delivery-policy.md`,
+`docs/language-contract.md`, `docs/motion-policy.md`, `docs/security.md`와
 `harness/templates/*pricing*.json`에 둔다.
+
+v1의 Proposal Renderer는 static `proposal.html`만 생성한다. HyperFrames는
+v1.5 이후 선택 output adapter이며, 별도 데이터 구조를 만들지 않는다.
 
 ## 읽는 순서
 
 1. `docs/source-of-truth.md`
-2. `docs/principles.md`
-3. `docs/tracks.md`
-4. `docs/workflow.md`
-5. `docs/harness.md`
-6. `docs/proposal-system.md`
-7. `docs/delivery-os.md`
-8. `docs/proof-loop.md`
-9. `docs/security.md`
+2. `docs/language-contract.md`
+3. `docs/principles.md`
+4. `docs/tracks.md`
+5. `docs/workflow.md`
+6. `docs/harness.md`
+7. `docs/proposal-system.md`
+8. `docs/motion-policy.md`
+9. `docs/delivery-os.md`
+10. `docs/proof-loop.md`
+11. `docs/security.md`
 
 ## 경계
 

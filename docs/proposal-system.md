@@ -32,5 +32,16 @@ must include public starting price, minimum project fee, pricing rationale,
 payment terms, revision/feedback rounds, extra-cost conditions, delivery
 condition, and the final-estimate notice.
 
-The proposal should feel like a briefing deck, but it remains one self-contained
-HTML file in v1.
+## Output Adapter
+
+v1 output adapter is HTML only.
+
+```text
+proposal-data.json -> proposal.html
+```
+
+HyperFrames is a future output adapter, not a separate data source. The proposal
+should feel like a briefing deck, but it remains one self-contained HTML file in
+v1.
+
+See `docs/motion-policy.md` for motion and HyperFrames boundaries.
