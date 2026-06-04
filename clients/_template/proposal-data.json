@@ -4,6 +4,7 @@
   "track": "Undecided",
   "pricing_status": "field_diagnostic_proposal",
   "human_review_status": "pending",
+  "request_lock_status": "locked",
   "pricing_note": "현장 진단 제안은 최종 견적서가 아니다. 최종 가격은 자료 확인, 범위 확정, 일정 합의 이후 별도 확정한다.",
   "confirmed_facts": [
     "고객 자료나 미팅에서 확인된 사실을 입력한다."
@@ -11,6 +12,27 @@
   "assumptions": [
     "아직 확인되지 않았지만 제안 판단에 사용한 전제를 입력한다."
   ],
+  "hard_locks": [
+    "고객 발화, 자료, 명시 승인으로 확인된 lock을 입력한다."
+  ],
+  "assumption_locks": [
+    "고객이 승인한 WeCollavo 추천 전제를 입력한다."
+  ],
+  "remaining_unknowns": {
+    "harmless_unknown": [],
+    "proposal_blocking_unknown": [],
+    "price_affecting_unknown": [],
+    "risk_unknown": []
+  },
+  "department_handoff": {
+    "marketing_planning": [],
+    "commercial_pricing": [],
+    "design": [],
+    "web_development": [],
+    "content": [],
+    "risk_guard": [],
+    "proposal_writer": []
+  },
   "commercial_terms": {
     "payment_terms": "1차 착수 구간 선결제 100%",
     "revision_policy": [
@@ -61,7 +83,13 @@
   ],
   "sections": [
     { "id": "today-conclusion", "title": "오늘의 결론", "body": [""] },
-    { "id": "why-this-conclusion", "title": "왜 이런 결론이 나왔는가", "body": [""] },
+    {
+      "id": "why-this-conclusion",
+      "title": "왜 이런 결론이 나왔는가",
+      "body": [
+        "이번 제안은 아래 가정을 기준으로 작성되었습니다: 고객 승인 전제와 아직 확인이 필요한 항목을 분리해 설명한다."
+      ]
+    },
     { "id": "meeting-qa", "title": "미팅 질문과 답변", "body": [""] },
     { "id": "situation-diagnosis", "title": "고객 상황 진단", "body": [""] },
     { "id": "priority-decision", "title": "우선순위", "body": [""] },

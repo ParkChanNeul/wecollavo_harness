@@ -1,6 +1,7 @@
 # WeCollavo Live Execution Harness
 
-Read `docs/source-of-truth.md` first, then `docs/language-contract.md`.
+Read `docs/source-of-truth.md` first, then `docs/language-contract.md` and
+`docs/wecollavo-interview.md`.
 Read `docs/motion-policy.md` before suggesting HyperFrames or other motion
 output adapters.
 
@@ -12,6 +13,7 @@ The architecture is:
 
 ```text
 Core Policy
++ WeCollavo Interview Loop
 + Client Workspace
 + Proposal Renderer
 + Delivery Flow
@@ -22,6 +24,12 @@ Core Policy
 ```text
 client.json
   -> meeting-state.md
+
+[WeCollavo Interview Loop]
+  -> request_lock_status: locked
+  -> department_handoff
+
+[After Request Lock]
   -> proposal-data.json
   -> proposal.html
   -> delivery-plan.json
@@ -34,6 +42,9 @@ client.json
 - `clients/` contains harness execution files for each client.
 - AI proposes judgment. Channeul makes the final Linchpin decision.
 - Customer requests and actual bottlenecks must be separated.
+- Unknown customer answers are diagnosis input, not failure.
+- `proposal-data.json` is a post-lock artifact. Do not create it while
+  `request_lock_status` is `open` or `partial`.
 - Field pricing is not the final estimate before material review.
 - Customer-facing output must not expose internal notes or domain-agent output.
 - Context language is Korean. Explicit data contracts, field names, enum values,

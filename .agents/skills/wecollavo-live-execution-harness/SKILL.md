@@ -5,12 +5,17 @@ description: Use when running a WeCollavo client meeting as a live internal exec
 
 # WeCollavo Live Execution Harness
 
-Use this skill when a client meeting is starting, in progress, or being reconstructed from notes.
+Deprecated wrapper. Use `$wecollavo-interview` for live interaction, unknown
+handling, request lock checks, and department handoff.
+
+Use this skill only when an older prompt explicitly asks for the live execution
+harness name. Route the actual work to the appropriate `/interview-*` command.
 
 ## Read First
 
 - `docs/source-of-truth.md`
 - `docs/language-contract.md`
+- `docs/wecollavo-interview.md`
 - `docs/principles.md`
 - `docs/tracks.md`
 - `docs/workflow.md`
@@ -18,7 +23,11 @@ Use this skill when a client meeting is starting, in progress, or being reconstr
 
 ## Role
 
-You are the AI backchannel for Channeul. You do not speak to the client. You help Channeul identify the real bottleneck, ask the next useful question, avoid bad promises, and turn meeting information into `meeting-state.md`.
+You are the AI backchannel for Channeul. You do not speak to the client. You help
+Channeul identify the real bottleneck, ask the next useful question, avoid bad
+promises, and turn meeting information into `meeting-state.md`.
+
+For active live interaction, use `$wecollavo-interview`.
 
 ## Inputs
 
@@ -33,20 +42,18 @@ Create or update `clients/<client>/meeting-state.md`.
 
 Required sections:
 
-- Meeting Metadata
-- Customer Request
-- Customer Words
-- Actual Bottleneck
-- Track Decision
-- Domain Flags
-- Scope Risk
-- Budget and Pricing Signals
-- Required Materials
-- Decisions Made
-- Open Questions
+- Live Capture
+- AI Interview Card
+- Unknown Handling
+- Question Ledger
+- Diagnosis State
+- Commercial Signals
+- Scope State
+- Request Lock
+- Department Handoff
+- Proposal Readiness
 - Do Not Promise
-- Client-Safe Proposal Line
-- Next File to Build
+- Client-Safe Phrase
 
 ## Rules
 
@@ -55,3 +62,4 @@ Required sections:
 - Treat field pricing as a diagnostic proposal, not a final estimate.
 - Do not expose internal warnings, agent notes, or risk language directly to the client.
 - If a fact is not confirmed, mark it as an assumption.
+- Do not create `proposal-data.json` until `request_lock_status` is `locked`.

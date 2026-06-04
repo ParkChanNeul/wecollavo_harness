@@ -5,12 +5,14 @@ description: Use when turning WeCollavo meeting-state.md into proposal-data.json
 
 # WeCollavo Proposal Build
 
-Use this skill after `meeting-state.md` is clear enough to build a client-facing proposal.
+Use this skill only after Request Lock. It turns a locked `meeting-state.md` into
+`proposal-data.json` and renders a client-facing static `proposal.html`.
 
 ## Read First
 
 - `docs/source-of-truth.md`
 - `docs/language-contract.md`
+- `docs/wecollavo-interview.md`
 - `docs/proposal-system.md`
 - `docs/tracks.md`
 - `docs/security.md`
@@ -25,6 +27,20 @@ Use this skill after `meeting-state.md` is clear enough to build a client-facing
 
 - `clients/<client>/proposal-data.json`
 - `clients/<client>/proposal.html`
+
+## Request Lock Gate
+
+Do not run proposal build when `request_lock_status` is `open` or `partial`.
+
+If Request Lock is missing, do not create `proposal-data.json`. Return:
+
+- missing lock conditions
+- remaining unknown types
+- whether Hard Locks or Assumption Locks are missing
+- recommended next `/interview-*` action
+
+`proposal-data.json` is a post-lock artifact. Its template default
+`request_lock_status` is `locked`.
 
 ## Proposal Sections
 
@@ -49,3 +65,5 @@ The HTML proposal must include these 11 sections:
 - Keep the first engagement narrower than the full desired production scope.
 - Separate field diagnostic proposal, first written proposal, and final estimate.
 - Never present assumptions as confirmed facts.
+- If `assumptions` or `assumption_locks` exist, include a customer-safe assumption basis in the proposal.
+- Never expose AI Interview Card fields, internal notes, or domain-agent output in `proposal.html`.

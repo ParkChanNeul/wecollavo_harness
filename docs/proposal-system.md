@@ -9,6 +9,10 @@ Do not manually edit `proposal.html`. Update `proposal-data.json` and
 python scripts/render_proposal.py clients/<client>
 ```
 
+`proposal-data.json` is a post-lock artifact. Do not create or render it from
+raw meeting notes while `request_lock_status` is `open` or `partial`. First use
+the WeCollavo Interview Loop to create Request Lock and Department Handoff.
+
 It must follow 11 sections:
 
 1. 오늘의 결론
@@ -31,6 +35,14 @@ The price section is generated from `pricing_items` and `commercial_terms`. It
 must include public starting price, minimum project fee, pricing rationale,
 payment terms, revision/feedback rounds, extra-cost conditions, delivery
 condition, and the final-estimate notice.
+
+If `assumptions` or `assumption_locks` are used, the customer-facing proposal
+must explain the assumption basis in Korean. A recommended phrase is:
+
+> 이번 제안은 아래 가정을 기준으로 작성되었습니다.
+
+The proposal must not expose internal notes, AI Interview Card fields, or domain
+agent output.
 
 ## Output Adapter
 

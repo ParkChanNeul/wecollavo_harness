@@ -25,9 +25,20 @@ EXPECTED_SECTION_IDS = [
 
 PRICING_STATUSES = {"field_diagnostic_proposal", "first_written_proposal", "final_estimate"}
 HUMAN_REVIEW_STATUSES = {"pending", "approved", "blocked"}
+REQUEST_LOCK_STATUSES = {"open", "partial", "locked"}
 PRICING_MODELS = {"starting_price", "package", "page_based", "project_based", "retainer", "cost_plus"}
 TIERS = {"basic", "standard", "premium", "custom"}
 ROUND_KEYS = ("planning", "copy", "design", "development", "final_check")
+UNKNOWN_KEYS = ("harmless_unknown", "proposal_blocking_unknown", "price_affecting_unknown", "risk_unknown")
+HANDOFF_KEYS = (
+    "marketing_planning",
+    "commercial_pricing",
+    "design",
+    "web_development",
+    "content",
+    "risk_guard",
+    "proposal_writer",
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -46,6 +57,39 @@ def non_empty_string(value: Any) -> bool:
 
 def non_empty_string_list(value: Any) -> bool:
     return isinstance(value, list) and bool(value) and all(non_empty_string(item) for item in value)
+
+
+def string_list(value: Any) -> bool:
+    return isinstance(value, list) and all(isinstance(item, str) for item in value)
+
+
+def validate_lock_contract(data: dict[str, Any], errors: list[str]) -> None:
+    if data.get("request_lock_status") not in REQUEST_LOCK_STATUSES:
+        errors.append(f"request_lock_status must be one of: {', '.join(sorted(REQUEST_LOCK_STATUSES))}")
+
+    for key in ("hard_locks", "assumption_locks"):
+        if not string_list(data.get(key)):
+            errors.append(f"{key} must be a string list")
+
+    unknowns = data.get("remaining_unknowns")
+    if not isinstance(unknowns, dict):
+        errors.append("remaining_unknowns must be an object")
+    else:
+        for key in UNKNOWN_KEYS:
+            if key not in unknowns:
+                errors.append(f"remaining_unknowns.{key} missing")
+            elif not string_list(unknowns.get(key)):
+                errors.append(f"remaining_unknowns.{key} must be a string list")
+
+    handoff = data.get("department_handoff")
+    if not isinstance(handoff, dict):
+        errors.append("department_handoff must be an object")
+    else:
+        for key in HANDOFF_KEYS:
+            if key not in handoff:
+                errors.append(f"department_handoff.{key} missing")
+            elif not string_list(handoff.get(key)):
+                errors.append(f"department_handoff.{key} must be a string list")
 
 
 def validate_commercial_terms(data: dict[str, Any], errors: list[str]) -> None:
@@ -167,6 +211,7 @@ def main() -> int:
         errors.append(f"pricing_status must be one of: {', '.join(sorted(PRICING_STATUSES))}")
     if data.get("human_review_status") not in HUMAN_REVIEW_STATUSES:
         errors.append(f"human_review_status must be one of: {', '.join(sorted(HUMAN_REVIEW_STATUSES))}")
+    validate_lock_contract(data, errors)
     if not non_empty_string_list(data.get("confirmed_facts")):
         errors.append("confirmed_facts must be a non-empty string list")
     if not non_empty_string_list(data.get("assumptions")):

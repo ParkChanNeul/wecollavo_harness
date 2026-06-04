@@ -28,6 +28,7 @@ BLOCKED_PHRASES = [
 ]
 
 MONEY_PATTERN = re.compile(r"(?P<number>[0-9,]+)\s*만")
+UNKNOWN_KEYS = ("harmless_unknown", "proposal_blocking_unknown", "price_affecting_unknown", "risk_unknown")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -53,6 +54,37 @@ def parse_krw(value: Any) -> int | None:
 
 def non_empty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
+
+
+def string_items(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, str) and item.strip()]
+
+
+def unknown_items(data: dict[str, Any], key: str) -> list[str]:
+    unknowns = data.get("remaining_unknowns")
+    if not isinstance(unknowns, dict):
+        return []
+    return string_items(unknowns.get(key))
+
+
+def price_looks_confirmed(data: dict[str, Any], html_text: str) -> bool:
+    if data.get("pricing_status") == "final_estimate":
+        return True
+    confirmed_markers = ("확정 견적서입니다", "확정된 견적서", "최종 확정 견적", "최종 가격입니다")
+    if any(marker in html_text for marker in confirmed_markers):
+        return True
+    final_estimate_count = html_text.count("최종 견적")
+    has_material_review_notice = "자료 확인 후 확정" in html_text or ("자료 확인" in html_text and "최종 견적" in html_text)
+    return final_estimate_count > 0 and not has_material_review_notice
+
+
+def has_assumption_notice(html_text: str) -> bool:
+    return (
+        "이번 제안은 아래 가정을 기준으로 작성되었습니다" in html_text
+        or ("가정" in html_text and "기준" in html_text and "작성" in html_text)
+    )
 
 
 def require_html_value(html_text: str, value: Any, label: str, errors: list[str]) -> bool:
@@ -177,6 +209,39 @@ def check_pricing_items(data: dict[str, Any], html_text: str, errors: list[str])
             errors.append(f"pricing_items[{index}] missing included_rounds")
 
 
+def check_request_lock(data: dict[str, Any], html_text: str, errors: list[str]) -> None:
+    if data.get("request_lock_status") != "locked":
+        errors.append("request_lock_status must be locked before customer delivery")
+
+    unknowns = data.get("remaining_unknowns")
+    if not isinstance(unknowns, dict):
+        errors.append("remaining_unknowns missing from proposal-data.json")
+    else:
+        for key in UNKNOWN_KEYS:
+            if key not in unknowns:
+                errors.append(f"remaining_unknowns.{key} missing")
+
+    blocking_unknowns = unknown_items(data, "proposal_blocking_unknown")
+    if blocking_unknowns:
+        errors.append("remaining_unknowns.proposal_blocking_unknown must be empty before customer delivery")
+
+    price_unknowns = unknown_items(data, "price_affecting_unknown")
+    if price_unknowns and price_looks_confirmed(data, html_text):
+        errors.append("price_affecting_unknown remains while proposal price looks confirmed")
+
+    risk_unknowns = unknown_items(data, "risk_unknown")
+    handoff = data.get("department_handoff")
+    risk_guard = []
+    if isinstance(handoff, dict):
+        risk_guard = string_items(handoff.get("risk_guard"))
+    if risk_unknowns and not risk_guard:
+        errors.append("risk_unknown remains but department_handoff.risk_guard is empty")
+
+    assumptions = string_items(data.get("assumptions")) + string_items(data.get("assumption_locks"))
+    if assumptions and not has_assumption_notice(html_text):
+        errors.append("assumptions or assumption_locks exist but HTML lacks a customer-safe assumption notice")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("client_dir", help="clients/<client> directory")
@@ -203,6 +268,7 @@ def main() -> int:
         if phrase in html_text:
             errors.append(f"blocked phrase found in HTML: {phrase}")
 
+    check_request_lock(data, html_text, errors)
     check_commercial_terms(data, html_text, errors)
     check_pricing_items(data, html_text, errors)
 

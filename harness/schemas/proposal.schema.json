@@ -8,8 +8,13 @@
     "track",
     "pricing_status",
     "human_review_status",
+    "request_lock_status",
     "confirmed_facts",
     "assumptions",
+    "hard_locks",
+    "assumption_locks",
+    "remaining_unknowns",
+    "department_handoff",
     "pricing_items",
     "commercial_terms",
     "sections"
@@ -26,6 +31,11 @@
       "type": "string",
       "enum": ["pending", "approved", "blocked"]
     },
+    "request_lock_status": {
+      "type": "string",
+      "enum": ["open", "partial", "locked"],
+      "description": "Request Lock state. Validation accepts open, partial, and locked, but customer delivery safety requires locked."
+    },
     "confirmed_facts": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
@@ -33,6 +43,86 @@
     "assumptions": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
+    },
+    "hard_locks": {
+      "type": "array",
+      "description": "Customer-confirmed facts locked before proposal creation.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "assumption_locks": {
+      "type": "array",
+      "description": "Customer-approved WeCollavo assumptions locked before proposal creation.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "remaining_unknowns": {
+      "type": "object",
+      "description": "v1 uses string arrays. This may later expand to object arrays with owner, deadline, source, and resolution status.",
+      "required": [
+        "harmless_unknown",
+        "proposal_blocking_unknown",
+        "price_affecting_unknown",
+        "risk_unknown"
+      ],
+      "properties": {
+        "harmless_unknown": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "proposal_blocking_unknown": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "price_affecting_unknown": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "risk_unknown": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "department_handoff": {
+      "type": "object",
+      "required": [
+        "marketing_planning",
+        "commercial_pricing",
+        "design",
+        "web_development",
+        "content",
+        "risk_guard",
+        "proposal_writer"
+      ],
+      "properties": {
+        "marketing_planning": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "commercial_pricing": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "design": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "web_development": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "content": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "risk_guard": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "proposal_writer": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
     },
     "commercial_terms": {
       "type": "object",
