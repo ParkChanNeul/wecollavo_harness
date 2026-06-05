@@ -8,14 +8,20 @@ description: Use when turning WeCollavo meeting-state.md into proposal-data.json
 Use this skill only after Request Lock. It turns a locked `meeting-state.md` into
 `proposal-data.json` and renders a client-facing static `proposal.html`.
 
+Build the proposal as a Brand Execution Sprint answer, not as raw meeting-note
+sections or a plain estimate. Use the proposal-review seed and Department Brief
+to explain the one core brand asset, what not to do now, and the 30-day proof
+signal without changing the proposal-data contract or section ID/order.
+
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
-- `docs/department-analysis-method.md`
 - `docs/wecollavo-interview.md`
-- `docs/proposal-review.md`
+- `docs/department-analysis-method.md`
 - `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/tracks.md`
 - `docs/security.md`
 

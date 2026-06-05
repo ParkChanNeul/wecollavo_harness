@@ -11,17 +11,23 @@ before building `proposal-data.json`.
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
-- `docs/proposal-review.md`
-- `docs/department-analysis-method.md`
 - `docs/wecollavo-interview.md`
+- `docs/department-analysis-method.md`
 - `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/security.md`
 
 ## Role
 
 Create or review `clients/<client>/proposal-review.md` as a pre-render proposal
 seed. This is not an after-HTML QA document.
+
+Review whether the proposal seed is a Brand Execution Sprint proposal, not a
+plain estimate. Confirm that it includes reinterpretation of the request, the
+real bottleneck, one core brand asset, what not to do now, and the first 30-day
+evidence signal.
 
 ## Inputs
 

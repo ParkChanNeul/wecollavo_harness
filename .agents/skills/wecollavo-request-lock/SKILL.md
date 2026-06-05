@@ -10,9 +10,12 @@ Use this skill for legacy `/interview-lock-check` and `/interview-lock` paths.
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
 - `docs/wecollavo-interview.md`
 - `docs/department-analysis-method.md`
+- `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/security.md`
 - `docs/workflow.md`
 
@@ -20,6 +23,10 @@ Use this skill for legacy `/interview-lock-check` and `/interview-lock` paths.
 
 Decide whether a customer request is proposal-ready. Separate Hard Lock /
 Assumption Lock draft creation from actual workspace file updates.
+
+Before recommending locked, confirm that the one core brand asset, what not to
+do now, and the first 30-day Proof Loop signal are sufficiently clear. If those
+conditions are weak, keep the candidate status at open or partial.
 
 ## Inputs
 

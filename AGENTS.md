@@ -2,7 +2,8 @@
 
 Last updated: 2026-06-06
 
-Read `docs/source-of-truth.md` first, then `docs/language-contract.md`,
+Read `docs/source-of-truth.md` first, then
+`docs/wecollavo-brand-execution-sprint.md`, `docs/language-contract.md`,
 `docs/department-analysis-method.md`, `docs/wecollavo-interview.md`, and
 `docs/proposal-review.md`.
 Read `docs/motion-policy.md` before suggesting HyperFrames or other motion
@@ -17,6 +18,7 @@ The architecture is:
 ```text
 Core Policy
 + WeCollavo Interview Subskills
++ Brand Execution Sprint
 + Department Analysis Method
 + Client Workspace
 + Proposal Review Seed
@@ -57,6 +59,11 @@ client.json
 - `clients/` contains harness execution files for each client.
 - AI proposes judgment. Channeul makes the final Linchpin decision.
 - Customer requests and actual bottlenecks must be separated.
+- Strategic skills must interpret customer requests through
+  `docs/wecollavo-brand-execution-sprint.md`: WeCollavo is a collaborative
+  brand execution partner, not a production outsourcing vendor.
+- Do not generalize archive PRD or GT-specific price/scope/facts into current
+  proposals.
 - Unknown customer answers are diagnosis input, not failure.
 - `wecollavo-interview` is a router/intake alias. Step-level interview work uses
   independent subskills.

@@ -21,6 +21,7 @@ client.json
 ```text
 Core Policy
 + WeCollavo Interview Subskills
++ Brand Execution Sprint
 + Department Analysis Method
 + Client Workspace
 + Proposal Review Seed
@@ -82,9 +83,14 @@ python scripts/check_proposal_safety.py clients/gt-engineering --allow-pending
 
 Core Policy 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`,
 `docs/revision-policy.md`, `docs/payment-delivery-policy.md`,
-`docs/language-contract.md`, `docs/department-analysis-method.md`,
-`docs/proposal-review.md`, `docs/motion-policy.md`, `docs/security.md`와 아래
-템플릿에 둔다.
+`docs/language-contract.md`, `docs/wecollavo-brand-execution-sprint.md`,
+`docs/department-analysis-method.md`, `docs/proposal-review.md`,
+`docs/motion-policy.md`, `docs/security.md`와 아래 템플릿에 둔다.
+
+`docs/wecollavo-brand-execution-sprint.md`는 archive PRD에서 추출한 현재
+하네스용 판단 재료다. 전략 Skill은 고객 요청을 제작 외주가 아니라 브랜드 실행
+스프린트 관점으로 해석할 때 이 문서를 참고한다. 단, archive PRD나 GT 전용
+가격/범위/사실관계는 일반 고객 기본값으로 일반화하지 않는다.
 
 - `harness/templates/service-catalog.json`
 - `harness/templates/price-breakdown.json`
@@ -115,19 +121,20 @@ workspace gate를 우회하지 않는다.
 ## 읽는 순서
 
 1. `docs/source-of-truth.md`
-2. `docs/language-contract.md`
-3. `docs/principles.md`
-4. `docs/tracks.md`
-5. `docs/department-analysis-method.md`
-6. `docs/wecollavo-interview.md`
-7. `docs/proposal-review.md`
-8. `docs/workflow.md`
-9. `docs/harness.md`
-10. `docs/proposal-system.md`
-11. `docs/motion-policy.md`
-12. `docs/delivery-os.md`
-13. `docs/proof-loop.md`
-14. `docs/security.md`
+2. `docs/wecollavo-brand-execution-sprint.md`
+3. `docs/language-contract.md`
+4. `docs/principles.md`
+5. `docs/tracks.md`
+6. `docs/department-analysis-method.md`
+7. `docs/wecollavo-interview.md`
+8. `docs/proposal-review.md`
+9. `docs/workflow.md`
+10. `docs/harness.md`
+11. `docs/proposal-system.md`
+12. `docs/motion-policy.md`
+13. `docs/delivery-os.md`
+14. `docs/proof-loop.md`
+15. `docs/security.md`
 
 ## 경계
 

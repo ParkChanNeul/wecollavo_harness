@@ -10,15 +10,22 @@ Use this skill for the legacy `/interview-close` path.
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
 - `docs/wecollavo-interview.md`
 - `docs/department-analysis-method.md`
+- `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/security.md`
 
 ## Role
 
 Close the meeting safely for Channeul without overpromising price, scope,
 delivery, or approval status.
+
+Frame the close around the first trust-building brand asset and the signal to
+check after 30 days. Do not close by implying that more assets or a larger
+package is automatically better.
 
 ## Inputs
 

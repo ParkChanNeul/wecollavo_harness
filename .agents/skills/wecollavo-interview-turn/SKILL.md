@@ -10,9 +10,12 @@ Use this skill for legacy `/interview-turn` and `/interview-pivot` paths.
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
 - `docs/wecollavo-interview.md`
 - `docs/department-analysis-method.md`
+- `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/security.md`
 
 ## Role
@@ -20,6 +23,11 @@ Use this skill for legacy `/interview-turn` and `/interview-pivot` paths.
 Transform a customer utterance into an AI Interview Card for Channeul. Detect
 when the real bottleneck differs from the stated request and pivot the next
 question accordingly.
+
+Interpret the utterance through the Brand Execution Sprint lens: do not simply
+summarize the request, identify the likely track candidate, narrow toward one
+core brand asset, suggest the first 30-day proof signal, and never execute
+Request Lock from this skill.
 
 ## Inputs
 

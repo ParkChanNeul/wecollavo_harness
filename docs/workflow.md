@@ -52,6 +52,12 @@ The interview loop turns a raw customer request into a proposal-ready request.
 It does not create `proposal-data.json` while `request_lock_status` is `open` or
 `partial`.
 
+Strategic interview skills read `docs/wecollavo-brand-execution-sprint.md` and
+interpret the request as a Brand Execution Sprint signal: one core brand asset,
+what not to do now, provisional Track 1 / Track 2 fit, and the 30-day Proof Loop
+signal. The document is current operating judgment material extracted from the
+archive PRD; GT-specific facts, price, or scope must not be generalized.
+
 `wecollavo-interview` is a router/intake alias. It does not execute the
 subcommands directly; it recommends the independent skill to use next.
 

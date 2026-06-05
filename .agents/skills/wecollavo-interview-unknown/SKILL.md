@@ -11,15 +11,22 @@ readiness.
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
 - `docs/wecollavo-interview.md`
 - `docs/department-analysis-method.md`
+- `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/security.md`
 
 ## Role
 
 Turn uncertainty into useful diagnosis input. Classify unknowns and narrow them
 through open questions, choice questions, and guided assumption candidates.
+
+Treat unknowns as Brand Execution Sprint diagnosis input, not failure. Separate
+unknowns that affect the one core brand asset from unknowns that affect the
+30-day Proof Loop signal.
 
 ## Inputs
 

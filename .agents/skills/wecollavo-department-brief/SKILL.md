@@ -10,9 +10,12 @@ Use this skill for the legacy `/interview-handoff` path after Request Lock.
 ## Read First
 
 - `docs/source-of-truth.md`
+- `docs/wecollavo-brand-execution-sprint.md`
 - `docs/language-contract.md`
 - `docs/wecollavo-interview.md`
 - `docs/department-analysis-method.md`
+- `docs/proposal-system.md`
+- `docs/proposal-review.md`
 - `docs/security.md`
 - `docs/workflow.md`
 
@@ -21,6 +24,10 @@ Use this skill for the legacy `/interview-handoff` path after Request Lock.
 Create a structured Department Analysis Brief from locked customer signals. This
 can be conversational output or an explicit workspace update when
 `client_dir=clients/<client>` is provided.
+
+Translate the locked request through Brand Diagnosis Map, Execution Asset Brief,
+Next 30 Days Operating Plan, and Proof Loop criteria. Do not pass raw notes
+forward as the brief.
 
 ## Inputs
 
