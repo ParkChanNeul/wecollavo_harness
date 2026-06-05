@@ -29,16 +29,40 @@ through open questions, choice questions, and guided assumption candidates.
 
 ## Output
 
-- Unknown classification:
-  - `harmless_unknown`
-  - `proposal_blocking_unknown`
-  - `price_affecting_unknown`
-  - `risk_unknown`
-- open question
-- choice question
-- default recommendation candidate
-- assumption_to_lock candidate
-- recommended next skill
+Default output must be a Korean Unknown Handling Card, not a JSON/key-value
+dump. Do not expose snake_case field names in the default card.
+
+Use this shape:
+
+```text
+# Unknown Handling Card
+
+## 지금 고객이 모르는 것
+-
+
+## 왜 중요한가
+-
+
+## 선택지로 바꾼 질문
+1.
+2.
+3.
+
+## 위콜라보가 제안할 수 있는 기본 전제 후보
+-
+
+## 반드시 고객 확인이 필요한 것
+-
+
+## 고객에게 말해도 되는 문장
+-
+```
+
+When internal handoff is necessary, add an optional final
+`Internal Structured Fields` section after the Korean card. Keep internal field
+names out of the default card.
+
+Always include the common `Next Skill Handoff` section.
 
 ## Forbidden
 

@@ -32,19 +32,45 @@ can be conversational output or an explicit workspace update when
 
 ## Output
 
-Structured Department Analysis Brief with:
+Default output must be a Korean Department Analysis Brief, not a department key
+dump.
 
-- `marketing_planning`
-- `commercial_pricing`
-- `design`
-- `web_development`
-- `content`
-- `risk_guard`
-- `proposal_writer`
+Use this shape:
 
-Each department should include diagnosis, recommendation, scope_impact,
-price_impact, risks, missing_inputs, proposal_points, client_safe_phrase, and
-trust_indicator.
+```text
+# Department Analysis Brief
+
+## 마케팅 기획 관점
+-
+
+## 가격/범위 관점
+-
+
+## 디자인 관점
+-
+
+## 웹/기술 관점
+-
+
+## 콘텐츠 관점
+-
+
+## 리스크 관점
+-
+
+## 제안서 작성 관점
+-
+```
+
+Each department should still reason through diagnosis, recommendation, scope
+impact, price impact, risks, missing inputs, proposal points, client-safe
+phrase, and trust indicator, but the default output should be readable Korean
+prose.
+
+When internal handoff is necessary, add an optional final
+`Internal Structured Fields` section after the Korean brief.
+
+Always include the common `Next Skill Handoff` section.
 
 If Request Lock context is missing or not locked, return the missing lock
 condition instead of creating a Department Analysis Brief.

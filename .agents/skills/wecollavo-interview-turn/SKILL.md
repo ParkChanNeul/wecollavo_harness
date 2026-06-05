@@ -29,26 +29,76 @@ question accordingly.
 
 ## Output
 
-- `what_i_heard`
-- `strategic_decode`
-- `bottleneck_hypothesis`
-- `desired_change`
-- `smallest_viable_market`
-- `unknowns`
-- `price_scope_signals`
-- `risks`
-- `do_not_promise`
-- `ask_next`
-- `client_safe_phrase`
-- `meeting_state_update_suggestions`
-- `request_lock_candidate_status`
-- recommended next skill
+Default output must be a Korean Meeting Coach View, not a JSON/key-value dump.
+Do not expose snake_case field names in the default card.
+
+Use this shape:
+
+```text
+# AI Interview Card
+
+## 한 줄 진단
+-
+
+## 내가 들은 내용
+-
+
+## 전략적 해석
+-
+
+## 핵심 병목
+-
+
+## 변화 목표
+-
+
+## 첫 타겟 / 최소 유효 시장
+-
+
+## 아직 모르는 것
+
+### 제안 전에 꼭 확인할 것
+-
+
+### 가격/범위에 영향을 주는 것
+-
+
+### 리스크가 될 수 있는 것
+-
+
+## 가격/범위 신호
+-
+
+## 지금 약속하면 안 되는 것
+-
+
+## 지금 고객에게 물어볼 질문
+1.
+2.
+3.
+
+## 고객에게 말해도 되는 문장
+-
+
+## 미팅 기록 반영 후보
+-
+
+## 요청 잠금 후보 상태
+open | partial | locked 후보 중 하나로 설명한다.
+여기서 실제 request lock을 실행하지 않는다.
+```
+
+When internal handoff is necessary, add an optional final
+`Internal Structured Fields` section after the Korean coach view. Keep internal
+field names out of the default card.
+
+Always include the common `Next Skill Handoff` section.
 
 If no `client_dir` is provided, output is temporary state only and must not
 update files.
 
-`request_lock_candidate_status` is only an AI Interview Card candidate. It is
-not the actual `request_lock_status` data contract.
+The request lock candidate shown in this card is only a candidate. It is not the
+actual `request_lock_status` data contract.
 
 ## Forbidden
 
@@ -63,9 +113,8 @@ not the actual `request_lock_status` data contract.
 
 This skill can start from one customer utterance even without intake. In that
 case, treat the output as temporary state only and return
-`meeting_state_update_suggestions`, not file updates. If required context is
-missing, ask the next useful question instead of pretending the request is
-locked.
+Korean "미팅 기록 반영 후보", not file updates. If required context is missing,
+ask the next useful question instead of pretending the request is locked.
 
 ## Next Skill Handoff
 

@@ -172,7 +172,7 @@ $wecollavo-interview /interview-start client_dir=clients/gt-engineering
 - 다음 독립 skill 추천
 - `proposal-data.json` 생성 금지
 
-## Scenario 12. AI Interview Card uses suggestion fields
+## Scenario 12. AI Interview Card uses Korean Meeting Coach View
 
 Input:
 
@@ -183,12 +183,15 @@ $wecollavo-interview-turn
 
 기대:
 
-- AI Interview Card 출력
-- `meeting_state_update_suggestions` 포함
-- `request_lock_candidate_status` 포함
+- `# AI Interview Card` 출력
+- 기본 출력에 `내가 들은 내용`, `전략적 해석`, `핵심 병목`, `지금 고객에게 물어볼 질문`, `고객에게 말해도 되는 문장` 포함
+- `meeting_state_update_suggestions`를 기본 출력에 그대로 노출하지 않고 `미팅 기록 반영 후보`로 표시
+- `request_lock_candidate_status`를 기본 출력에 그대로 노출하지 않고 `요청 잠금 후보 상태`로 표시
+- 기본 출력에 `raw_request`, `current_state`, `target_state`, `svm_status`, `price_affecting_unknown` 같은 snake_case 필드명 노출 금지
 - AI Interview Card 문맥에서 `meeting_state_updates` 사용 금지
 - AI Interview Card 문맥에서 실제 계약 필드인 `request_lock_status`를 lock 실행 상태처럼 사용 금지
-- `request_lock_candidate_status`는 후보 판단이며 파일 업데이트나 lock 실행이 아님
+- 요청 잠금 후보 상태는 후보 판단이며 파일 업데이트나 lock 실행이 아님
+- 필요한 경우 snake_case 필드명은 기본 한글 코치 뷰 뒤의 `Internal Structured Fields`에서만 허용
 
 ## Scenario 13. Non-linear unknown entry
 
@@ -202,9 +205,9 @@ $wecollavo-interview-unknown
 기대:
 
 - intake 없이도 conversational output 가능
-- Unknown classification 생성
-- choice question 생성
-- guided assumption candidate 생성
+- `# Unknown Handling Card` 출력
+- 기본 출력에 `지금 고객이 모르는 것`, `왜 중요한가`, `선택지로 바꾼 질문`, `위콜라보가 제안할 수 있는 기본 전제 후보` 포함
+- 기본 출력에 unknown classification snake_case 노출 금지
 - Assumption Lock을 파일에 기록하지 않음
 - Next Skill Handoff 포함
 
@@ -223,3 +226,35 @@ $wecollavo-department-brief
 - `proposal-data.json` 생성 금지
 - locked request context가 없다는 missing condition 반환
 - 추천 next skill은 `wecollavo-request-lock` 또는 부족 unknown 처리 skill
+
+## Scenario 15. Request Lock output avoids field dump
+
+Input:
+
+```text
+$wecollavo-request-lock
+현재 대화 기준으로 요청 잠금 가능성 확인해줘.
+```
+
+기대:
+
+- `# Request Lock Check` 출력
+- `지금 확정된 것`, `위콜라보 추천 전제로 잠글 수 있는 것`, `아직 잠그면 안 되는 것`, `가격/범위 때문에 더 확인할 것`, `현재 잠금 판단` 포함
+- 기본 출력에 lock 관련 내부 필드명 덤프 금지
+- 실제 파일 lock 실행 금지
+
+## Scenario 16. Department Brief output uses Korean department headings
+
+Input:
+
+```text
+$wecollavo-department-brief
+locked request 초안을 기준으로 부서별 브리프를 정리해줘.
+```
+
+기대:
+
+- `# Department Analysis Brief` 출력
+- `마케팅 기획 관점`, `가격/범위 관점`, `디자인 관점`, `웹/기술 관점`, `콘텐츠 관점`, `리스크 관점`, `제안서 작성 관점` 포함
+- 기본 출력에 부서 key 덤프 금지
+- `proposal-data.json` 생성 금지

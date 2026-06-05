@@ -193,42 +193,101 @@ recommend the next skill.
 ## AI Interview Card
 
 AI Interview Card는 찬늘에게만 보이는 백채널 카드다. 고객용 문안이 아니라
-다음 판단을 위한 내부 구조다.
+다음 판단을 위한 내부 코치 뷰다.
 
-필수 필드:
+기본 출력은 JSON/key-value 덤프가 아니라 사람이 읽기 쉬운 한글 Meeting Coach
+View여야 한다. 기본 카드에는 snake_case 내부 필드명을 그대로 노출하지 않는다.
 
-- `raw_request`
-- `desired_change`
-- `current_state`
-- `target_state`
-- `tension`
-- `change_type`
-- `smallest_viable_market`
-- `worldview`
-- `trust_indicator`
-- `what_i_heard`
-- `strategic_decode`
-- `bottleneck_hypothesis`
-- `marketing_diagnosis_equation`
-- `ask_next`
-- `unknowns`
-- `guided_options`
-- `default_recommendation`
-- `assumption_to_lock`
-- `service_mapping`
-- `price_scope_signals`
-- `risks`
-- `do_not_promise`
-- `client_safe_phrase`
-- `meeting_state_update_suggestions`
-- `request_lock_candidate_status`
+```text
+# AI Interview Card
 
-`client_safe_phrase`만 고객에게 말할 수 있는 표현으로 정리한다. 나머지 필드는
-내부 판단이다.
+## 한 줄 진단
+-
 
-`request_lock_candidate_status`는 AI Interview Card 안에서만 쓰는 후보 판단이다.
-실제 `meeting-state.md`와 `proposal-data.json` 데이터 계약의 상태 필드는 계속
+## 내가 들은 내용
+-
+
+## 전략적 해석
+-
+
+## 핵심 병목
+-
+
+## 변화 목표
+-
+
+## 첫 타겟 / 최소 유효 시장
+-
+
+## 아직 모르는 것
+
+### 제안 전에 꼭 확인할 것
+-
+
+### 가격/범위에 영향을 주는 것
+-
+
+### 리스크가 될 수 있는 것
+-
+
+## 가격/범위 신호
+-
+
+## 지금 약속하면 안 되는 것
+-
+
+## 지금 고객에게 물어볼 질문
+1.
+2.
+3.
+
+## 고객에게 말해도 되는 문장
+-
+
+## 미팅 기록 반영 후보
+-
+
+## 요청 잠금 후보 상태
+open | partial | locked 후보 중 하나로 설명한다.
+단, 여기서 실제 request lock을 실행하지 않는다.
+```
+
+고객에게 말해도 되는 문장만 고객에게 직접 사용할 수 있는 표현으로 정리한다.
+나머지는 내부 판단이다.
+
+요청 잠금 후보 상태는 AI Interview Card 안에서만 쓰는 후보 판단이다. 실제
+`meeting-state.md`와 `proposal-data.json` 데이터 계약의 상태 필드는 계속
 `request_lock_status`다.
+
+내부 handoff가 필요한 경우에만 기본 한글 코치 뷰 뒤에 선택적으로
+`Internal Structured Fields` 섹션을 둔다. 이 섹션은 기계적 전달을 위한
+보조 정보이며, 기본 미팅 출력보다 앞에 나오면 안 된다.
+
+```text
+## Internal Structured Fields
+
+- raw_request:
+- desired_change:
+- current_state:
+- target_state:
+- tension:
+- change_type:
+- required_asset:
+- smallest_viable_market:
+- svm_status:
+- first_audience:
+- worldview:
+- unknowns:
+- proposal_blocking_unknown:
+- price_affecting_unknown:
+- risk_unknown:
+- price_scope_signals:
+- do_not_promise:
+- ask_next:
+- client_safe_phrase:
+- meeting_state_update_suggestions:
+- request_lock_candidate_status:
+```
 
 ## Unknown Handling
 
@@ -249,10 +308,12 @@ open question
 
 ## Unknown Types
 
-- `harmless_unknown`: 제안 방향에는 영향을 주지 않지만 나중에 확인할 정보
-- `proposal_blocking_unknown`: 제안서 생성 전 반드시 풀어야 하는 정보
-- `price_affecting_unknown`: 가격, 착수금, 범위, 추가비 조건을 흔드는 정보
-- `risk_unknown`: 납품 약속, 책임 범위, 권한 이전, 공개 가능성에 영향을 주는 정보
+기본 출력에서는 unknown type도 한글 제목으로 보여준다.
+
+- 나중에 확인해도 되는 것: 제안 방향에는 영향을 주지 않지만 나중에 확인할 정보
+- 제안 전에 꼭 확인할 것: 제안서 생성 전 반드시 풀어야 하는 정보
+- 가격/범위에 영향을 주는 것: 가격, 착수금, 범위, 추가비 조건을 흔드는 정보
+- 리스크가 될 수 있는 것: 납품 약속, 책임 범위, 권한 이전, 공개 가능성에 영향을 주는 정보
 
 v1의 `remaining_unknowns`는 string array로 시작한다. 향후 각 unknown의 owner,
 deadline, source, resolution status가 필요해지면 object array로 확장할 수 있다.
@@ -320,27 +381,18 @@ For every Department Handoff, transform customer signals through:
 6. Trust Indicator
 7. Client-safe proposal language
 
-필수 영역:
+기본 출력 영역:
 
-- `marketing_planning`
-- `commercial_pricing`
-- `design`
-- `web_development`
-- `content`
-- `risk_guard`
-- `proposal_writer`
+- 마케팅 기획 관점
+- 가격/범위 관점
+- 디자인 관점
+- 웹/기술 관점
+- 콘텐츠 관점
+- 리스크 관점
+- 제안서 작성 관점
 
-각 영역의 preferred format:
-
-- `diagnosis`
-- `recommendation`
-- `scope_impact`
-- `price_impact`
-- `risks`
-- `missing_inputs`
-- `proposal_points`
-- `client_safe_phrase`
-- `trust_indicator`
+각 영역은 진단, 추천, 범위 영향, 가격 영향, 리스크, 빠진 입력값, 제안서 반영
+포인트, 고객용 표현, 신뢰 지표를 사람이 읽기 쉬운 문장으로 정리한다.
 
 handoff는 내부 분석 브리프다. 고객용 HTML에는 domain agent output이나 내부
 위험 표현을 그대로 노출하지 않는다.

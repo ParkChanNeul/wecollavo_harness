@@ -24,18 +24,39 @@ Assumption Lock draft creation from actual workspace file updates.
 ## Inputs
 
 - AI Interview Card or current temporary interview state.
-- Unknown classifications.
+- Unknown Handling 결과.
 - Customer-approved assumptions, if any.
 - Optional `client_dir=clients/<client>` for explicit workspace write/update/lock.
 
 ## Output
 
-- recommended `request_lock_status`: `open`, `partial`, or `locked`
-- missing lock conditions
-- Hard Lock draft items
-- Assumption Lock draft items
-- Do Not Promise list
-- recommended next skill
+Default output must be a Korean Request Lock Check, not a field dump.
+
+Use this shape:
+
+```text
+# Request Lock Check
+
+## 지금 확정된 것
+-
+
+## 위콜라보 추천 전제로 잠글 수 있는 것
+-
+
+## 아직 잠그면 안 되는 것
+-
+
+## 가격/범위 때문에 더 확인할 것
+-
+
+## 현재 잠금 판단
+open | partial | locked 후보와 이유
+```
+
+Hard Lock / Assumption Lock items are draft candidates unless explicit
+`client_dir=clients/<client>` is provided for workspace file reflection.
+
+Always include the common `Next Skill Handoff` section.
 
 File reflection/write/update/lock is allowed only when explicit
 `client_dir=clients/<client>` is provided.
