@@ -1,8 +1,13 @@
+---
+review_type: proposal_review_seed
+review_stage: pre_render
+proposal_review_decision: pending
+reviewer: Channeul
+---
+
 # GT 엔지니어링 Proposal Review Seed
 
 Client: GT 엔지니어링
-Reviewer: Channeul
-Decision: pending
 
 ## Desired Change Check
 
@@ -71,8 +76,6 @@ Notes:
 - 기존 브로셔, Framer 홈페이지, 로고/CI 프로토타입을 함께 관찰했다.
 - 전체 제작비, 전체 페이지 수, 전체 홈페이지 마감, 로고 신규 제작은 미팅 중 확정하지 않는다.
 
-## Decision
+## Review Notes
 
-- Reviewer: Channeul
-- Decision: pending
-- Notes: 고객 전달 전 Human Review 필요.
+- Notes: 고객 전달 전 Human Review 필요. `proposal_review_decision`은 frontmatter에서 관리한다.

@@ -1,8 +1,13 @@
+---
+review_type: proposal_review_seed
+review_stage: pre_render
+proposal_review_decision: pending
+reviewer: Channeul
+---
+
 # Proposal Review Seed
 
 Client:
-Reviewer: Channeul
-Decision: pending
 
 ## Desired Change Check
 
@@ -42,8 +47,6 @@ Decision: pending
 - [ ] 30일 실행 계획에 예상되는 정체 구간과 대응책이 있다.
 - [ ] 빠른 제안이 날림처럼 보이지 않도록 근거가 제시되어 있다.
 
-## Decision
+## Review Notes
 
-- Reviewer: Channeul
-- Decision: pending
 - Notes:

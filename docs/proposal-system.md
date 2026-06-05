@@ -1,5 +1,8 @@
 # Proposal HTML System
 
+Status: v1.1 proposal renderer policy
+Last updated: 2026-06-05
+
 The proposal is generated static HTML in v1.
 
 Do not manually edit `proposal.html`. Update `proposal-data.json` and
@@ -17,6 +20,16 @@ Analysis Brief.
 `proposal-review.md` is a pre-render seed, not an after-HTML QA document.
 Proposal Renderer assumes proposal data has already passed Request Lock,
 Department Analysis Brief, and proposal-review seed.
+
+`proposal_review_decision` is the pre-render seed approval state.
+`human_review_status` is the customer delivery approval state. Customer delivery
+safety requires both values to be `approved`; internal draft checks may allow
+`proposal_review_decision: approved` while `human_review_status` is still
+`pending`. Internal drafts must not have `proposal_review_decision: pending`
+while `human_review_status` is already `approved`.
+
+`strategy_context` is not rendered directly in v1, but delivery safety requires
+minimum non-empty strategic context before customer delivery.
 
 It must follow 11 sections:
 

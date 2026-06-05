@@ -28,6 +28,29 @@ BLOCKED_PHRASES = [
 ]
 
 MONEY_PATTERN = re.compile(r"(?P<number>[0-9,]+)\s*만")
+REVIEW_DECISIONS = ("pending", "approved", "blocked")
+REQUIRED_REVIEW_HEADINGS = (
+    "Desired Change Check",
+    "SVM Check",
+    "Department Analysis Check",
+    "Commercial Check",
+    "Trust Indicator Check",
+)
+STRATEGY_REQUIRED_PATHS = (
+    ("desired_change", "raw_request"),
+    ("desired_change", "current_state"),
+    ("desired_change", "target_state"),
+    ("desired_change", "tension"),
+    ("desired_change", "change_type"),
+    ("desired_change", "required_asset"),
+    ("smallest_viable_market", "svm_status"),
+    ("smallest_viable_market", "first_audience"),
+    ("smallest_viable_market", "worldview"),
+    ("trust_indicators", "strategic_no_signal"),
+    ("trust_indicators", "judgment_benchmark"),
+    ("trust_indicators", "status_shift_narrative"),
+)
+SVM_EVIDENCE_TERMS = ("SVM", "대상", "audience", "시장", "1순위", "제출 대상")
 UNKNOWN_KEYS = ("harmless_unknown", "proposal_blocking_unknown", "price_affecting_unknown", "risk_unknown")
 DEPARTMENT_KEYS = (
     "marketing_planning",
@@ -76,6 +99,14 @@ def non_empty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+def text_items(value: Any) -> list[str]:
+    if isinstance(value, str) and value.strip():
+        return [value]
+    if isinstance(value, list):
+        return string_items(value)
+    return []
+
+
 def string_items(value: Any) -> list[str]:
     if not isinstance(value, list):
         return []
@@ -91,12 +122,14 @@ def collect_department_text(department_value: Any) -> list[str]:
 
     items: list[str] = []
     for field in DEPARTMENT_FIELDS:
-        value = department_value.get(field)
-        if isinstance(value, str) and value.strip():
-            items.append(value)
-        elif isinstance(value, list):
-            items.extend(string_items(value))
+        items.extend(text_items(department_value.get(field)))
     return items
+
+
+def collect_department_field_text(department_value: Any, field: str) -> list[str]:
+    if not isinstance(department_value, dict):
+        return []
+    return text_items(department_value.get(field))
 
 
 def is_structured_department(value: Any) -> bool:
@@ -106,7 +139,71 @@ def is_structured_department(value: Any) -> bool:
 def has_minimum_analysis(value: Any) -> bool:
     if not is_structured_department(value):
         return False
-    return bool(collect_department_text(value.get("diagnosis")) or collect_department_text(value.get("recommendation")))
+    return bool(collect_department_field_text(value, "diagnosis") or collect_department_field_text(value, "recommendation"))
+
+
+def has_any_field_text(value: Any, fields: tuple[str, ...]) -> bool:
+    if not is_structured_department(value):
+        return False
+    return any(collect_department_field_text(value, field) for field in fields)
+
+
+def parse_frontmatter(text: str) -> tuple[dict[str, str] | None, str]:
+    if not text.startswith("---\n"):
+        return None, text
+    end_index = text.find("\n---", 4)
+    if end_index == -1:
+        return {}, text
+
+    raw_frontmatter = text[4:end_index]
+    body_start = end_index + len("\n---")
+    if body_start < len(text) and text[body_start] == "\n":
+        body_start += 1
+    fields: dict[str, str] = {}
+    for line in raw_frontmatter.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if ":" not in stripped:
+            continue
+        key, value = stripped.split(":", 1)
+        fields[key.strip()] = value.strip().strip('"').strip("'")
+    return fields, text[body_start:]
+
+
+def read_proposal_review(client_dir: Path) -> str | None:
+    path = client_dir / "proposal-review.md"
+    if not path.exists():
+        return None
+    return path.read_text(encoding="utf-8")
+
+
+def extract_review_decision(review_text: str, errors: list[str]) -> tuple[str | None, bool]:
+    frontmatter, body = parse_frontmatter(review_text)
+    if frontmatter is not None:
+        if frontmatter.get("review_type") != "proposal_review_seed":
+            errors.append("proposal-review.md frontmatter review_type must be proposal_review_seed")
+        if frontmatter.get("review_stage") != "pre_render":
+            errors.append("proposal-review.md frontmatter review_stage must be pre_render")
+        decision = frontmatter.get("proposal_review_decision")
+        if decision not in REVIEW_DECISIONS:
+            errors.append("proposal-review.md frontmatter proposal_review_decision must be pending, approved, or blocked")
+            return None, True
+        return decision, True
+
+    match = re.search(r"(?im)^\s*(?:-\s*)?Decision:\s*(pending|approved|blocked)\s*$", body)
+    if match:
+        return match.group(1).lower(), False
+    return None, False
+
+
+def get_nested(data: dict[str, Any], path: tuple[str, ...]) -> Any:
+    value: Any = data
+    for key in path:
+        if not isinstance(value, dict):
+            return None
+        value = value.get(key)
+    return value
 
 
 def unknown_items(data: dict[str, Any], key: str) -> list[str]:
@@ -256,6 +353,94 @@ def check_pricing_items(data: dict[str, Any], html_text: str, errors: list[str])
             errors.append(f"pricing_items[{index}] missing included_rounds")
 
 
+def check_proposal_review_seed(
+    client_dir: Path,
+    data: dict[str, Any],
+    delivery_gate: bool,
+    errors: list[str],
+) -> tuple[str | None, str]:
+    review_text = read_proposal_review(client_dir)
+    if review_text is None:
+        errors.append("proposal-review.md missing from client directory")
+        return None, ""
+
+    for heading in REQUIRED_REVIEW_HEADINGS:
+        if f"## {heading}" not in review_text:
+            errors.append(f"proposal-review.md missing heading: {heading}")
+
+    decision, _has_frontmatter = extract_review_decision(review_text, errors)
+    human_status = data.get("human_review_status")
+
+    if decision is None:
+        errors.append("proposal_review_decision missing from frontmatter and legacy body Decision fallback")
+    elif decision == "blocked":
+        errors.append("proposal_review_decision is blocked")
+    elif decision == "pending" and human_status == "approved":
+        errors.append("proposal_review_decision is pending while human_review_status is approved")
+    elif delivery_gate and decision != "approved":
+        errors.append("proposal_review_decision must be approved before delivery")
+
+    return decision, review_text
+
+
+def strategy_text_contains_confirmation_need(value: Any) -> bool:
+    if not non_empty_string(value):
+        return False
+    text = value.strip()
+    return "1순위" in text and ("확인" in text or "필요" in text)
+
+
+def contains_svm_evidence(text: str) -> bool:
+    return any(term in text for term in SVM_EVIDENCE_TERMS)
+
+
+def has_svm_structured_evidence(data: dict[str, Any], review_text: str) -> bool:
+    first_audience = get_nested(data, ("strategy_context", "smallest_viable_market", "first_audience"))
+    if strategy_text_contains_confirmation_need(first_audience):
+        return True
+
+    handoff = data.get("department_handoff")
+    if isinstance(handoff, dict):
+        for department in handoff.values():
+            if not isinstance(department, dict):
+                continue
+            for item in collect_department_field_text(department, "missing_inputs"):
+                if contains_svm_evidence(item):
+                    return True
+
+    for item in string_items(data.get("assumptions")) + string_items(data.get("assumption_locks")):
+        if contains_svm_evidence(item):
+            return True
+
+    return contains_svm_evidence(review_text) and ("확인" in review_text or "필요" in review_text)
+
+
+def check_strategy_context_for_delivery(
+    data: dict[str, Any],
+    review_text: str,
+    delivery_gate: bool,
+    errors: list[str],
+) -> None:
+    if not delivery_gate:
+        return
+
+    strategy = data.get("strategy_context")
+    if not isinstance(strategy, dict):
+        errors.append("strategy_context missing from proposal-data.json")
+        return
+
+    for path in STRATEGY_REQUIRED_PATHS:
+        value = get_nested(strategy, path)
+        if not non_empty_string(value):
+            errors.append(f"strategy_context.{'.'.join(path)} must be non-empty before delivery")
+
+    svm_status = get_nested(strategy, ("smallest_viable_market", "svm_status"))
+    if svm_status == "undefined":
+        errors.append("strategy_context.smallest_viable_market.svm_status is undefined before delivery")
+    elif svm_status == "broad" and not has_svm_structured_evidence(data, review_text):
+        errors.append("strategy_context.svm_status is broad but no SVM assumption or missing input is documented")
+
+
 def check_department_handoff(data: dict[str, Any], delivery_gate: bool, errors: list[str]) -> None:
     handoff = data.get("department_handoff")
     if not isinstance(handoff, dict):
@@ -270,6 +455,27 @@ def check_department_handoff(data: dict[str, Any], delivery_gate: bool, errors: 
         if is_structured_department(value):
             if delivery_gate and not has_minimum_analysis(value):
                 errors.append(f"department_handoff.{key} must include diagnosis or recommendation before delivery")
+            if delivery_gate and key == "risk_guard":
+                if not has_any_field_text(value, ("risks", "recommendation")):
+                    errors.append("department_handoff.risk_guard must include risks or recommendation before delivery")
+                if not has_any_field_text(value, ("client_safe_phrase", "proposal_points")):
+                    errors.append(
+                        "department_handoff.risk_guard must include client_safe_phrase or proposal_points before delivery"
+                    )
+            if delivery_gate and key == "proposal_writer":
+                if not has_any_field_text(value, ("recommendation",)):
+                    errors.append("department_handoff.proposal_writer must include recommendation before delivery")
+                if not has_any_field_text(value, ("proposal_points", "client_safe_phrase")):
+                    errors.append(
+                        "department_handoff.proposal_writer must include proposal_points or client_safe_phrase before delivery"
+                    )
+            if delivery_gate and key == "commercial_pricing":
+                if not has_any_field_text(value, ("price_impact",)):
+                    errors.append("department_handoff.commercial_pricing must include price_impact before delivery")
+                if not has_any_field_text(value, ("risks", "client_safe_phrase")):
+                    errors.append(
+                        "department_handoff.commercial_pricing must include risks or client_safe_phrase before delivery"
+                    )
         elif not isinstance(value, list):
             errors.append(f"department_handoff.{key} must be a legacy list or structured object")
 
@@ -336,6 +542,8 @@ def main() -> int:
 
     delivery_gate = not args.allow_pending
 
+    _review_decision, review_text = check_proposal_review_seed(client_dir, data, delivery_gate, errors)
+    check_strategy_context_for_delivery(data, review_text, delivery_gate, errors)
     check_request_lock(data, html_text, delivery_gate, errors)
     check_department_handoff(data, delivery_gate, errors)
     check_commercial_terms(data, html_text, errors)

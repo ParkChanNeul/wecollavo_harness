@@ -1,5 +1,7 @@
 # WeCollavo Live Execution Harness
 
+Last updated: 2026-06-05
+
 Read `docs/source-of-truth.md` first, then `docs/language-contract.md`,
 `docs/department-analysis-method.md`, `docs/wecollavo-interview.md`, and
 `docs/proposal-review.md`.
@@ -56,6 +58,8 @@ client.json
 - `proposal-data.json` is a post-lock artifact. Do not create it while
   `request_lock_status` is `open` or `partial`.
 - `proposal-review.md` is a pre-render seed, not after-HTML QA.
+- `proposal_review_decision` is pre-render seed approval; `human_review_status`
+  is customer delivery approval. Delivery gate requires both to be `approved`.
 - Department Handoff must be a Department Analysis Brief, not a raw memo.
 - Field pricing is not the final estimate before material review.
 - Customer-facing output must not expose internal notes or domain-agent output.

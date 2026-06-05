@@ -1,5 +1,7 @@
 # WeCollavo Docs
 
+Last updated: 2026-06-05
+
 These are current v1 operating documents for the WeCollavo Live Execution
 Harness.
 
@@ -29,6 +31,8 @@ Core Policy documents are `service-catalog.md`, `pricing-policy.md`,
 `department-analysis-method.md`, `motion-policy.md`, and `security.md`.
 Front-stage interview rules are in `wecollavo-interview.md`, and pre-render
 proposal seed rules are in `proposal-review.md`.
+`proposal_review_decision` is the pre-render seed approval state;
+`human_review_status` is the customer delivery approval state.
 
 Client-specific source materials belong in `project/<client>/`.
 Harness execution files belong in `clients/<client>/`.

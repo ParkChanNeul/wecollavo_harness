@@ -13,6 +13,31 @@ Indicator를 점검한다.
 AI는 recommend만 할 수 있고, `human_review_status`를 `approved`로 바꾸는
 권한은 Channeul에게만 있다.
 
+`proposal_review_decision`은 pre-render seed 승인 상태다. 고객 전달 승인
+상태는 `proposal-data.json`의 `human_review_status`다. Delivery gate에서만
+두 값이 모두 `approved`여야 한다.
+
+## Required Frontmatter
+
+`docs/proposal-review.md`는 정책/가이드 문서이므로 파일 상단에 실제 YAML
+frontmatter를 갖지 않는다. 실제 client seed 파일인
+`clients/<client>/proposal-review.md`에는 아래 frontmatter를 반드시 넣는다.
+
+```yaml
+---
+review_type: proposal_review_seed
+review_stage: pre_render
+proposal_review_decision: pending
+reviewer: Channeul
+---
+```
+
+`review_type`은 `proposal_review_seed`, `review_stage`는 `pre_render`여야 한다.
+`proposal_review_decision`은 `pending | approved | blocked`만 허용한다.
+
+본문 `Decision:`은 legacy fallback이다. frontmatter가 없는 기존 파일에서만
+migration compatibility로 읽으며, 신규 seed는 frontmatter를 사용해야 한다.
+
 ## Desired Change Check
 
 - [ ] 고객이 요청한 제작물이 아니라, 그 뒤의 변화 목표가 정의되어 있다.
@@ -51,8 +76,11 @@ AI는 recommend만 할 수 있고, `human_review_status`를 `approved`로 바꾸
 - [ ] 30일 실행 계획에 예상되는 정체 구간과 대응책이 있다.
 - [ ] 빠른 제안이 날림처럼 보이지 않도록 근거가 제시되어 있다.
 
-## Decision
+## Legacy Decision Fallback
 
-- Reviewer: Channeul
-- Decision: pending
-- Notes:
+Frontmatter가 없는 legacy seed는 아래 본문 값을 fallback으로 읽을 수 있다.
+신규 seed에서는 사용하지 않는다.
+
+```text
+Decision: pending
+```

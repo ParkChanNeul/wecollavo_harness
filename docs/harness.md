@@ -1,5 +1,8 @@
 # Harness
 
+Status: v1.1 harness policy
+Last updated: 2026-06-05
+
 ## Architecture
 
 ```text
@@ -82,6 +85,12 @@ AI는 고객에게 직접 말하지 않는다. AI Interview Card는 찬늘에게
 `proposal-review.md`는 HTML 생성 후 검수 문서가 아니라 pre-render seed다.
 Request Lock과 Department Analysis Brief 이후, `proposal-data.json`을 만들기 전
 Desired Change, SVM, Scope, Pricing, Risk, Trust Indicator를 점검한다.
+
+`proposal_review_decision`은 pre-render seed 승인 상태이고,
+`human_review_status`는 고객 전달 승인 상태다. 내부 초안에서는 seed approval과
+human delivery approval이 불일치할 수 있지만, delivery gate에서는 두 값이 모두
+`approved`여야 한다. 단, `proposal_review_decision: pending`인 상태에서
+`human_review_status: approved`가 되는 것은 내부 초안에서도 허용하지 않는다.
 
 ## Proposal Renderer
 

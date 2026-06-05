@@ -34,6 +34,17 @@ seed. This is not an after-HTML QA document.
 
 Create or update `clients/<client>/proposal-review.md`.
 
+Client seed files must start with:
+
+```yaml
+---
+review_type: proposal_review_seed
+review_stage: pre_render
+proposal_review_decision: pending
+reviewer: Channeul
+---
+```
+
 Required checks:
 
 - Desired Change Check
@@ -41,12 +52,13 @@ Required checks:
 - Department Analysis Check
 - Commercial Check
 - Trust Indicator Check
-- Decision
+- proposal_review_decision in frontmatter
 
 ## Rules
 
 - Do not edit `proposal.html`.
 - Do not change `human_review_status` to `approved`; only Channeul can approve.
+- Do not set `proposal_review_decision` to `approved`; only Channeul can approve the pre-render seed.
 - Do not create proposal data directly from raw meeting notes.
 - Confirm that Department Handoff is a structured Department Analysis Brief, not a raw memo.
 - Keep customer-facing language separate from internal reasoning.

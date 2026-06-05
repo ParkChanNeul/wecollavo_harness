@@ -1,5 +1,8 @@
 # Workflow
 
+Status: v1.1 workflow policy
+Last updated: 2026-06-05
+
 The v1 workflow is data-first, but proposal data is created only after Request
 Lock.
 
@@ -62,6 +65,13 @@ It does not create `proposal-data.json` while `request_lock_status` is `open` or
 `proposal-review.md` is a pre-render seed, not after-HTML QA. It checks Desired
 Change, SVM, Department Analysis Brief, commercial terms, and trust indicators
 before proposal data is created.
+
+`proposal_review_decision` is the pre-render seed approval state.
+`human_review_status` is the customer delivery approval state. Internal drafts
+may have `proposal_review_decision: approved` while `human_review_status` is
+still `pending`, but must not have `proposal_review_decision: pending` while
+`human_review_status` is already `approved`. Customer delivery requires both
+values to be `approved`.
 
 ## Step 5. Proposal Data
 
