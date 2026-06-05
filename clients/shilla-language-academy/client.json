@@ -1,0 +1,34 @@
+{
+  "client_id": "shilla-language-academy",
+  "client_name": "신라어학원",
+  "industry": ["로컬 영어학원", "초중등 실용 회화 교육"],
+  "decision_makers": ["대표"],
+  "primary_contact": "미정",
+  "known_assets": [
+    "신라어학원/신라영어학원 상표 검토 완료",
+    "강사 이력 공개 가능"
+  ],
+  "source_materials": [
+    {
+      "path": "project/shilla-language-academy/",
+      "purpose": "원본 자료 없음 - 미팅 대화 기반 1차 제안"
+    }
+  ],
+  "constraints": [
+    "최종 가격, 범위, 납품 약속은 고객 전달 전 Channeul 확인을 거친다.",
+    "수업 사진이 없으므로 AI/대체 이미지는 실제 수업 사진처럼 표현하지 않는다.",
+    "브랜드 가이드라인, 월간 블로그 운영, 전단지 제작, 포스팅 대량 제작은 1차 범위에서 제외한다."
+  ],
+  "theme": {
+    "brand_name": "신라어학원",
+    "colors": {
+      "background": "#f7fbff",
+      "text": "#132238",
+      "accent": "#2563eb",
+      "muted": "#e8f1ff"
+    },
+    "typography": {
+      "font_family": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    }
+  }
+}
