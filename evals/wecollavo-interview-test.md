@@ -171,3 +171,55 @@ $wecollavo-interview /interview-start client_dir=clients/gt-engineering
 - 현재 `request_lock_status` 보고
 - 다음 독립 skill 추천
 - `proposal-data.json` 생성 금지
+
+## Scenario 12. AI Interview Card uses suggestion fields
+
+Input:
+
+```text
+$wecollavo-interview-turn
+고객 발화: 로고랑 랜딩페이지를 같이 하면 얼마인지 궁금합니다.
+```
+
+기대:
+
+- AI Interview Card 출력
+- `meeting_state_update_suggestions` 포함
+- `request_lock_candidate_status` 포함
+- AI Interview Card 문맥에서 `meeting_state_updates` 사용 금지
+- AI Interview Card 문맥에서 실제 계약 필드인 `request_lock_status`를 lock 실행 상태처럼 사용 금지
+- `request_lock_candidate_status`는 후보 판단이며 파일 업데이트나 lock 실행이 아님
+
+## Scenario 13. Non-linear unknown entry
+
+Input:
+
+```text
+$wecollavo-interview-unknown
+고객 발화: 잘 모르겠고 그냥 알아서 해주세요.
+```
+
+기대:
+
+- intake 없이도 conversational output 가능
+- Unknown classification 생성
+- choice question 생성
+- guided assumption candidate 생성
+- Assumption Lock을 파일에 기록하지 않음
+- Next Skill Handoff 포함
+
+## Scenario 14. Department brief without locked request returns missing condition
+
+Input:
+
+```text
+$wecollavo-department-brief
+고객 발화: 홈페이지랑 로고 견적이 궁금합니다.
+```
+
+기대:
+
+- Department Analysis Brief를 확정 생성하지 않음
+- `proposal-data.json` 생성 금지
+- locked request context가 없다는 missing condition 반환
+- 추천 next skill은 `wecollavo-request-lock` 또는 부족 unknown 처리 skill

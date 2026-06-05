@@ -49,8 +49,21 @@ through open questions, choice questions, and guided assumption candidates.
 - Do not treat customer uncertainty as failure.
 - Do not create `proposal-data.json`.
 
+## Non-linear Entry
+
+This skill can start directly from "모르겠다", "알아서 해달라", or any vague
+customer answer. It may draft choice questions and assumption candidates, but it
+must not record Assumption Lock in files without explicit `client_dir`.
+
 ## Next Skill Handoff
 
-- Use `$wecollavo-interview-turn` after the next customer answer.
-- Use `$wecollavo-request-lock` when blocking unknowns are resolved or an
-  assumption candidate is ready for approval.
+- Recommended Next Skill: `$wecollavo-interview-turn`
+- Why: Use after Channeul gets the next customer answer.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: no
+- Suggested Prompt: `$wecollavo-interview-turn 고객 발화: <고객의 다음 답변>`
+
+If blocking unknowns are resolved or an assumption candidate is ready for
+approval, recommend `$wecollavo-request-lock`. This handoff is a recommendation
+only.

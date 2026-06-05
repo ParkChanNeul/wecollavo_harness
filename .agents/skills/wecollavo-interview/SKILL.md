@@ -76,7 +76,20 @@ Workspace write/update/lock requires explicit `client_dir=clients/<client>`.
 If the user says "meeting-state.md에 반영해줘", "파일에 써줘", or "잠가줘"
 without `client_dir`, ask for `client_dir=clients/<client>` first.
 
+## Non-linear Entry
+
+Bare invocation routes to `$wecollavo-interview-intake` and does not read files.
+Legacy slash commands are mapped to independent skills only. The router must not
+execute the target skill, bypass gates, or infer a workspace.
+
 ## Next Skill Handoff
 
-Use the mapping above to recommend exactly one next skill. More detailed
-Cross-Skill Continue Protocol is intentionally deferred to a later phase.
+- Recommended Next Skill: `$wecollavo-interview-intake`
+- Why: Use for bare interview invocation without workspace context.
+- Ready To Continue: yes
+- Need Channeul Confirmation: yes
+- Requires client_dir: no
+- Suggested Prompt: `$wecollavo-interview-intake 고객 상황을 먼저 정리하자.`
+
+Use the mapping above to recommend exactly one next skill. This handoff is a
+recommendation only and does not automatically run the next skill.

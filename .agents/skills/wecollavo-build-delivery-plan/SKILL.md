@@ -43,3 +43,20 @@ Create or update `clients/<client>/delivery-plan.json`.
 - Do not include future production work as committed delivery.
 - Every task needs an owner, input, output, due window, and acceptance check.
 - Any missing client material must become a dependency, not an invisible assumption.
+
+## Non-linear Entry
+
+If accepted first engagement scope or delivery approval context is missing,
+return the missing condition instead of creating `delivery-plan.json`.
+
+## Next Skill Handoff
+
+- Recommended Next Skill: `$wecollavo-proof-loop`
+- Why: Use after the accepted delivery plan needs 30-day evidence criteria.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: yes
+- Suggested Prompt: `$wecollavo-proof-loop client_dir=clients/<client> 기준으로 proof-loop.json 기준을 잡아줘.`
+
+This handoff is a recommendation only. It does not automatically run the next
+skill.

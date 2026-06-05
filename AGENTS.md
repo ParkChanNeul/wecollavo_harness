@@ -1,6 +1,6 @@
 # WeCollavo Live Execution Harness
 
-Last updated: 2026-06-05
+Last updated: 2026-06-06
 
 Read `docs/source-of-truth.md` first, then `docs/language-contract.md`,
 `docs/department-analysis-method.md`, `docs/wecollavo-interview.md`, and
@@ -16,7 +16,7 @@ The architecture is:
 
 ```text
 Core Policy
-+ WeCollavo Interview Loop
++ WeCollavo Interview Subskills
 + Department Analysis Method
 + Client Workspace
 + Proposal Review Seed
@@ -30,7 +30,7 @@ Core Policy
 client.json
   -> meeting-state.md
 
-[WeCollavo Interview Loop]
+[Live Meeting Skills]
   -> wecollavo-interview-intake
   -> wecollavo-workspace-resume
   -> wecollavo-interview-turn
@@ -40,7 +40,9 @@ client.json
   -> wecollavo-meeting-close
 
 [Proposal Seed]
+  -> wecollavo-proposal-review
   -> proposal-review.md
+  -> wecollavo-build-proposal
   -> proposal-data.json
   -> proposal.html
 
@@ -62,6 +64,11 @@ client.json
 - `clients/gt-engineering` is a fixture, not the active client for bare
   invocation.
 - Workspace write/update/lock requires explicit `client_dir=clients/<client>`.
+- All `wecollavo-*` skills use `Next Skill Handoff` to recommend the next skill.
+  Handoff is not automatic execution.
+- Non-linear Entry returns conversational output or missing condition only. It
+  must not bypass workspace, Request Lock, Proposal Review Seed, or delivery
+  gates.
 - `proposal-data.json` is a post-lock artifact. Do not create it while
   `request_lock_status` is `open` or `partial`.
 - `proposal-review.md` is a pre-render seed, not after-HTML QA.

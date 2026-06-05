@@ -55,11 +55,11 @@ If Request Lock is missing, do not create `proposal-data.json`. Return:
 - missing lock conditions
 - remaining unknown types
 - whether Hard Locks or Assumption Locks are missing
-- recommended next `/interview-*` action
+- recommended next interview skill
 
 If Department Analysis Brief or proposal-review seed is missing or weak, do not
 create `proposal-data.json`. Return the missing condition and recommended next
-action: `/interview-handoff` or `$wecollavo-proposal-review`.
+action: `$wecollavo-department-brief` or `$wecollavo-proposal-review`.
 
 `proposal-data.json` is a post-lock artifact. Its template default
 `request_lock_status` is `locked`.
@@ -89,3 +89,23 @@ The HTML proposal must include these 11 sections:
 - Never present assumptions as confirmed facts.
 - If `assumptions` or `assumption_locks` exist, include a customer-safe assumption basis in the proposal.
 - Never expose AI Interview Card fields, internal notes, or domain-agent output in `proposal.html`.
+
+## Non-linear Entry
+
+If this skill is invoked before locked request, structured Department Analysis
+Brief, or approved proposal-review seed, do not create `proposal-data.json` and
+do not render `proposal.html`. Return missing condition and the recommended next
+skill.
+
+## Next Skill Handoff
+
+- Recommended Next Skill: `$wecollavo-build-delivery-plan`
+- Why: Use only after Channeul approves the generated proposal for delivery planning.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: yes
+- Suggested Prompt: `$wecollavo-build-delivery-plan client_dir=clients/<client> 승인된 1차 착수 범위를 delivery-plan.json으로 변환해줘.`
+
+If the build gate is not ready, set `Ready To Continue: no` and recommend
+`$wecollavo-request-lock`, `$wecollavo-department-brief`, or
+`$wecollavo-proposal-review` instead. This handoff is a recommendation only.

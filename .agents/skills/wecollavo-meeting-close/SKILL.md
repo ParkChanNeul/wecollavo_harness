@@ -5,7 +5,7 @@ description: Produce a safe WeCollavo meeting close, next action, and client-saf
 
 # WeCollavo Meeting Close
 
-Use this skill for `/interview-close`.
+Use this skill for the legacy `/interview-close` path.
 
 ## Read First
 
@@ -45,8 +45,21 @@ delivery, or approval status.
 - Do not write/update workspace files without explicit `client_dir`.
 - Do not create `proposal-data.json`.
 
+## Non-linear Entry
+
+This skill can be used at any point to produce a safe closing phrase. If Request
+Lock is not ready, do not speak as if the scope, price, or proposal is locked.
+Return the next missing condition and a safe next action.
+
 ## Next Skill Handoff
 
-- Use `$wecollavo-interview-turn` if the customer adds new information.
-- Use `$wecollavo-request-lock` if lock readiness should be checked.
-- Use `$wecollavo-proposal-review` only after Request Lock and Department Brief.
+- Recommended Next Skill: `$wecollavo-interview-turn`
+- Why: Use if the customer adds new information after the close.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: no
+- Suggested Prompt: `$wecollavo-interview-turn 고객 발화: <추가 답변>`
+
+If lock readiness should be checked, recommend `$wecollavo-request-lock`. Use
+`$wecollavo-proposal-review` only after Request Lock and Department Brief. This
+handoff is a recommendation only.

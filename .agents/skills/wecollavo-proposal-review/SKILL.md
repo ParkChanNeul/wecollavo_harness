@@ -62,3 +62,21 @@ Required checks:
 - Do not create proposal data directly from raw meeting notes.
 - Confirm that Department Handoff is a structured Department Analysis Brief, not a raw memo.
 - Keep customer-facing language separate from internal reasoning.
+
+## Non-linear Entry
+
+If this skill is invoked without Request Lock or structured Department Analysis
+Brief, return the missing condition and recommend `$wecollavo-request-lock` or
+`$wecollavo-department-brief`. Do not create or approve a seed from raw notes.
+
+## Next Skill Handoff
+
+- Recommended Next Skill: `$wecollavo-build-proposal`
+- Why: Use only after Channeul approves the pre-render proposal seed.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: yes
+- Suggested Prompt: `$wecollavo-build-proposal client_dir=clients/<client> approved proposal-review.md를 기준으로 proposal-data.json과 proposal.html을 생성해줘.`
+
+If `proposal_review_decision` is not approved, set `Ready To Continue: no` and
+return the missing approval condition. This handoff is a recommendation only.

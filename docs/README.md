@@ -1,6 +1,6 @@
 # WeCollavo Docs
 
-Last updated: 2026-06-05
+Last updated: 2026-06-06
 
 These are current v1 operating documents for the WeCollavo Live Execution
 Harness.
@@ -35,6 +35,10 @@ proposal seed rules are in `proposal-review.md`.
 independent skills such as `wecollavo-interview-intake`,
 `wecollavo-interview-turn`, `wecollavo-request-lock`, and
 `wecollavo-department-brief`.
+All `wecollavo-*` skills use `Next Skill Handoff` to recommend the next skill;
+handoff is not automatic execution. Non-linear Entry can return conversational
+output or missing condition, but it never bypasses workspace, Request Lock,
+Proposal Review Seed, or delivery gates.
 `proposal_review_decision` is the pre-render seed approval state;
 `human_review_status` is the customer delivery approval state.
 

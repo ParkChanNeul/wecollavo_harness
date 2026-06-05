@@ -45,8 +45,22 @@ interview. This skill is read-only.
 - Do not create `proposal-data.json`.
 - Do not treat `clients/gt-engineering` as active unless explicitly named.
 
+## Non-linear Entry
+
+This skill can start from an explicitly named workspace path or existing client
+id. It is read-only. If the workspace is only implied by recent work, customer
+name, or repo contents, return missing condition and ask for the explicit client
+workspace.
+
 ## Next Skill Handoff
 
-- Use `$wecollavo-interview-turn` for new customer utterance.
-- Use `$wecollavo-interview-unknown` when unknowns block the request.
-- Use `$wecollavo-request-lock` when lock readiness needs to be checked.
+- Recommended Next Skill: `$wecollavo-interview-turn`
+- Why: Use for the next customer utterance after read-only resume.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: no
+- Suggested Prompt: `$wecollavo-interview-turn client_dir=clients/<client> 고객 발화: <새 답변>`
+
+If unknowns block the request, recommend `$wecollavo-interview-unknown`. If lock
+readiness should be checked, recommend `$wecollavo-request-lock`. This handoff is
+a recommendation only.

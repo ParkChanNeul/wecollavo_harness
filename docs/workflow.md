@@ -1,7 +1,7 @@
 # Workflow
 
 Status: v1.1 workflow policy
-Last updated: 2026-06-05
+Last updated: 2026-06-06
 
 The v1 workflow is data-first, but proposal data is created only after Request
 Lock.
@@ -10,18 +10,19 @@ Lock.
 client.json
   -> meeting-state.md
 
-[WeCollavo Interview Loop]
-  -> /interview-start
-  -> /interview-turn 반복
-  -> /interview-pivot
-  -> /interview-unknown
-  -> /interview-lock-check
-  -> /interview-lock
-  -> /interview-handoff
-  -> /interview-close
+[Live Meeting Skills]
+  -> wecollavo-interview-intake
+  -> wecollavo-workspace-resume
+  -> wecollavo-interview-turn
+  -> wecollavo-interview-unknown
+  -> wecollavo-request-lock
+  -> wecollavo-department-brief
+  -> wecollavo-meeting-close
 
 [Proposal Seed]
+  -> wecollavo-proposal-review
   -> proposal-review.md
+  -> wecollavo-build-proposal
   -> proposal-data.json
   -> proposal.html
 
@@ -45,7 +46,7 @@ client-safe phrase.
 
 The default `request_lock_status` in `meeting-state.md` is `open`.
 
-## Step 3. WeCollavo Interview Subskills
+## Step 3. Live Meeting Skills
 
 The interview loop turns a raw customer request into a proposal-ready request.
 It does not create `proposal-data.json` while `request_lock_status` is `open` or
@@ -53,6 +54,22 @@ It does not create `proposal-data.json` while `request_lock_status` is `open` or
 
 `wecollavo-interview` is a router/intake alias. It does not execute the
 subcommands directly; it recommends the independent skill to use next.
+
+The main flow is skill-name based:
+
+- `wecollavo-interview-intake`
+- `wecollavo-workspace-resume`
+- `wecollavo-interview-turn`
+- `wecollavo-interview-unknown`
+- `wecollavo-request-lock`
+- `wecollavo-department-brief`
+- `wecollavo-meeting-close`
+
+Non-linear Entry is allowed only as conversational support or missing condition
+return. It is not permission to bypass Request Lock, Proposal Review Seed, or
+workspace write gates.
+
+### Backward Compatibility Mapping
 
 - `/interview-start`: use `wecollavo-interview-intake` by default, or `wecollavo-workspace-resume` for explicit workspace read.
 - `/interview-turn`: use `wecollavo-interview-turn`.
@@ -90,7 +107,7 @@ values to be `approved`.
 `request_lock_status` is `locked`.
 
 If `request_lock_status` is `open` or `partial`, return missing lock conditions
-and the recommended `/interview-*` action instead of creating proposal data.
+and the recommended interview skill instead of creating proposal data.
 
 `proposal-data.json` must be created from locked `meeting-state.md`, structured
 Department Analysis Brief, and `proposal-review.md` seed.

@@ -1,7 +1,7 @@
 # Proposal HTML System
 
 Status: v1.1 proposal renderer policy
-Last updated: 2026-06-05
+Last updated: 2026-06-06
 
 The proposal is generated static HTML in v1.
 
@@ -14,7 +14,7 @@ python scripts/render_proposal.py clients/<client>
 
 `proposal-data.json` is a post-lock artifact. Do not create or render it from
 raw meeting notes while `request_lock_status` is `open` or `partial`. First use
-the WeCollavo Interview Loop to create Request Lock and structured Department
+WeCollavo Interview Subskills to create Request Lock and structured Department
 Analysis Brief.
 
 `proposal-review.md` is a pre-render seed, not an after-HTML QA document.

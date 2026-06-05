@@ -5,7 +5,7 @@ description: Check WeCollavo request lock readiness and draft Hard Lock / Assump
 
 # WeCollavo Request Lock
 
-Use this skill for `/interview-lock-check` and `/interview-lock`.
+Use this skill for legacy `/interview-lock-check` and `/interview-lock` paths.
 
 ## Read First
 
@@ -51,8 +51,22 @@ File reflection/write/update/lock is allowed only when explicit
 - Do not create Department Analysis Brief here; route to
   `$wecollavo-department-brief`.
 
+## Non-linear Entry
+
+This skill can be invoked directly to draft lock readiness from current
+conversation. Without explicit `client_dir`, it may return only conversational
+Hard Lock / Assumption Lock draft items and missing lock conditions. It must not
+write/update/lock workspace files.
+
 ## Next Skill Handoff
 
-- Use `$wecollavo-interview-unknown` if blocking unknowns remain.
-- Use `$wecollavo-department-brief` after `request_lock_status: locked`.
-- Use `$wecollavo-meeting-close` if the meeting should end before lock.
+- Recommended Next Skill: `$wecollavo-department-brief`
+- Why: Use after the request is ready to lock and Department Analysis Brief is needed.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: yes | no
+- Suggested Prompt: `$wecollavo-department-brief client_dir=clients/<client> locked request를 기준으로 Department Analysis Brief를 만들어줘.`
+
+If blocking unknowns remain, recommend `$wecollavo-interview-unknown`. If the
+meeting should end before lock, recommend `$wecollavo-meeting-close`. This
+handoff is a recommendation only.

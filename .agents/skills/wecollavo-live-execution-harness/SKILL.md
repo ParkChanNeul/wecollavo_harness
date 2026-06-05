@@ -9,7 +9,8 @@ Deprecated wrapper. Use `$wecollavo-interview` for live interaction, unknown
 handling, request lock checks, and department handoff.
 
 Use this skill only when an older prompt explicitly asks for the live execution
-harness name. Route the actual work to the appropriate `/interview-*` command.
+harness name. Route the actual work to the appropriate independent interview
+skill.
 
 ## Read First
 
@@ -29,7 +30,8 @@ You are the AI backchannel for Channeul. You do not speak to the client. You hel
 Channeul identify the real bottleneck, ask the next useful question, avoid bad
 promises, and turn meeting information into `meeting-state.md`.
 
-For active live interaction, use `$wecollavo-interview`.
+For active live interaction, use `$wecollavo-interview` as the router or the
+specific interview subskill directly.
 
 ## Inputs
 
@@ -40,7 +42,9 @@ For active live interaction, use `$wecollavo-interview`.
 
 ## Output
 
-Create or update `clients/<client>/meeting-state.md`.
+Recommend the appropriate interview subskill. Create or update
+`clients/<client>/meeting-state.md` only when explicit `client_dir=clients/<client>`
+is provided and the user explicitly asks for a workspace update.
 
 Required sections:
 
@@ -65,3 +69,21 @@ Required sections:
 - Do not expose internal warnings, agent notes, or risk language directly to the client.
 - If a fact is not confirmed, mark it as an assumption.
 - Do not create `proposal-data.json` until `request_lock_status` is `locked`, Department Analysis Brief exists, and `proposal-review.md` is ready.
+
+## Non-linear Entry
+
+This deprecated wrapper must not infer an active workspace or bypass subskill
+gates. If a legacy prompt lacks `client_dir`, route to `$wecollavo-interview` or
+`$wecollavo-interview-intake`.
+
+## Next Skill Handoff
+
+- Recommended Next Skill: `$wecollavo-interview`
+- Why: Use the router to map the legacy harness request to the correct independent skill.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: no
+- Suggested Prompt: `$wecollavo-interview 지금 요청을 어느 interview subskill로 이어가야 하는지 안내해줘.`
+
+If the next step clearly needs workspace write/update/lock, ask for
+`client_dir=clients/<client>` first. This handoff is a recommendation only.

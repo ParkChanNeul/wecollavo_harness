@@ -5,7 +5,7 @@ description: Create a structured WeCollavo Department Analysis Brief after Reque
 
 # WeCollavo Department Brief
 
-Use this skill for `/interview-handoff` after Request Lock.
+Use this skill for the legacy `/interview-handoff` path after Request Lock.
 
 ## Read First
 
@@ -46,6 +46,9 @@ Each department should include diagnosis, recommendation, scope_impact,
 price_impact, risks, missing_inputs, proposal_points, client_safe_phrase, and
 trust_indicator.
 
+If Request Lock context is missing or not locked, return the missing lock
+condition instead of creating a Department Analysis Brief.
+
 ## Forbidden
 
 - Do not create `proposal-data.json`.
@@ -55,7 +58,23 @@ trust_indicator.
 - Do not write/update workspace files without explicit `client_dir`.
 - Do not expose internal risks as customer-facing copy.
 
+## Non-linear Entry
+
+This skill can be invoked directly, but direct invocation does not bypass
+Request Lock. If locked request context, Hard Locks, or Assumption Locks are
+missing, return missing condition and recommend `$wecollavo-request-lock`.
+
 ## Next Skill Handoff
 
-- Use `$wecollavo-proposal-review` after the Department Analysis Brief is ready.
-- Use `$wecollavo-meeting-close` if the meeting needs a closing summary first.
+- Recommended Next Skill: `$wecollavo-proposal-review`
+- Why: Use after the structured Department Analysis Brief is ready.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: yes | no
+- Suggested Prompt: `$wecollavo-proposal-review client_dir=clients/<client> proposal-review.md pre-render seed를 만들어줘.`
+
+If the meeting needs a client-safe close first, recommend
+`$wecollavo-meeting-close` instead.
+
+This handoff is a recommendation only. It does not automatically run the next
+skill.

@@ -5,8 +5,8 @@ description: Start a WeCollavo interview in intake-first mode without reading or
 
 # WeCollavo Interview Intake
 
-Use this skill for bare `$wecollavo-interview`, bare `/interview-start`, or any
-interview start request without an explicit workspace.
+Use this skill for bare `$wecollavo-interview`, legacy bare start command, or
+any interview start request without an explicit workspace.
 
 ## Read First
 
@@ -62,8 +62,19 @@ Return:
 - Do not write, update, or lock `meeting-state.md`.
 - Do not create `proposal-data.json`.
 
+## Non-linear Entry
+
+This skill can always start. It does not require prior state and must not read,
+write, update, or lock client workspace files.
+
 ## Next Skill Handoff
 
-- Use `$wecollavo-interview-turn` when Channeul provides customer utterance.
-- Use `$wecollavo-workspace-resume` only when the user explicitly names a
-  workspace path or existing client id.
+- Recommended Next Skill: `$wecollavo-interview-turn`
+- Why: Use when Channeul provides the first customer utterance.
+- Ready To Continue: yes | no
+- Need Channeul Confirmation: yes
+- Requires client_dir: no
+- Suggested Prompt: `$wecollavo-interview-turn 고객 발화: <고객이 말한 내용>`
+
+If the user explicitly names a workspace path or existing client id, recommend
+`$wecollavo-workspace-resume` instead. This handoff is a recommendation only.

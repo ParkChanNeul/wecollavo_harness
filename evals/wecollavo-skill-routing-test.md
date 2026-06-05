@@ -19,6 +19,9 @@ Expected:
 
 ## Scenario 2. Slash command mapping
 
+This mapping is backward compatibility guidance only. The main workflow diagram
+must use skill names, not slash commands.
+
 Expected mapping:
 
 - `/interview-start` -> `wecollavo-interview-intake` or `wecollavo-workspace-resume`
@@ -29,6 +32,19 @@ Expected mapping:
 - `/interview-lock` -> `wecollavo-request-lock`
 - `/interview-handoff` -> `wecollavo-department-brief`
 - `/interview-close` -> `wecollavo-meeting-close`
+
+## Scenario 2A. Workflow diagram is skill-name based
+
+Expected:
+
+- `docs/workflow.md` top diagram contains `[Live Meeting Skills]`
+- top diagram lists `wecollavo-interview-intake`
+- top diagram lists `wecollavo-interview-turn`
+- top diagram lists `wecollavo-request-lock`
+- top diagram lists `wecollavo-department-brief`
+- `[Proposal Seed]` lists `wecollavo-proposal-review`
+- `[Proposal Seed]` lists `wecollavo-build-proposal`
+- slash commands appear only in Backward Compatibility or legacy eval contexts
 
 ## Scenario 3. Fixture is not active client
 
@@ -88,3 +104,34 @@ Expected:
 - Can create a conversational Department Analysis Brief
 - Can update the explicit workspace only if asked to write
 - Must not create `proposal-data.json`
+
+## Scenario 7. Router handoff is not execution
+
+Input:
+
+```text
+$wecollavo-interview /interview-turn
+고객 발화: 홈페이지랑 로고 견적이 궁금합니다.
+```
+
+Expected:
+
+- Router recommends `$wecollavo-interview-turn`
+- Router does not claim the target skill already ran
+- Router does not read/write/update/lock files
+- Handoff includes Recommended Next Skill, Why, Ready To Continue,
+  Need Channeul Confirmation, Requires client_dir, Suggested Prompt
+
+## Scenario 8. Continue wording follows previous handoff
+
+Input:
+
+```text
+계속
+```
+
+Expected:
+
+- Continue from the previous Recommended Next Skill only
+- If the next skill needs workspace read/write/update/lock and `client_dir` is missing, ask for `client_dir=clients/<client>` first
+- Does not infer `clients/gt-engineering` as active client
