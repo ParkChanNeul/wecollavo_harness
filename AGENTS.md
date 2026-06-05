@@ -31,12 +31,13 @@ client.json
   -> meeting-state.md
 
 [WeCollavo Interview Loop]
-  -> Desired Change
-  -> SVM / Worldview
-  -> Unknown Handling
-  -> Assumption Lock
-  -> request_lock_status: locked
-  -> Department Analysis Brief
+  -> wecollavo-interview-intake
+  -> wecollavo-workspace-resume
+  -> wecollavo-interview-turn
+  -> wecollavo-interview-unknown
+  -> wecollavo-request-lock
+  -> wecollavo-department-brief
+  -> wecollavo-meeting-close
 
 [Proposal Seed]
   -> proposal-review.md
@@ -55,6 +56,12 @@ client.json
 - AI proposes judgment. Channeul makes the final Linchpin decision.
 - Customer requests and actual bottlenecks must be separated.
 - Unknown customer answers are diagnosis input, not failure.
+- `wecollavo-interview` is a router/intake alias. Step-level interview work uses
+  independent subskills.
+- Bare `$wecollavo-interview` must not read or write client workspaces.
+- `clients/gt-engineering` is a fixture, not the active client for bare
+  invocation.
+- Workspace write/update/lock requires explicit `client_dir=clients/<client>`.
 - `proposal-data.json` is a post-lock artifact. Do not create it while
   `request_lock_status` is `open` or `partial`.
 - `proposal-review.md` is a pre-render seed, not after-HTML QA.

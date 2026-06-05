@@ -45,20 +45,31 @@ client-safe phrase.
 
 The default `request_lock_status` in `meeting-state.md` is `open`.
 
-## Step 3. WeCollavo Interview Loop
+## Step 3. WeCollavo Interview Subskills
 
 The interview loop turns a raw customer request into a proposal-ready request.
 It does not create `proposal-data.json` while `request_lock_status` is `open` or
 `partial`.
 
-- `/interview-start`: initialize the live state from `client.json` and source context.
-- `/interview-turn`: process each customer utterance and return the next question.
-- `/interview-pivot`: change direction when the real bottleneck differs from the stated request.
-- `/interview-unknown`: classify unknowns and guide choices.
-- `/interview-lock-check`: decide whether enough information exists for Request Lock.
-- `/interview-lock`: record Hard Locks and Assumption Locks.
-- `/interview-handoff`: prepare structured Department Analysis Brief.
-- `/interview-close`: close the meeting with client-safe next steps.
+`wecollavo-interview` is a router/intake alias. It does not execute the
+subcommands directly; it recommends the independent skill to use next.
+
+- `/interview-start`: use `wecollavo-interview-intake` by default, or `wecollavo-workspace-resume` for explicit workspace read.
+- `/interview-turn`: use `wecollavo-interview-turn`.
+- `/interview-pivot`: use `wecollavo-interview-turn` as a turn-level pivot.
+- `/interview-unknown`: use `wecollavo-interview-unknown`.
+- `/interview-lock-check`: use `wecollavo-request-lock`.
+- `/interview-lock`: use `wecollavo-request-lock`.
+- `/interview-handoff`: use `wecollavo-department-brief`.
+- `/interview-close`: use `wecollavo-meeting-close`.
+
+Workspace read is allowed only when the user directly names a `clients/<client>`
+path or clearly names an existing client id. Never infer a workspace from recent
+work, customer name, context inference, or repo contents. Workspace
+write/update/lock requires explicit `client_dir=clients/<client>`.
+
+`clients/gt-engineering` is a fixture. It is not the active client for bare
+interview invocation.
 
 ## Step 4. Proposal Review Seed
 

@@ -31,6 +31,10 @@ Core Policy documents are `service-catalog.md`, `pricing-policy.md`,
 `department-analysis-method.md`, `motion-policy.md`, and `security.md`.
 Front-stage interview rules are in `wecollavo-interview.md`, and pre-render
 proposal seed rules are in `proposal-review.md`.
+`wecollavo-interview` is a router/intake alias. Step-level interview work uses
+independent skills such as `wecollavo-interview-intake`,
+`wecollavo-interview-turn`, `wecollavo-request-lock`, and
+`wecollavo-department-brief`.
 `proposal_review_decision` is the pre-render seed approval state;
 `human_review_status` is the customer delivery approval state.
 

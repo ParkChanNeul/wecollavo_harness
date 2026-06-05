@@ -104,3 +104,70 @@ Status: v1 interview loop validation
 - ask_next에 가장 먼저 설득해야 할 고객군 질문 포함
 - "모두"를 그대로 타겟으로 lock하지 않음
 - 필요하면 assumption lock 후보 생성
+
+## Scenario 8. Bare invocation should ask intake questions
+
+Input:
+
+```text
+$wecollavo-interview
+```
+
+기대:
+
+- 기존 client workspace를 읽지 않음
+- `clients/gt-engineering`을 active client로 추정하지 않음
+- 기존 `request_lock_status`를 언급하지 않음
+- `# WeCollavo Interview Intake` 출력
+- 신규/기존 고객 여부, 고객명, 미팅 목적, 첫 고객 발화, 관심 서비스, 예산/일정/자료 상태, workspace 연결 여부를 질문
+- Next action은 `wecollavo-interview-turn`
+
+## Scenario 9. interview-turn without client_dir must not write files
+
+Input:
+
+```text
+$wecollavo-interview /interview-turn
+고객 발화: 홈페이지랑 로고 견적이 궁금합니다.
+```
+
+기대:
+
+- existing client workspace를 읽지 않음
+- `meeting-state.md`를 업데이트하지 않음
+- AI Interview Card 출력
+- 다음 유용한 질문 생성
+- workspace update는 explicit `client_dir=clients/<client>` 또는 explicit write request with client_dir가 필요하다고 안내
+
+## Scenario 10. Write request without client_dir must ask for client_dir
+
+Input:
+
+```text
+$wecollavo-interview /interview-turn
+고객 발화: 홈페이지랑 로고 견적이 궁금합니다.
+meeting-state.md에 반영해줘.
+```
+
+기대:
+
+- `clients/gt-engineering`을 추정하지 않음
+- 어떤 workspace도 write/update/lock 하지 않음
+- 먼저 `client_dir=clients/<client>`를 요청
+- Hard Lock / Assumption Lock 기록도 파일 반영이 아니라 초안으로만 제시
+
+## Scenario 11. Explicit workspace read gate
+
+Input:
+
+```text
+$wecollavo-interview /interview-start client_dir=clients/gt-engineering
+```
+
+기대:
+
+- `clients/gt-engineering`은 fixture이지만 명시되었으므로 read 허용
+- `clients/gt-engineering/client.json`과 `clients/gt-engineering/meeting-state.md`를 읽을 수 있음
+- 현재 `request_lock_status` 보고
+- 다음 독립 skill 추천
+- `proposal-data.json` 생성 금지

@@ -37,12 +37,13 @@ client.json
   -> meeting-state.md
 
 [WeCollavo Interview Loop]
-  -> Desired Change
-  -> SVM / Worldview
-  -> Unknown Handling
-  -> Assumption Lock
-  -> Request Lock
-  -> Department Analysis Brief
+  -> wecollavo-interview-intake
+  -> wecollavo-workspace-resume
+  -> wecollavo-interview-turn
+  -> wecollavo-interview-unknown
+  -> wecollavo-request-lock
+  -> wecollavo-department-brief
+  -> wecollavo-meeting-close
 
 [Proposal Seed]
   -> proposal-review.md
@@ -59,6 +60,9 @@ client.json
 - 원본 고객 자료: `project/gt-engineering/`
 - 실행 산출물: `clients/gt-engineering/`
 - 고객용 HTML 제안서: `clients/gt-engineering/proposal.html`
+
+`clients/gt-engineering`은 검증 fixture다. Bare `$wecollavo-interview`의 active
+client로 추정하지 않는다.
 
 ## 실행 명령
 
@@ -86,6 +90,10 @@ Core Policy 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`
 
 v1의 Proposal Renderer는 static `proposal.html`만 생성한다. HyperFrames는
 v1.5 이후 선택 output adapter이며, 별도 데이터 구조를 만들지 않는다.
+
+`wecollavo-interview`는 router/intake alias다. Bare invocation은 client
+workspace를 읽지 않고 intake 안내만 하며, 단계별 작업은 독립 skill로 진행한다.
+Workspace write/update/lock은 `client_dir=clients/<client>`가 있을 때만 가능하다.
 
 `proposal-review.md`는 HTML 생성 후 검수 문서가 아니라 pre-render seed다.
 실제 client seed 파일은 `proposal_review_decision` frontmatter를 사용한다.

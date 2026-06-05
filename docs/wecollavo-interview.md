@@ -1,7 +1,7 @@
 # WeCollavo Interview
 
-Status: v1 front-stage interview doctrine
-Last updated: 2026-06-04
+Status: v1.1 front-stage interview subskill routing doctrine
+Last updated: 2026-06-05
 
 ## Purpose
 
@@ -51,34 +51,109 @@ Linchpin Judgment
 이 식은 견적 계산기가 아니다. 미팅 중 빠진 맥락을 찾고, 어떤 정보가 가격과
 범위를 흔드는지 판단하기 위한 진단 프레임이다.
 
-## Interview Loop
+## Subskill Routing
 
 ```text
-client.json
-  -> meeting-state.md
+wecollavo-interview
+  -> router/intake alias only
 
-[WeCollavo Interview Loop]
-  -> /interview-start
-  -> /interview-turn
-  -> /interview-pivot
-  -> /interview-unknown
-  -> /interview-lock-check
-  -> /interview-lock
-  -> /interview-handoff
-  -> /interview-close
+[Interview Subskills]
+  -> wecollavo-interview-intake
+  -> wecollavo-workspace-resume
+  -> wecollavo-interview-turn
+  -> wecollavo-interview-unknown
+  -> wecollavo-request-lock
+  -> wecollavo-department-brief
+  -> wecollavo-meeting-close
 
 [After Request Lock]
+  -> proposal-review.md
   -> proposal-data.json
   -> proposal.html
   -> delivery-plan.json
   -> proof-loop.json
 ```
 
-`/interview-turn`은 반복 실행한다. 고객 발화가 새로 들어올 때마다
-`meeting-state.md`를 갱신하고 AI Interview Card를 만든다.
+`wecollavo-interview`는 compatibility router이자 intake alias다. 실제 하위
+명령을 실행하지 않고, 사용할 독립 skill을 추천한다.
 
-`wecollavo-interview`는 loop/skill이다. 파일처럼 `wecollavo-interview`를
-생성하지 않는다.
+Slash command mapping은 backward compatibility 안내용이다.
+
+- `/interview-start` -> `wecollavo-interview-intake` 또는 `wecollavo-workspace-resume`
+- `/interview-turn` -> `wecollavo-interview-turn`
+- `/interview-pivot` -> `wecollavo-interview-turn`
+- `/interview-unknown` -> `wecollavo-interview-unknown`
+- `/interview-lock-check` -> `wecollavo-request-lock`
+- `/interview-lock` -> `wecollavo-request-lock`
+- `/interview-handoff` -> `wecollavo-department-brief`
+- `/interview-close` -> `wecollavo-meeting-close`
+
+## Invocation Modes
+
+### Intake Mode - default
+
+Bare `$wecollavo-interview`, bare `/interview-start`, and interview starts
+without explicit workspace context must use `wecollavo-interview-intake`.
+
+Intake Mode does not read, write, update, or lock client workspace files.
+It outputs an Interview Intake Card and asks for customer context first.
+
+`clients/gt-engineering` is a fixture. It must never be inferred as the active
+client for a bare invocation.
+
+### Workspace Read Mode
+
+Workspace read is allowed only when the user directly names a
+`clients/<client>` path or clearly names an existing client id. Recent work,
+customer name inference, context inference, and the fact that the repo has a
+single client are not valid read triggers.
+
+Workspace Read Mode uses `wecollavo-workspace-resume` and remains read-only.
+
+### Temporary Turn Mode
+
+`/interview-turn` without `client_dir` uses `wecollavo-interview-turn` as
+temporary state only. It may output an AI Interview Card, next question,
+unknowns, and client-safe phrase. It must not read or update `meeting-state.md`.
+
+### Workspace Write / Update / Lock Mode
+
+Workspace write, update, or lock requires explicit
+`client_dir=clients/<client>`. If the user says "meeting-state.md에 반영해줘",
+"파일에 써줘", or "잠가줘" without `client_dir`, ask for
+`client_dir=clients/<client>` first.
+
+## Interview Intake Card
+
+Bare intake output should use:
+
+```text
+# WeCollavo Interview Intake
+
+## Before We Start
+아직 client workspace를 읽지 않았습니다.
+고객 정보를 먼저 입력해 주세요.
+
+## Intake Questions
+1. 신규 고객인가요, 기존 고객인가요?
+2. 고객/회사명은 무엇인가요?
+3. 오늘 미팅 목적은 무엇인가요?
+4. 고객이 처음 한 말 또는 문의 내용은 무엇인가요?
+5. 관심 서비스는 무엇인가요?
+   - 홈페이지 / 랜딩페이지 / 로고 / 브로셔 / 회사소개서 / 브랜드 키트 / 콘텐츠 / 마케팅 운영 / 기타
+6. 예산, 일정, 자료 상태 중 이미 알고 있는 것이 있나요?
+7. 기존 client workspace에 연결할까요, 아니면 임시 인터뷰로 진행할까요?
+
+## Next Action
+고객 발화를 받으면 `wecollavo-interview-turn`으로 AI Interview Card를 생성합니다.
+기존 워크스페이스를 사용하려면 `client_dir=clients/<client>`를 명시해 주세요.
+```
+
+## Subskill Handoff
+
+1차 refactor의 Next Skill Handoff는 단순 다음 skill 추천만 포함한다. Cross-Skill
+Continue Protocol, handoff schema, Non-linear Entry 세부 복구 규칙은 2차
+보강에서 확장한다.
 
 ## AI Interview Card
 

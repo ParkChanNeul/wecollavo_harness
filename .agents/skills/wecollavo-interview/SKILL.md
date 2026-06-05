@@ -1,86 +1,82 @@
 ---
 name: wecollavo-interview
-description: Use when running WeCollavo live client interview turns, unknown handling, guided assumptions, request lock checks, and department handoff before proposal-data.json creation.
+description: Router/intake alias for WeCollavo interview subskills. Use for bare interview invocations and backward-compatible slash command routing guidance.
 ---
 
-# WeCollavo Interview
+# WeCollavo Interview Router
 
-Use this skill during a client meeting, or when reconstructing the front-stage
-interview from notes before building a proposal.
+`wecollavo-interview` is a compatibility router and intake alias. It does not
+execute subcommands directly.
+
+Bare `$wecollavo-interview` must not read, write, update, or lock any client
+workspace. It should route to `$wecollavo-interview-intake`.
 
 ## Read First
 
 - `docs/source-of-truth.md`
 - `docs/language-contract.md`
-- `docs/department-analysis-method.md`
 - `docs/wecollavo-interview.md`
-- `docs/workflow.md`
+- `docs/department-analysis-method.md`
 - `docs/security.md`
+- `docs/workflow.md`
 
 ## Role
 
-You are the AI backchannel for Channeul. You do not speak to the client. You
-help Channeul ask the next useful question, expose unknowns, avoid unsafe
-promises, classify price/scope signals, and lock a proposal-ready request.
+Route legacy `/interview-*` commands to the independent WeCollavo interview
+subskills. Do not act as the full interview executor.
 
-You are not a stenographer. You are a single AI orchestrator applying
-WeCollavo's analysis methods. Do not simply restate customer utterances.
-Transform customer signals into Desired Change, SVM, Linchpin Judgment,
-Department Analysis Brief, and client-safe proposal language.
+## Backward-Compatible Command Mapping
 
-## Commands
+- `/interview-start` -> `$wecollavo-interview-intake` when no workspace is named.
+- `/interview-start client_dir=clients/<client>` -> `$wecollavo-workspace-resume`.
+- `/interview-turn` -> `$wecollavo-interview-turn`.
+- `/interview-pivot` -> `$wecollavo-interview-turn` as a turn-level pivot.
+- `/interview-unknown` -> `$wecollavo-interview-unknown`.
+- `/interview-lock-check` -> `$wecollavo-request-lock`.
+- `/interview-lock` -> `$wecollavo-request-lock`.
+- `/interview-handoff` -> `$wecollavo-department-brief`.
+- `/interview-close` -> `$wecollavo-meeting-close`.
 
-- `/interview-start`: initialize or refresh `meeting-state.md` from `client.json` and known source context.
-- `/interview-turn`: process the latest customer utterance and return an AI Interview Card.
-- `/interview-pivot`: reframe the conversation when the actual bottleneck differs from the stated request.
-- `/interview-unknown`: classify unknowns and provide choice questions or guided recommendations.
-- `/interview-lock-check`: decide whether `request_lock_status` can move from `open` to `partial` or `locked`.
-- `/interview-lock`: record Hard Locks and Assumption Locks approved by the customer.
-- `/interview-handoff`: create structured Department Analysis Brief after Request Lock. It must not be a raw note dump.
-- `/interview-close`: produce the safe closing line and next action for Channeul.
+This mapping is guidance only. The router does not run the target skill for the
+user; it tells the user or agent which independent skill to use next.
 
 ## Inputs
 
-- `clients/<client>/client.json`
-- `clients/<client>/meeting-state.md`
-- Live typed customer utterances from Channeul
-- Relevant source materials from `project/<client>/`
+- Bare interview invocation.
+- Legacy `/interview-*` command.
+- Optional explicit `client_dir=clients/<client>`.
+- Optional clearly named existing client id, used for read-only resume guidance.
 
 ## Output
 
-Update `clients/<client>/meeting-state.md`.
+Return a routing note:
 
-Required sections:
+- which independent skill to use
+- whether the request is Intake, Workspace Read, Temporary Turn, Request Lock,
+  Department Brief, or Meeting Close
+- whether a `client_dir=clients/<client>` is required before write/update/lock
 
-- Live Capture
-- AI Interview Card
-- Desired Change
-- Smallest Viable Market
-- Trust Indicators
-- Unknown Handling
-- Question Ledger
-- Diagnosis State
-- Commercial Signals
-- Scope State
-- Request Lock
-- Department Handoff / Analysis Brief
-- Proposal Readiness
-- Do Not Promise
-- Client-Safe Phrase
+## Forbidden
 
-## Rules
+- Do not read existing client workspaces on bare invocation.
+- Do not infer an active client from recent work, customer name, repo contents,
+  or the fact that only one client exists.
+- Do not treat `clients/gt-engineering` as active unless explicitly named.
+- Do not write, update, or lock workspace files.
+- Do not create `proposal-data.json`.
+- Do not edit `proposal.html`.
+- Do not run parallel agents.
 
-- `meeting-state.md` is live interview state.
-- Default `request_lock_status` is `open`.
-- Do not create `proposal-data.json` from this skill.
-- If request lock is missing, return the missing lock condition and the next `/interview-*` action.
-- Treat customer unknowns as diagnosis input, not failure.
-- Use Guided Assumption only after choice questions fail and Channeul confirms the customer accepts the recommended default.
-- Keep internal reasoning, AI Interview Card fields, risks, and domain-agent output out of customer-facing text.
-- Do not summarize customer words as-is.
-- Department Handoff is a structured analysis brief, not a raw note dump.
-- Every department handoff must include diagnosis, recommendation, scope_impact, price_impact, risks, missing_inputs, proposal_points, client_safe_phrase, and trust_indicator.
-- Use Desired Change and SVM before recommending scope or price.
-- If Desired Change or SVM is unclear, use Unknown Handling or Assumption Lock before proposal-data creation.
-- Do not run parallel agents. In v1.1, one AI orchestrator applies department analysis lenses.
-- Use Korean for context and client-safe phrases. Keep JSON keys, enum values, script names, and field names in English.
+## Workspace Gate
+
+Workspace read is allowed only when the user directly names a `clients/<client>`
+path or clearly names an existing client id.
+
+Workspace write/update/lock requires explicit `client_dir=clients/<client>`.
+If the user says "meeting-state.md에 반영해줘", "파일에 써줘", or "잠가줘"
+without `client_dir`, ask for `client_dir=clients/<client>` first.
+
+## Next Skill Handoff
+
+Use the mapping above to recommend exactly one next skill. More detailed
+Cross-Skill Continue Protocol is intentionally deferred to a later phase.
