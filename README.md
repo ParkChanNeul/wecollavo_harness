@@ -7,6 +7,7 @@ WeCollavo 내부용 미팅 실행 하네스입니다.
 ```text
 client.json
   -> meeting-state.md
+  -> proposal-review.md
   -> proposal-data.json
   -> proposal.html
   -> delivery-plan.json
@@ -17,11 +18,38 @@ client.json
 
 ```text
 Core Policy
++ WeCollavo Interview Loop
++ Department Analysis Method
 + Client Workspace
++ Proposal Review Seed
 + Proposal Renderer
-+ Delivery Flow
 + Validation Guardrails
++ Delivery Flow
 + Proof Loop
+```
+
+최신 실행 흐름은 아래와 같습니다.
+
+```text
+client.json
+  -> meeting-state.md
+
+[WeCollavo Interview Loop]
+  -> Desired Change
+  -> SVM / Worldview
+  -> Unknown Handling
+  -> Assumption Lock
+  -> Request Lock
+  -> Department Analysis Brief
+
+[Proposal Seed]
+  -> proposal-review.md
+  -> proposal-data.json
+  -> proposal.html
+
+[After Client Briefing]
+  -> delivery-plan.json
+  -> proof-loop.json
 ```
 
 ## 현재 v1 검증 케이스
@@ -43,8 +71,9 @@ python scripts/check_proposal_safety.py clients/gt-engineering --allow-pending
 
 Core Policy 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`,
 `docs/revision-policy.md`, `docs/payment-delivery-policy.md`,
-`docs/language-contract.md`, `docs/motion-policy.md`, `docs/security.md`와
-아래 템플릿에 둔다.
+`docs/language-contract.md`, `docs/department-analysis-method.md`,
+`docs/proposal-review.md`, `docs/motion-policy.md`, `docs/security.md`와 아래
+템플릿에 둔다.
 
 - `harness/templates/service-catalog.json`
 - `harness/templates/price-breakdown.json`
@@ -53,19 +82,27 @@ Core Policy 기준 파일은 `docs/service-catalog.md`, `docs/pricing-policy.md`
 v1의 Proposal Renderer는 static `proposal.html`만 생성한다. HyperFrames는
 v1.5 이후 선택 output adapter이며, 별도 데이터 구조를 만들지 않는다.
 
+`proposal-review.md`는 HTML 생성 후 검수 문서가 아니라 pre-render seed다.
+`proposal.html`은 문서 형식이며 기본 전달 방식은 로컬 Live Server 브리핑이다.
+배포 링크는 기본 전달 방식이 아니다. HyperFrames는 future output adapter이며
+이번 v1.1 작업 범위가 아니다.
+
 ## 읽는 순서
 
 1. `docs/source-of-truth.md`
 2. `docs/language-contract.md`
 3. `docs/principles.md`
 4. `docs/tracks.md`
-5. `docs/workflow.md`
-6. `docs/harness.md`
-7. `docs/proposal-system.md`
-8. `docs/motion-policy.md`
-9. `docs/delivery-os.md`
-10. `docs/proof-loop.md`
-11. `docs/security.md`
+5. `docs/department-analysis-method.md`
+6. `docs/wecollavo-interview.md`
+7. `docs/proposal-review.md`
+8. `docs/workflow.md`
+9. `docs/harness.md`
+10. `docs/proposal-system.md`
+11. `docs/motion-policy.md`
+12. `docs/delivery-os.md`
+13. `docs/proof-loop.md`
+14. `docs/security.md`
 
 ## 경계
 

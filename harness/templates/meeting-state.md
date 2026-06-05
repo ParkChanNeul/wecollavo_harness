@@ -6,7 +6,7 @@ track: Undecided
 pricing_status: field_diagnostic_proposal
 human_review_status: pending
 request_lock_status: open
-next_file: proposal-data.json
+next_file: proposal-review.md
 ---
 
 # Meeting State
@@ -14,7 +14,7 @@ next_file: proposal-data.json
 Client:
 Date:
 Operator: Channeul
-Current file flow: `client.json -> meeting-state.md -> Request Lock -> proposal-data.json -> proposal.html -> delivery-plan.json -> proof-loop.json`
+Current file flow: `client.json -> meeting-state.md -> Request Lock -> proposal-review.md -> proposal-data.json -> proposal.html -> delivery-plan.json -> proof-loop.json`
 
 ## Live Capture
 
@@ -25,16 +25,25 @@ Current file flow: `client.json -> meeting-state.md -> Request Lock -> proposal-
 - Main use case:
 - External deadline:
 
-### Customer Utterances
+### Latest Customer Input
 
-> 
+-
 
-### Customer Request
+### Raw Notes
 
-- 
+-
 
 ## AI Interview Card
 
+- `raw_request`:
+- `desired_change`:
+- `current_state`:
+- `target_state`:
+- `tension`:
+- `change_type`:
+- `smallest_viable_market`:
+- `worldview`:
+- `trust_indicator`:
 - `what_i_heard`:
 - `strategic_decode`:
 - `bottleneck_hypothesis`:
@@ -52,27 +61,53 @@ Current file flow: `client.json -> meeting-state.md -> Request Lock -> proposal-
 - `meeting_state_updates`:
 - `request_lock_status`: open
 
+## Desired Change
+
+- Raw Request:
+- Current State:
+- Target State:
+- Tension:
+- Change Type:
+- Required Asset:
+
+## Smallest Viable Market
+
+- SVM Status: undefined
+- First Audience:
+- Worldview:
+- Exclusion:
+- Viability Signal:
+- Founder-Market Fit:
+
+## Trust Indicators
+
+- Warm Pistachio Signal:
+- Strategic No Signal:
+- Judgment Benchmark:
+- Status Shift Narrative:
+- Dip / Sustainability Signal:
+
 ## Unknown Handling
 
 ### Harmless Unknown
 
-- 
+-
 
 ### Proposal Blocking Unknown
 
-- 
+-
 
 ### Price Affecting Unknown
 
-- 
+-
 
 ### Risk Unknown
 
-- 
+-
 
 ### Guided Assumption Candidates
 
-- 
+-
 
 ## Question Ledger
 
@@ -122,39 +157,110 @@ Current file flow: `client.json -> meeting-state.md -> Request Lock -> proposal-
 
 - `request_lock_status`: open
 - Hard Locks:
-  - 
+  -
 - Assumption Locks:
-  - 
+  -
 - Lock blockers:
-  - 
+  -
 
-## Department Handoff
+## Department Handoff / Analysis Brief
 
-- `marketing_planning`:
-  - 
-- `commercial_pricing`:
-  - 
-- `design`:
-  - 
-- `web_development`:
-  - 
-- `content`:
-  - 
-- `risk_guard`:
-  - 
-- `proposal_writer`:
-  - 
+### marketing_planning
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
+
+### commercial_pricing
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
+
+### design
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
+
+### web_development
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
+
+### content
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
+
+### risk_guard
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
+
+### proposal_writer
+
+- diagnosis:
+- recommendation:
+- scope_impact:
+- price_impact:
+- risks:
+- missing_inputs:
+- proposal_points:
+- client_safe_phrase:
+- trust_indicator:
 
 ## Proposal Readiness
 
 - Status: not_ready
+- Missing before proposal-review:
+  -
 - Missing before proposal-data:
-  - 
+  -
 - Recommended next command: `/interview-turn`
 
 ## Do Not Promise
 
-- 
+-
 
 ## Client-Safe Phrase
 

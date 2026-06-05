@@ -12,6 +12,31 @@
   "assumptions": [
     "아직 확인되지 않았지만 제안 판단에 사용한 전제를 입력한다."
   ],
+  "strategy_context": {
+    "desired_change": {
+      "raw_request": "",
+      "current_state": "",
+      "target_state": "",
+      "tension": "",
+      "change_type": "",
+      "required_asset": ""
+    },
+    "smallest_viable_market": {
+      "svm_status": "undefined",
+      "first_audience": "",
+      "worldview": "",
+      "exclusion": "",
+      "viability_signal": "",
+      "founder_market_fit": ""
+    },
+    "trust_indicators": {
+      "warm_pistachio_signal": "",
+      "strategic_no_signal": "",
+      "judgment_benchmark": "",
+      "status_shift_narrative": "",
+      "dip_response": ""
+    }
+  },
   "hard_locks": [
     "고객 발화, 자료, 명시 승인으로 확인된 lock을 입력한다."
   ],
@@ -25,13 +50,83 @@
     "risk_unknown": []
   },
   "department_handoff": {
-    "marketing_planning": [],
-    "commercial_pricing": [],
-    "design": [],
-    "web_development": [],
-    "content": [],
-    "risk_guard": [],
-    "proposal_writer": []
+    "marketing_planning": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    },
+    "commercial_pricing": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    },
+    "design": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    },
+    "web_development": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    },
+    "content": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    },
+    "risk_guard": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    },
+    "proposal_writer": {
+      "diagnosis": [],
+      "recommendation": [],
+      "scope_impact": [],
+      "price_impact": [],
+      "risks": [],
+      "missing_inputs": [],
+      "proposal_points": [],
+      "client_safe_phrase": [],
+      "trust_indicator": []
+    }
   },
   "commercial_terms": {
     "payment_terms": "1차 착수 구간 선결제 100%",

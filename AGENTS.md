@@ -1,7 +1,8 @@
 # WeCollavo Live Execution Harness
 
-Read `docs/source-of-truth.md` first, then `docs/language-contract.md` and
-`docs/wecollavo-interview.md`.
+Read `docs/source-of-truth.md` first, then `docs/language-contract.md`,
+`docs/department-analysis-method.md`, `docs/wecollavo-interview.md`, and
+`docs/proposal-review.md`.
 Read `docs/motion-policy.md` before suggesting HyperFrames or other motion
 output adapters.
 
@@ -14,10 +15,12 @@ The architecture is:
 ```text
 Core Policy
 + WeCollavo Interview Loop
++ Department Analysis Method
 + Client Workspace
++ Proposal Review Seed
 + Proposal Renderer
-+ Delivery Flow
 + Validation Guardrails
++ Delivery Flow
 + Proof Loop
 ```
 
@@ -26,12 +29,19 @@ client.json
   -> meeting-state.md
 
 [WeCollavo Interview Loop]
+  -> Desired Change
+  -> SVM / Worldview
+  -> Unknown Handling
+  -> Assumption Lock
   -> request_lock_status: locked
-  -> department_handoff
+  -> Department Analysis Brief
 
-[After Request Lock]
+[Proposal Seed]
+  -> proposal-review.md
   -> proposal-data.json
   -> proposal.html
+
+[After Client Briefing]
   -> delivery-plan.json
   -> proof-loop.json
 ```
@@ -45,6 +55,8 @@ client.json
 - Unknown customer answers are diagnosis input, not failure.
 - `proposal-data.json` is a post-lock artifact. Do not create it while
   `request_lock_status` is `open` or `partial`.
+- `proposal-review.md` is a pre-render seed, not after-HTML QA.
+- Department Handoff must be a Department Analysis Brief, not a raw memo.
 - Field pricing is not the final estimate before material review.
 - Customer-facing output must not expose internal notes or domain-agent output.
 - Context language is Korean. Explicit data contracts, field names, enum values,

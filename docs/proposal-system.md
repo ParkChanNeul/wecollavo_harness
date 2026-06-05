@@ -11,7 +11,12 @@ python scripts/render_proposal.py clients/<client>
 
 `proposal-data.json` is a post-lock artifact. Do not create or render it from
 raw meeting notes while `request_lock_status` is `open` or `partial`. First use
-the WeCollavo Interview Loop to create Request Lock and Department Handoff.
+the WeCollavo Interview Loop to create Request Lock and structured Department
+Analysis Brief.
+
+`proposal-review.md` is a pre-render seed, not an after-HTML QA document.
+Proposal Renderer assumes proposal data has already passed Request Lock,
+Department Analysis Brief, and proposal-review seed.
 
 It must follow 11 sections:
 
@@ -49,11 +54,14 @@ agent output.
 v1 output adapter is HTML only.
 
 ```text
-proposal-data.json -> proposal.html
+proposal-review.md -> proposal-data.json -> proposal.html
 ```
 
 HyperFrames is a future output adapter, not a separate data source. The proposal
 should feel like a briefing deck, but it remains one self-contained HTML file in
 v1.
+
+`proposal.html` is a document for local Live Server briefing by default. A
+deployment link is not the default delivery method.
 
 See `docs/motion-policy.md` for motion and HyperFrames boundaries.

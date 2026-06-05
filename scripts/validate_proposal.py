@@ -26,10 +26,20 @@ EXPECTED_SECTION_IDS = [
 PRICING_STATUSES = {"field_diagnostic_proposal", "first_written_proposal", "final_estimate"}
 HUMAN_REVIEW_STATUSES = {"pending", "approved", "blocked"}
 REQUEST_LOCK_STATUSES = {"open", "partial", "locked"}
+SVM_STATUSES = {"undefined", "broad", "narrow_but_not_viable", "viable", "locked"}
 PRICING_MODELS = {"starting_price", "package", "page_based", "project_based", "retainer", "cost_plus"}
 TIERS = {"basic", "standard", "premium", "custom"}
 ROUND_KEYS = ("planning", "copy", "design", "development", "final_check")
 UNKNOWN_KEYS = ("harmless_unknown", "proposal_blocking_unknown", "price_affecting_unknown", "risk_unknown")
+STRATEGY_DESIRED_CHANGE_KEYS = ("raw_request", "current_state", "target_state", "tension", "change_type", "required_asset")
+STRATEGY_SVM_KEYS = ("svm_status", "first_audience", "worldview", "exclusion", "viability_signal", "founder_market_fit")
+STRATEGY_TRUST_KEYS = (
+    "warm_pistachio_signal",
+    "strategic_no_signal",
+    "judgment_benchmark",
+    "status_shift_narrative",
+    "dip_response",
+)
 HANDOFF_KEYS = (
     "marketing_planning",
     "commercial_pricing",
@@ -38,6 +48,17 @@ HANDOFF_KEYS = (
     "content",
     "risk_guard",
     "proposal_writer",
+)
+DEPARTMENT_FIELDS = (
+    "diagnosis",
+    "recommendation",
+    "scope_impact",
+    "price_impact",
+    "risks",
+    "missing_inputs",
+    "proposal_points",
+    "client_safe_phrase",
+    "trust_indicator",
 )
 
 
@@ -61,6 +82,58 @@ def non_empty_string_list(value: Any) -> bool:
 
 def string_list(value: Any) -> bool:
     return isinstance(value, list) and all(isinstance(item, str) for item in value)
+
+
+def validate_strategy_context(data: dict[str, Any], errors: list[str]) -> None:
+    context = data.get("strategy_context")
+    if not isinstance(context, dict):
+        errors.append("strategy_context must be an object")
+        return
+
+    desired = context.get("desired_change")
+    if not isinstance(desired, dict):
+        errors.append("strategy_context.desired_change must be an object")
+    else:
+        for key in STRATEGY_DESIRED_CHANGE_KEYS:
+            if key not in desired:
+                errors.append(f"strategy_context.desired_change.{key} missing")
+            elif not isinstance(desired.get(key), str):
+                errors.append(f"strategy_context.desired_change.{key} must be a string")
+
+    svm = context.get("smallest_viable_market")
+    if not isinstance(svm, dict):
+        errors.append("strategy_context.smallest_viable_market must be an object")
+    else:
+        for key in STRATEGY_SVM_KEYS:
+            if key not in svm:
+                errors.append(f"strategy_context.smallest_viable_market.{key} missing")
+            elif not isinstance(svm.get(key), str):
+                errors.append(f"strategy_context.smallest_viable_market.{key} must be a string")
+        if isinstance(svm.get("svm_status"), str) and svm.get("svm_status") not in SVM_STATUSES:
+            errors.append(f"strategy_context.smallest_viable_market.svm_status must be one of: {', '.join(sorted(SVM_STATUSES))}")
+
+    trust = context.get("trust_indicators")
+    if not isinstance(trust, dict):
+        errors.append("strategy_context.trust_indicators must be an object")
+    else:
+        for key in STRATEGY_TRUST_KEYS:
+            if key not in trust:
+                errors.append(f"strategy_context.trust_indicators.{key} missing")
+            elif not isinstance(trust.get(key), str):
+                errors.append(f"strategy_context.trust_indicators.{key} must be a string")
+
+
+def validate_department_value(value: Any, label: str, errors: list[str]) -> None:
+    if string_list(value):
+        return
+    if not isinstance(value, dict):
+        errors.append(f"{label} must be a legacy string list or structured object")
+        return
+    for field in DEPARTMENT_FIELDS:
+        if field not in value:
+            errors.append(f"{label}.{field} missing")
+        elif not string_list(value.get(field)):
+            errors.append(f"{label}.{field} must be a string list")
 
 
 def validate_lock_contract(data: dict[str, Any], errors: list[str]) -> None:
@@ -88,8 +161,8 @@ def validate_lock_contract(data: dict[str, Any], errors: list[str]) -> None:
         for key in HANDOFF_KEYS:
             if key not in handoff:
                 errors.append(f"department_handoff.{key} missing")
-            elif not string_list(handoff.get(key)):
-                errors.append(f"department_handoff.{key} must be a string list")
+            else:
+                validate_department_value(handoff.get(key), f"department_handoff.{key}", errors)
 
 
 def validate_commercial_terms(data: dict[str, Any], errors: list[str]) -> None:
@@ -211,6 +284,7 @@ def main() -> int:
         errors.append(f"pricing_status must be one of: {', '.join(sorted(PRICING_STATUSES))}")
     if data.get("human_review_status") not in HUMAN_REVIEW_STATUSES:
         errors.append(f"human_review_status must be one of: {', '.join(sorted(HUMAN_REVIEW_STATUSES))}")
+    validate_strategy_context(data, errors)
     validate_lock_contract(data, errors)
     if not non_empty_string_list(data.get("confirmed_facts")):
         errors.append("confirmed_facts must be a non-empty string list")

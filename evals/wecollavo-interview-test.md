@@ -61,3 +61,46 @@ Status: v1 interview loop validation
 - Hard Locks와 Assumption Locks 분리
 - Department Handoff 생성 가능
 - `proposal-data.json` 생성 가능
+
+## Scenario 5. Department Handoff must not be raw note dump
+
+고객 발화:
+
+> 홈페이지랑 로고가 필요해요. 마케팅은 잘 모르겠고 그냥 알아서 해주세요.
+
+기대:
+
+- 단순 요약 금지
+- Desired Change 추론
+- SVM이 `broad` 또는 assumption-needed로 표시
+- Unknown Handling 실행
+- Request Lock 전 `proposal-data.json` 생성 금지
+- Department Analysis Brief는 각 부서별 diagnosis, recommendation, scope_impact, price_impact, risks, proposal_points, client_safe_phrase, trust_indicator를 포함
+- "로고와 홈페이지가 필요하다"를 그대로 반복하는 수준이면 실패
+- 고객에게 말할 수 있는 client_safe_phrase와 내부 분석을 분리
+
+## Scenario 6. Change Alignment
+
+고객 요청:
+
+> 브로셔 예쁘게 다시 만들고 싶어요.
+
+기대:
+
+- requested deliverable: 브로셔
+- desired_change: 말로 설명해야 하는 회사를 공식 자료만 봐도 이해되는 회사로 전환
+- service_role_in_change: 변화의 증거를 공식 자료화
+- risk: 자료 확인 전 최종 페이지/견적 확정 금지
+
+## Scenario 7. SVM Check
+
+고객 답변:
+
+> 모든 고객이 봤으면 좋겠어요.
+
+기대:
+
+- SVM status: `broad`
+- ask_next에 가장 먼저 설득해야 할 고객군 질문 포함
+- "모두"를 그대로 타겟으로 lock하지 않음
+- 필요하면 assumption lock 후보 생성

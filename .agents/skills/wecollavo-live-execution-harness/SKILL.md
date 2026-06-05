@@ -15,7 +15,9 @@ harness name. Route the actual work to the appropriate `/interview-*` command.
 
 - `docs/source-of-truth.md`
 - `docs/language-contract.md`
+- `docs/department-analysis-method.md`
 - `docs/wecollavo-interview.md`
+- `docs/proposal-review.md`
 - `docs/principles.md`
 - `docs/tracks.md`
 - `docs/workflow.md`
@@ -50,7 +52,7 @@ Required sections:
 - Commercial Signals
 - Scope State
 - Request Lock
-- Department Handoff
+- Department Handoff / Analysis Brief
 - Proposal Readiness
 - Do Not Promise
 - Client-Safe Phrase
@@ -62,4 +64,4 @@ Required sections:
 - Treat field pricing as a diagnostic proposal, not a final estimate.
 - Do not expose internal warnings, agent notes, or risk language directly to the client.
 - If a fact is not confirmed, mark it as an assumption.
-- Do not create `proposal-data.json` until `request_lock_status` is `locked`.
+- Do not create `proposal-data.json` until `request_lock_status` is `locked`, Department Analysis Brief exists, and `proposal-review.md` is ready.

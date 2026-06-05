@@ -34,6 +34,7 @@ REQUIRED_PROPOSAL_FIELDS = [
     "request_lock_status",
     "confirmed_facts",
     "assumptions",
+    "strategy_context",
     "hard_locks",
     "assumption_locks",
     "remaining_unknowns",

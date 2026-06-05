@@ -11,6 +11,7 @@
     "request_lock_status",
     "confirmed_facts",
     "assumptions",
+    "strategy_context",
     "hard_locks",
     "assumption_locks",
     "remaining_unknowns",
@@ -43,6 +44,54 @@
     "assumptions": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
+    },
+    "strategy_context": {
+      "type": "object",
+      "required": [
+        "desired_change",
+        "smallest_viable_market",
+        "trust_indicators"
+      ],
+      "properties": {
+        "desired_change": {
+          "type": "object",
+          "required": ["raw_request", "current_state", "target_state", "tension", "change_type", "required_asset"],
+          "properties": {
+            "raw_request": { "type": "string" },
+            "current_state": { "type": "string" },
+            "target_state": { "type": "string" },
+            "tension": { "type": "string" },
+            "change_type": { "type": "string" },
+            "required_asset": { "type": "string" }
+          }
+        },
+        "smallest_viable_market": {
+          "type": "object",
+          "required": ["svm_status", "first_audience", "worldview", "exclusion", "viability_signal", "founder_market_fit"],
+          "properties": {
+            "svm_status": {
+              "type": "string",
+              "enum": ["undefined", "broad", "narrow_but_not_viable", "viable", "locked"]
+            },
+            "first_audience": { "type": "string" },
+            "worldview": { "type": "string" },
+            "exclusion": { "type": "string" },
+            "viability_signal": { "type": "string" },
+            "founder_market_fit": { "type": "string" }
+          }
+        },
+        "trust_indicators": {
+          "type": "object",
+          "required": ["warm_pistachio_signal", "strategic_no_signal", "judgment_benchmark", "status_shift_narrative", "dip_response"],
+          "properties": {
+            "warm_pistachio_signal": { "type": "string" },
+            "strategic_no_signal": { "type": "string" },
+            "judgment_benchmark": { "type": "string" },
+            "status_shift_narrative": { "type": "string" },
+            "dip_response": { "type": "string" }
+          }
+        }
+      }
     },
     "hard_locks": {
       "type": "array",
@@ -84,6 +133,7 @@
     },
     "department_handoff": {
       "type": "object",
+      "description": "Structured department object is the preferred v1.1 format. Legacy string arrays are allowed only for transition compatibility.",
       "required": [
         "marketing_planning",
         "commercial_pricing",
@@ -95,32 +145,25 @@
       ],
       "properties": {
         "marketing_planning": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         },
         "commercial_pricing": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         },
         "design": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         },
         "web_development": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         },
         "content": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         },
         "risk_guard": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         },
         "proposal_writer": {
-          "type": "array",
-          "items": { "type": "string" }
+          "$ref": "#/$defs/departmentBrief"
         }
       }
     },
@@ -233,6 +276,43 @@
           "table": { "type": "array", "items": { "type": "object" } }
         }
       }
+    }
+  },
+  "$defs": {
+    "departmentBrief": {
+      "oneOf": [
+        {
+          "type": "array",
+          "description": "Legacy transition format.",
+          "items": { "type": "string" }
+        },
+        {
+          "type": "object",
+          "description": "Preferred structured Department Analysis Brief format.",
+          "required": [
+            "diagnosis",
+            "recommendation",
+            "scope_impact",
+            "price_impact",
+            "risks",
+            "missing_inputs",
+            "proposal_points",
+            "client_safe_phrase",
+            "trust_indicator"
+          ],
+          "properties": {
+            "diagnosis": { "type": "array", "items": { "type": "string" } },
+            "recommendation": { "type": "array", "items": { "type": "string" } },
+            "scope_impact": { "type": "array", "items": { "type": "string" } },
+            "price_impact": { "type": "array", "items": { "type": "string" } },
+            "risks": { "type": "array", "items": { "type": "string" } },
+            "missing_inputs": { "type": "array", "items": { "type": "string" } },
+            "proposal_points": { "type": "array", "items": { "type": "string" } },
+            "client_safe_phrase": { "type": "array", "items": { "type": "string" } },
+            "trust_indicator": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      ]
     }
   },
   "additionalProperties": true

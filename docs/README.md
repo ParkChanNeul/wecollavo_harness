@@ -9,23 +9,26 @@ Read in this order:
 2. `language-contract.md`
 3. `principles.md`
 4. `tracks.md`
-5. `wecollavo-interview.md`
-6. `workflow.md`
-7. `harness.md`
-8. `proposal-system.md`
-9. `motion-policy.md`
-10. `delivery-os.md`
-11. `proof-loop.md`
-12. `security.md`
-13. `service-catalog.md`
-14. `pricing-policy.md`
-15. `revision-policy.md`
-16. `payment-delivery-policy.md`
+5. `department-analysis-method.md`
+6. `wecollavo-interview.md`
+7. `proposal-review.md`
+8. `workflow.md`
+9. `harness.md`
+10. `proposal-system.md`
+11. `motion-policy.md`
+12. `delivery-os.md`
+13. `proof-loop.md`
+14. `security.md`
+15. `service-catalog.md`
+16. `pricing-policy.md`
+17. `revision-policy.md`
+18. `payment-delivery-policy.md`
 
 Core Policy documents are `service-catalog.md`, `pricing-policy.md`,
 `revision-policy.md`, `payment-delivery-policy.md`, `language-contract.md`,
-`motion-policy.md`, and `security.md`. Front-stage interview rules are in
-`wecollavo-interview.md`.
+`department-analysis-method.md`, `motion-policy.md`, and `security.md`.
+Front-stage interview rules are in `wecollavo-interview.md`, and pre-render
+proposal seed rules are in `proposal-review.md`.
 
 Client-specific source materials belong in `project/<client>/`.
 Harness execution files belong in `clients/<client>/`.

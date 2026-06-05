@@ -29,6 +29,26 @@ BLOCKED_PHRASES = [
 
 MONEY_PATTERN = re.compile(r"(?P<number>[0-9,]+)\s*만")
 UNKNOWN_KEYS = ("harmless_unknown", "proposal_blocking_unknown", "price_affecting_unknown", "risk_unknown")
+DEPARTMENT_KEYS = (
+    "marketing_planning",
+    "commercial_pricing",
+    "design",
+    "web_development",
+    "content",
+    "risk_guard",
+    "proposal_writer",
+)
+DEPARTMENT_FIELDS = (
+    "diagnosis",
+    "recommendation",
+    "scope_impact",
+    "price_impact",
+    "risks",
+    "missing_inputs",
+    "proposal_points",
+    "client_safe_phrase",
+    "trust_indicator",
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -60,6 +80,33 @@ def string_items(value: Any) -> list[str]:
     if not isinstance(value, list):
         return []
     return [item for item in value if isinstance(item, str) and item.strip()]
+
+
+def collect_department_text(department_value: Any) -> list[str]:
+    """Collect text from legacy list[str] or structured department object."""
+    if isinstance(department_value, list):
+        return string_items(department_value)
+    if not isinstance(department_value, dict):
+        return []
+
+    items: list[str] = []
+    for field in DEPARTMENT_FIELDS:
+        value = department_value.get(field)
+        if isinstance(value, str) and value.strip():
+            items.append(value)
+        elif isinstance(value, list):
+            items.extend(string_items(value))
+    return items
+
+
+def is_structured_department(value: Any) -> bool:
+    return isinstance(value, dict)
+
+
+def has_minimum_analysis(value: Any) -> bool:
+    if not is_structured_department(value):
+        return False
+    return bool(collect_department_text(value.get("diagnosis")) or collect_department_text(value.get("recommendation")))
 
 
 def unknown_items(data: dict[str, Any], key: str) -> list[str]:
@@ -209,7 +256,25 @@ def check_pricing_items(data: dict[str, Any], html_text: str, errors: list[str])
             errors.append(f"pricing_items[{index}] missing included_rounds")
 
 
-def check_request_lock(data: dict[str, Any], html_text: str, errors: list[str]) -> None:
+def check_department_handoff(data: dict[str, Any], delivery_gate: bool, errors: list[str]) -> None:
+    handoff = data.get("department_handoff")
+    if not isinstance(handoff, dict):
+        errors.append("department_handoff missing from proposal-data.json")
+        return
+
+    for key in DEPARTMENT_KEYS:
+        if key not in handoff:
+            errors.append(f"department_handoff.{key} missing")
+            continue
+        value = handoff.get(key)
+        if is_structured_department(value):
+            if delivery_gate and not has_minimum_analysis(value):
+                errors.append(f"department_handoff.{key} must include diagnosis or recommendation before delivery")
+        elif not isinstance(value, list):
+            errors.append(f"department_handoff.{key} must be a legacy list or structured object")
+
+
+def check_request_lock(data: dict[str, Any], html_text: str, delivery_gate: bool, errors: list[str]) -> None:
     if data.get("request_lock_status") != "locked":
         errors.append("request_lock_status must be locked before customer delivery")
 
@@ -231,9 +296,10 @@ def check_request_lock(data: dict[str, Any], html_text: str, errors: list[str]) 
 
     risk_unknowns = unknown_items(data, "risk_unknown")
     handoff = data.get("department_handoff")
-    risk_guard = []
     if isinstance(handoff, dict):
-        risk_guard = string_items(handoff.get("risk_guard"))
+        risk_guard = collect_department_text(handoff.get("risk_guard"))
+    else:
+        risk_guard = []
     if risk_unknowns and not risk_guard:
         errors.append("risk_unknown remains but department_handoff.risk_guard is empty")
 
@@ -268,7 +334,10 @@ def main() -> int:
         if phrase in html_text:
             errors.append(f"blocked phrase found in HTML: {phrase}")
 
-    check_request_lock(data, html_text, errors)
+    delivery_gate = not args.allow_pending
+
+    check_request_lock(data, html_text, delivery_gate, errors)
+    check_department_handoff(data, delivery_gate, errors)
     check_commercial_terms(data, html_text, errors)
     check_pricing_items(data, html_text, errors)
 
